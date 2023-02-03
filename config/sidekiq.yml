@@ -1,0 +1,16 @@
+---
+:queues:
+  - maintenance_urgent
+  - high
+  - default
+  - low
+  - maintenance_low
+
+development:
+  :concurrency: 5
+
+staging:
+  :concurrency: 10
+
+production:
+  :concurrency: 15

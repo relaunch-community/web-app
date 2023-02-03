@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.header-container {
+    @apply max-w-6xl mx-auto text-center px-10;
+}

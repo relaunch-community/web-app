@@ -1,0 +1,3 @@
+<% if Rails.application.config.fathom[:site_id].present? %>
+  <script src="https://cdn.usefathom.com/script.js" data-site="<%= Rails.application.config.fathom[:site_id] %>" defer></script>
+<% end %>

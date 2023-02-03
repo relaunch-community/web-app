@@ -1,0 +1,103 @@
+variables:
+  BRANCH_NAME: "$CI_COMMIT_REF_NAME"
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  CONTAINER_CI_IMAGE: $CI_REGISTRY_IMAGE/ci:latest
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+image:
+  name: linuxserver/docker-compose:2.15.0-v2
+  entrypoint: ["/bin/sh", "-c"]
+
+services:
+  - name: docker:20.10.3-dind
+  - name: redis:7.0.7
+
+stages:
+  - build
+  - test
+  - release
+
+.gitlab-registry-before_script: &gitlab-registry-before_script
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+.release-requirements: &release-requirements
+  only:
+    refs:
+      - tags
+
+build-rails:
+  stage: build
+  <<: *gitlab-registry-before_script
+  script:
+    - export RAILS_MASTER_KEY="$RAILS_MASTER_KEY_PROD"
+    - docker build
+        --cache-from $CONTAINER_TEST_IMAGE
+        --pull
+        -t $CONTAINER_TEST_IMAGE
+        --build-arg BUILDKIT_INLINE_CACHE=1
+        --build-arg RAILS_MASTER_KEY_PROD=$RAILS_MASTER_KEY_PROD
+        -f Dockerfile.production
+        "."
+    - docker push $CONTAINER_TEST_IMAGE
+
+build-ci:
+  stage: build
+  <<: *gitlab-registry-before_script
+  script:
+    - docker build
+      --cache-from $CONTAINER_CI_IMAGE
+      --pull
+      -t $CONTAINER_CI_IMAGE
+      -f Dockerfile.ci
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      "."
+    - docker push $CONTAINER_CI_IMAGE
+  only:
+    refs:
+      - main
+      - tags
+    changes:
+      - Dockerfile.ci
+
+test-rails:
+  stage: test
+  <<: *gitlab-registry-before_script
+  script:
+    - export RAILS_MASTER_KEY="$RAILS_MASTER_KEY_TEST"
+    - export RAILS_ENV="test"
+    - docker pull $CONTAINER_TEST_IMAGE
+    # Prepare the database; since we can't mount a volume on the service
+    # HOST is set via RAILS_ENV, in docker-compose, which is set to test
+    # also set explicitly above
+    - docker compose run 
+        -e POSTGRES_USER="postgres"
+        -e POSTGRES_DB="postgres"
+        -e POSTGRES_PASSWORD="postgres"
+        rails-test 
+        ./.dockerdev/postgresql/docker-entrypoint-initdb.d/init-user-db.sh
+        postgres
+    - docker compose run rails-test bundle
+    - docker compose run
+      -e RELAUNCH_COMMUNITY_DATABASE_HOST="postgres"
+      rails-test rails db:create
+    - docker compose run
+      -e RELAUNCH_COMMUNITY_DATABASE_HOST="postgres"
+      rails-test rails db:test:prepare
+    - docker compose run
+      -e RELAUNCH_COMMUNITY_DATABASE_HOST="postgres"
+      rails-test
+
+release-rails-image:
+  stage: release
+  <<: *gitlab-registry-before_script
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  <<: *release-requirements
+
+# TODO: depending on CDN performance, consider compiling and pushing assets AoT

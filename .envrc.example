@@ -1,0 +1,5 @@
+export RAILS_ENV=development
+export EDITOR=vim
+
+# Fathom Analytics
+export FATHOM_ANALYTICS_SITE_ID=""

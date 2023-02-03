@@ -1,0 +1,84 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "json"
+require "yaml"
+require 'debug'
+
+class LicensedDepList
+
+  ROOT = File.expand_path "../../", __FILE__
+
+  def initialize
+    @submodules     = load_submodules()
+    @sources        = load_sources()
+  end
+
+  # Load .gitmodules
+  def load_submodules
+    submodules = {}
+    submodule_file = File.read("#{ROOT}/.gitmodules")
+    pattern = /^\[submodule\s*"([^"]+)"\]$\n((?:^(?!\[).+(?:\n|$))+)/is
+    submodule_file.scan(pattern) do |id, attr|
+      submod = {}
+      submod[:path]  = $1 if attr =~ /^\s*path\s*=\s*(.+)$/
+      submod[:url]   = $1 if attr =~ /^\s*url\s*=\s*(.+)$/
+      submod[:url].gsub!(/\.git$/, "")
+      submod[:short] = shorten(submod[:url])
+      submodules["#{id}"] = submod
+    end
+    submodules
+  end
+
+  # Load grammars.yml
+  def load_sources
+    licensed_deps = YAML.load_file("#{ROOT}/LICENSED_DEPENDENCIES.yml")
+  end
+
+  # Shorten a repository URL
+  def shorten(url)
+    if url =~ /^https?:\/\/(?:www\.)?github\.com\/([^\/]+\/[^\/]+)/i
+      $1
+    elsif url =~ /^https?:\/\/(?:www\.)?(bitbucket|gitlab)\.(?:com|org)\/([^\/]+\/[^\/]+)/i
+      "#{$1.downcase()}:#{$2}"
+    else
+      url.replace(/^https?:\/\/(?:www\.)?/i, "")
+    end
+  end
+
+  # Markdown: Generate grammar list
+  def to_markdown
+    markdown = ""
+    @sources.each_pair do |source, items|
+      submodule = @submodules[source.chomp("/")]
+      next unless submodule
+      short_url = submodule[:short]
+      long_url  = submodule[:url]
+
+      markdown += "- **[#{short_url}](#{long_url})**\n"
+
+      items.each do |item|
+        item = item.gsub("*", "\\*")
+        # https://stackoverflow.com/questions/40422790/relative-link-to-repos-root-from-markdown-file
+        markdown += "   - [#{item}](/../../#{item})\n"
+      end
+    end
+
+    markdown
+  end
+
+  # Update the file displaying the reader-friendly list of grammar repos
+  def update_readme
+    readme = "#{ROOT}/vendor/README.md"
+    preamble = File.read(readme).match(/\A.+?<!--.+?-->\n/mu)
+    list = self.to_markdown
+    File.write(readme, preamble.to_s + list)
+  end
+end
+
+list = LicensedDepList.new
+if ARGV.include? "--print"
+  puts list.to_markdown
+else
+  list.update_readme
+end

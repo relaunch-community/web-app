@@ -1,0 +1,7 @@
+postgres: docker-compose run --service-ports postgres
+redis: docker-compose run --service-ports redis
+# Ref: https://github.com/vishnubob/wait-for-it/issues/2
+web: bin/wait-for-it.sh -t 3 localhost:6379 -- bin/wait-for-it.sh -t 3 localhost:5432 -- bin/rails server -p 3000
+# Ref: https://github.com/mperham/sidekiq/wiki/Advanced-Options
+sidekiq: bin/wait-for-it.sh -t 3 localhost:3000 -- bundle exec sidekiq -C config/sidekiq.yml
+css: bin/rails tailwindcss:watch

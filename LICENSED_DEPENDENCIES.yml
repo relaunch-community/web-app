@@ -1,0 +1,73 @@
+# A list of licensed dependencies, used in the management of
+# licensed dependencies, in coordination with the licensed gem.
+#
+# Courtesy of the github/linguist project.
+vendor/licensed-dependencies/linguist:
+  - bin/list-licensed-deps
+  - bin/add-licensed-dep
+  - bin/sort-submodules
+  - bin/normalise-url
+  - vendor/licenses/config.yml
+  - LICENSED_DEPENDENCIES.yml
+vendor/licensed-dependencies/dip:
+  - .dockerdev/*
+  - dip.yml
+  - docker-compose.yml
+  - Dockerfile
+vendor/licensed-dependencies/postgres:
+  - .dockerdev/postgresql/docker-entrypoint-initdb.d/init-user-db.sh
+vendor/licensed-dependencies/gitlab-foss:
+  - .gitlab-ci.yml
+vendor/licensed-dependencies/bump2version:
+  - .bumpversion.cfg
+vendor/licensed-dependencies/wait-for-it:
+  - bin/wait-for-it.sh
+vendor/licensed-dependencies/kwux-frontend:
+  - .bumpversion.cfg
+  - .dockerdev/postgresql/docker-entrypoint-initdb.d/init-user-db.sh
+  - .envrc.example
+  - .gitlab-ci.yml
+  - .gitmodules
+  - Dockerfile
+  - Dockerfile.ci
+  - Dockerfile.production
+  - Gemfile
+  - LICENSE.md
+  - LICENSED_DEPENDENCIES.yml
+  - Procfile.dev
+  - app/assets/stylesheets/application.tailwind.css
+  - app/controllers/pages_controller.rb
+  - app/views/layouts/_footer.html.erb
+  - app/views/layouts/_header.html.erb
+  - app/views/layouts/_nav.html.erb
+  - app/views/layouts/application.html.erb
+  - app/views/pages/index.html.erb
+  - app/views/pages/privacy_policy.html.erb
+  - app/views/shared/_analytics_resources.html.erb
+  - bin/add-licensed-dep
+  - bin/bundle
+  - bin/dev
+  - bin/drop-licensed-dep
+  - bin/list-licensed-deps
+  - bin/normalise-url
+  - bin/sort-submodules
+  - bin/wait-for-it.sh
+  - config/database.yml
+  - config/environments/development.rb
+  - config/environments/production.rb
+  - config/environments/staging.rb
+  - config/initializers/assets.rb
+  - config/initializers/rollbar.rb
+  - config/initializers/sidekiq.rb
+  - config/locales/layouts/en.yml
+  - config/routes.rb
+  - config/sidekiq.yml
+  - config/tailwind.config.js
+  - docker-compose.yml
+  - spec/rails_helper.rb
+  - spec/spec_helper.rb
+  - spec/support/capybara.rb
+  - spec/support/factory_bot.rb
+  - spec/support/shoulda_matchers.rb
+  - vendor/README.md
+  - vendor/licenses/config.yml

@@ -1,0 +1,10 @@
+<div class="header-container mt-12">
+  <%= link_to app_index_url do %>
+    <%= image_tag "rmfs_logo_initial.png", class: "mx-auto mb-4 md:mb-8" %>
+  <% end %>
+
+  <%= turbo_frame_tag 'navigation' do %>
+    <%#= render "layouts/nav" %>
+  <% end %>
+</div>
+

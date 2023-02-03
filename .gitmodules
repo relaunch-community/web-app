@@ -1,0 +1,21 @@
+[submodule "vendor/licensed-dependencies/bump2version"]
+	path = vendor/licensed-dependencies/bump2version
+	url = https://github.com/c4urself/bump2version.git
+[submodule "vendor/licensed-dependencies/dip"]
+	path = vendor/licensed-dependencies/dip
+	url = https://github.com/bibendi/dip.git
+[submodule "vendor/licensed-dependencies/gitlab-foss"]
+	path = vendor/licensed-dependencies/gitlab-foss
+	url = https://gitlab.com/gitlab-org/gitlab-foss.git
+[submodule "vendor/licensed-dependencies/kwux-frontend"]
+	path = vendor/licensed-dependencies/kwux-frontend
+	url = https://github.com/kwux/kwux-frontend.git
+[submodule "vendor/licensed-dependencies/linguist"]
+	path = vendor/licensed-dependencies/linguist
+	url = https://github.com/github/linguist.git
+[submodule "vendor/licensed-dependencies/postgres"]
+	path = vendor/licensed-dependencies/postgres
+	url = https://github.com/docker-library/postgres.git
+[submodule "vendor/licensed-dependencies/wait-for-it"]
+	path = vendor/licensed-dependencies/wait-for-it
+	url = https://github.com/vishnubob/wait-for-it.git

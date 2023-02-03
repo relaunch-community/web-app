@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for?(:page_title) ? yield(:page_title) : t('.title') %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <%= javascript_importmap_tags %>
+    <%= hotwire_livereload_tags if Rails.env.development? %>
+    <script src="https://kit.fontawesome.com/b1ed12b0ad.js" crossorigin="anonymous"></script>
+    <%= render "shared/analytics_resources" %>
+  </head>
+
+  <body>
+    <%= render "layouts/header" %>
+
+    <main class="container max-w-6xl mx-auto mt:4 md:mt-8 px-5">
+      <%= yield %>
+    </main>
+
+    <%= render "layouts/footer" %>
+  </body>
+</html>

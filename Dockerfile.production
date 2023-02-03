@@ -1,0 +1,162 @@
+# syntax=docker/dockerfile:1
+
+# docker build --build-arg RAILS_MASTER_KEY_PROD=$RAILS_MASTER_KEY_PROD -f Dockerfile.production "."
+# docker run -it -e RAILS_SERVE_STATIC_FILES=true -e RAILS_LOG_TO_STDOUT=true -p 3000:3000 <image from last step>
+
+ARG RUBY_VERSION=3.2.0
+ARG PG_MAJOR=14
+ARG DISTRO_NAME=bullseye
+
+ARG RAILS_MASTER_KEY_PROD
+
+FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME as base
+
+ARG DISTRO_NAME
+ARG PG_MAJOR
+ARG RAILS_MASTER_KEY_PROD
+
+# Common dependencies
+# Using --mount to speed up build with caching, see https://github.com/moby/buildkit/blob/master/frontend/dockerfile/docs/reference.md#run---mount
+RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
+  echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache; \
+  apt-get update -qq && \
+  DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+    build-essential \
+    gnupg2 \
+    curl \
+    less \
+    git
+
+CMD ["/bin/bash"]
+
+# Then, we define the "development" stage from the base one
+FROM base AS development
+
+ARG DISTRO_NAME
+ARG PG_MAJOR
+ARG RAILS_MASTER_KEY_PROD
+ENV RAILS_ENV=development
+
+# Application dependencies
+# We use an external Aptfile for this, stay tuned
+COPY .dockerdev/Aptfile /tmp/Aptfile
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+      $(grep -Ev '^\s*#' /tmp/Aptfile | xargs)
+
+
+# The production-builder image is responsible for installing dependencies and compiling assets
+FROM base as production-builder
+
+ARG DISTRO_NAME
+ARG PG_MAJOR
+ARG RAILS_MASTER_KEY_PROD
+ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY_PROD
+
+RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgres-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/postgres-archive-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/" \
+    $DISTRO_NAME-pgdg main $PG_MAJOR | tee /etc/apt/sources.list.d/postgres.list > /dev/null
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+    libpq-dev \
+    postgresql-client-$PG_MAJOR
+
+# https://evilmartians.com/chronicles/ruby-on-whales-docker-for-ruby-rails-development
+# Create and configure a dedicated user (use the same name as for the production-builder image)
+RUN groupadd --gid 1005 relaunchcommunity \
+  && useradd --uid 1005 --gid relaunchcommunity --shell /bin/bash --create-home relaunchcommunity
+
+USER relaunchcommunity
+RUN mkdir /home/relaunchcommunity/app
+WORKDIR /home/relaunchcommunity/app
+
+# Then, we re-configure Bundler
+ENV RAILS_ENV=production \
+  LANG=C.UTF-8 \
+  BUNDLE_JOBS=4 \
+  BUNDLE_RETRY=3 \
+  BUNDLE_APP_CONFIG=/home/relaunchcommunity/bundle \
+  BUNDLE_PATH=/home/relaunchcommunity/bundle \
+  GEM_HOME=/home/relaunchcommunity/bundle
+
+# Install Ruby gems
+COPY --chown=relaunchcommunity:relaunchcommunity Gemfile Gemfile.lock ./
+
+RUN mkdir $BUNDLE_PATH \
+  && bundle config --local deployment 'true' \
+  && bundle config --local path "${BUNDLE_PATH}" \
+  && bundle config --local without 'development test' \
+  && bundle config --local clean 'true' \
+  && bundle config --local no-cache 'true' \
+  && bundle install --jobs=${BUNDLE_JOBS} \
+  && rm -rf $BUNDLE_PATH/ruby/3.1.0/cache/* \
+  && rm -rf /home/relaunchcommunity/.bundle/cache/*
+
+
+# Finally, our production image definition
+# NOTE: It's not extending the base image, it's a new one
+FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME AS production
+
+ARG DISTRO_NAME
+ARG PG_MAJOR
+ARG RAILS_MASTER_KEY_PROD
+
+ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY_PROD
+
+# For dual stack networking, let's prefer ipv4
+RUN echo "precedence ::ffff:0:0/96  100" >> /etc/gai.conf
+
+# Production-only dependencies
+RUN apt-get update -qq \
+  && apt-get dist-upgrade -y \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+    curl \
+    gnupg2 \
+    less \
+    tzdata \
+    time \
+    locales \
+  && update-locale LANG=C.UTF-8 LC_ALL=C.UTF-8
+
+RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgres-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/postgres-archive-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/" \
+    $DISTRO_NAME-pgdg main $PG_MAJOR | tee /etc/apt/sources.list.d/postgres.list > /dev/null
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+    libpq-dev \
+    postgresql-client-$PG_MAJOR
+
+# Upgrade RubyGems and install the latest Bundler version
+RUN gem update --system && \
+    gem install bundler
+
+# Create and configure a dedicated user (use the same name as for the production-builder image)
+RUN groupadd --gid 1005 relaunchcommunity \
+  && useradd --uid 1005 --gid relaunchcommunity --shell /bin/bash --create-home relaunchcommunity
+
+RUN mkdir /home/relaunchcommunity/app
+WORKDIR /home/relaunchcommunity/app
+USER relaunchcommunity
+
+# Ruby/Rails env configuration
+ENV RAILS_ENV=production \
+  BUNDLE_APP_CONFIG=/home/relaunchcommunity/bundle \
+  BUNDLE_PATH=/home/relaunchcommunity/bundle \
+  GEM_HOME=/home/relaunchcommunity/bundle \
+  PATH="/home/relaunchcommunity/app/bin:${PATH}" \
+  LANG=C.UTF-8 \
+  LC_ALL=C.UTF-8
+
+COPY --chown=relaunchcommunity:relaunchcommunity . .
+
+COPY --from=production-builder $BUNDLE_PATH $BUNDLE_PATH
+
+# Precompile assets
+# NOTE: The command may require adding some environment variables (e.g., SECRET_KEY_BASE) if you're not using
+# credentials.
+RUN bundle exec rails assets:precompile
+
+EXPOSE 3000
+
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
