@@ -19,3 +19,6 @@
 [submodule "vendor/licensed-dependencies/wait-for-it"]
 	path = vendor/licensed-dependencies/wait-for-it
 	url = https://github.com/vishnubob/wait-for-it.git
+[submodule "vendor/licensed-dependencies/www-site"]
+	path = vendor/licensed-dependencies/www-site
+	url = https://github.com/apache/www-site.git

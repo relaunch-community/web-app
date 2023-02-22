@@ -43,6 +43,7 @@ vendor/licensed-dependencies/kwux-frontend:
   - app/views/layouts/application.html.erb
   - app/views/pages/index.html.erb
   - app/views/pages/privacy_policy.html.erb
+  - app/views/pages/code_of_conduct.html.erb
   - app/views/shared/_analytics_resources.html.erb
   - bin/add-licensed-dep
   - bin/bundle
@@ -71,3 +72,5 @@ vendor/licensed-dependencies/kwux-frontend:
   - spec/support/shoulda_matchers.rb
   - vendor/README.md
   - vendor/licenses/config.yml
+vendor/licensed-dependencies/www-site:
+  - app/views/pages/code_of_conduct.html.erb

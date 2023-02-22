@@ -1,0 +1,8 @@
+---
+name: www-site
+version: 105b40dde47ab7425b5ddd51f5439252af7b2e1d
+type: git_submodule
+homepage: https://github.com/apache/www-site.git
+license: none
+licenses: []
+notices: []

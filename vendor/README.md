@@ -84,6 +84,7 @@ are made available in the
    - [app/views/layouts/application.html.erb](/../../app/views/layouts/application.html.erb)
    - [app/views/pages/index.html.erb](/../../app/views/pages/index.html.erb)
    - [app/views/pages/privacy_policy.html.erb](/../../app/views/pages/privacy_policy.html.erb)
+   - [app/views/pages/code_of_conduct.html.erb](/../../app/views/pages/code_of_conduct.html.erb)
    - [app/views/shared/_analytics_resources.html.erb](/../../app/views/shared/_analytics_resources.html.erb)
    - [bin/add-licensed-dep](/../../bin/add-licensed-dep)
    - [bin/bundle](/../../bin/bundle)
@@ -112,3 +113,5 @@ are made available in the
    - [spec/support/shoulda_matchers.rb](/../../spec/support/shoulda_matchers.rb)
    - [vendor/README.md](/../../vendor/README.md)
    - [vendor/licenses/config.yml](/../../vendor/licenses/config.yml)
+- **[apache/www-site](https://github.com/apache/www-site)**
+   - [app/views/pages/code_of_conduct.html.erb](/../../app/views/pages/code_of_conduct.html.erb)
