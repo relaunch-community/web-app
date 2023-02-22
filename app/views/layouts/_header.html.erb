@@ -1,10 +1,21 @@
-<div class="header-container mt-12">
-  <%= link_to app_index_url do %>
-    <%= image_tag "rmfs_logo_initial.png", class: "mx-auto mb-4 md:mb-8" %>
-  <% end %>
+<div class="container max-w-6xl mx-auto md:px-6 md:py-4 my-4">
+  <div class="flex flex-row">
 
-  <%= turbo_frame_tag 'navigation' do %>
-    <%#= render "layouts/nav" %>
-  <% end %>
+    <div class="flex flex-row mx-auto md:mx-0 my-2  items-center">
+
+      <%= link_to app_index_url do %>
+        <%= image_tag "logo_dark_bg_750px.png", class: "flex-1 mx-auto rounded-full max-h-14 shadow-full-lg shadow-cyan-800/50 hover:shadow-cyan-700/50 duration-200" %>
+      <% end %>
+
+      <p class="pl-4 text-3xl md:text-5xl font-sans align-middle font-semibold">
+        <span class="text-gray-400">[re]</span>Launch
+      </p>
+
+      <%= turbo_frame_tag 'navigation' do %>
+        <%#= render "layouts/nav" %>
+      <% end %>
+    </div>
+  </div>
 </div>
+
 

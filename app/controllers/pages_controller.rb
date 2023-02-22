@@ -10,4 +10,10 @@ class PagesController < ApplicationController
   def privacy_policy; end
   # Action for the terms of service route.
   def terms_of_service; end
+
+  # Action for code of conduct route.
+  def code_of_conduct; end
+
+  # Action for anti-harassment policy route
+  def anti_harassment; end
 end
