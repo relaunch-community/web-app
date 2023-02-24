@@ -17,7 +17,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: localhost
+  host: "<%= ENV.fetch("RELAUNCH_COMMUNITY_DATABASE_HOST", "localhost") %>"
   username: relaunch_community
   password: relaunch_community
   database: relaunch_community

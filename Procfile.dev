@@ -1,7 +1,16 @@
+# If multiple docker-compose run executions occur too quickly, they
+# will create a race condition resulting in
+# a new docker network, conflicting with the networks created by other
+# docker-compose commands.
+#
+# So, we bin/wait-for-it, even if they're seemingly independent services.
+
 postgres: docker-compose run --service-ports postgres
-redis: docker-compose run --service-ports redis
+redis: bin/wait-for-it.sh -t 3 localhost:5432 -- docker-compose run --service-ports redis
+
 # Ref: https://github.com/vishnubob/wait-for-it/issues/2
 web: bin/wait-for-it.sh -t 3 localhost:6379 -- bin/wait-for-it.sh -t 3 localhost:5432 -- bin/rails server -p 3000
+
 # Ref: https://github.com/mperham/sidekiq/wiki/Advanced-Options
 sidekiq: bin/wait-for-it.sh -t 3 localhost:3000 -- bundle exec sidekiq -C config/sidekiq.yml
 css: bin/rails tailwindcss:watch

@@ -1,3 +1,4 @@
+
 x-app: &app
   build:
     context: .
@@ -32,6 +33,7 @@ x-backend: &backend
   environment: &backend_environment
     <<: *env
     DATABASE_URL: postgres://relaunch_community:relaunch_community@postgres:5432
+    REDIS_URL: redis://redis:6379/1
     MALLOC_ARENA_MAX: 2
     WEB_CONCURRENCY: ${WEB_CONCURRENCY:-1}
     BOOTSNAP_CACHE_DIR: /usr/local/bundle/_bootsnap
@@ -49,10 +51,13 @@ x-backend: &backend
   networks:
     - webapp
 
+version: '3.8'
 services:
   rails:
     <<: *backend
     command: sh -c "bundle && bundle exec rails"
+    ports:
+      - 3000:3000
 
   rails-test:
     <<: *backend
@@ -63,7 +68,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       PGPASSWORD: ${POSTGRES_PASSWORD:-postgres}
-    command: sh -c "bundle && bundle exec rails test"
+    command: sh -c "bundle && bundle exec rspec spec"
 
   redis:
     image: redis:7.0.7
@@ -72,6 +77,8 @@ services:
       - 6379:6379
     healthcheck:
       test: "[ $$(redis-cli ping) = 'PONG' ]"
+    networks:
+      - webapp
     volumes:
       - redis:/data
 

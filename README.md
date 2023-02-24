@@ -12,10 +12,15 @@ If you’re starting a small-business aimed at steady growth, that’s fantastic
 
 The process of starting up can be long, winding, and lonely; RMFS’ goal is to provide a community for founders. In service of this goal, I ask that you be respectful of and to each-other and the group.
 
+## Contributing
+
+We'd love your contributions to the community and the codebase! 
+
+Check out [CONTRIBUTING.md](./CONTRIBUTING.md) for details!
 
 ## Contact
 
-Send an email to organizers@rmfs.com
+organizers [ at ] rmfs dot com
 
 ## License
 
@@ -47,8 +52,7 @@ All modifications to these particular works are covered, to what extent applicab
 by the terms in this repository's [**LICENSE**](https://github.com/relaunch-community/web-app/blob/main/LICENSE.md) file.
 
 All other files and modifications are fair-code distributed under the 
-[**Sustainable Use License**](https://github.com/relaunch-community/web-app/blob/main/LICENSE.md)
-and the [**Kwux Enterprise License**](https://github.com/relaunch-community/web-app/blob/main/LICENSE_EE.md).
+[**Sustainable Use License**](https://github.com/relaunch-community/web-app/blob/main/LICENSE.md).
 
 Additional information about the license model can be found at the n8n
 the [documentation website](https://docs.n8n.io/reference/license/).
