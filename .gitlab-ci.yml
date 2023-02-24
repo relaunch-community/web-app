@@ -4,7 +4,8 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
   CONTAINER_CI_IMAGE: $CI_REGISTRY_IMAGE/ci:latest
-  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-test
+  CONTAINER_PRODUCTION_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
 image:
@@ -27,22 +28,41 @@ stages:
 .release-requirements: &release-requirements
   only:
     refs:
+      - main
       - tags
 
-build-rails:
+build-test:
   stage: build
   <<: *gitlab-registry-before_script
   script:
-    - export RAILS_MASTER_KEY="$RAILS_MASTER_KEY_PROD"
+    - export RAILS_MASTER_KEY_TEST="$RAILS_MASTER_KEY_TEST"
     - docker build
         --cache-from $CONTAINER_TEST_IMAGE
         --pull
         -t $CONTAINER_TEST_IMAGE
         --build-arg BUILDKIT_INLINE_CACHE=1
-        --build-arg RAILS_MASTER_KEY_PROD=$RAILS_MASTER_KEY_PROD
+        --build-arg TARGET_RAILS_ENV="test"
+        --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY_TEST
         -f Dockerfile.production
         "."
     - docker push $CONTAINER_TEST_IMAGE
+
+build-production:
+  stage: build
+  <<: *gitlab-registry-before_script
+  script:
+    - export RAILS_MASTER_KEY_PROD="$RAILS_MASTER_KEY_PROD"
+    - docker build
+      --cache-from $CONTAINER_TEST_IMAGE
+      --pull
+      -t $CONTAINER_PRODUCTION_IMAGE
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --build-arg TARGET_RAILS_ENV="production"
+      --build-arg RAILS_MASTER_KEY_PROD=$RAILS_MASTER_KEY_PROD
+      -f Dockerfile.production
+      "."
+    - docker push $CONTAINER_PRODUCTION_IMAGE
+  <<: *release-requirements
 
 build-ci:
   stage: build
@@ -95,8 +115,8 @@ release-rails-image:
   stage: release
   <<: *gitlab-registry-before_script
   script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker pull $CONTAINER_PRODUCTION_IMAGE
+    - docker tag $CONTAINER_PRODUCTION_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
   <<: *release-requirements
 

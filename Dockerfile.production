@@ -1,19 +1,20 @@
 # syntax=docker/dockerfile:1
 
-# docker build --build-arg RAILS_MASTER_KEY_PROD=$RAILS_MASTER_KEY_PROD -f Dockerfile.production "."
+# docker build --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY -f Dockerfile.production "."
 # docker run -it -e RAILS_SERVE_STATIC_FILES=true -e RAILS_LOG_TO_STDOUT=true -p 3000:3000 <image from last step>
 
 ARG RUBY_VERSION=3.2.0
 ARG PG_MAJOR=14
 ARG DISTRO_NAME=bullseye
-
-ARG RAILS_MASTER_KEY_PROD
+ARG TARGET_RAILS_ENV=development
+ARG RAILS_MASTER_KEY
 
 FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME as base
 
 ARG DISTRO_NAME
 ARG PG_MAJOR
-ARG RAILS_MASTER_KEY_PROD
+ARG TARGET_RAILS_ENV
+ARG RAILS_MASTER_KEY
 
 # Common dependencies
 # Using --mount to speed up build with caching, see https://github.com/moby/buildkit/blob/master/frontend/dockerfile/docs/reference.md#run---mount
@@ -35,8 +36,10 @@ FROM base AS development
 
 ARG DISTRO_NAME
 ARG PG_MAJOR
-ARG RAILS_MASTER_KEY_PROD
-ENV RAILS_ENV=development
+ARG TARGET_RAILS_ENV
+ARG RAILS_MASTER_KEY
+
+ENV RAILS_ENV=$TARGET_RAILS_ENV
 
 # Application dependencies
 # We use an external Aptfile for this, stay tuned
@@ -46,13 +49,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
       $(grep -Ev '^\s*#' /tmp/Aptfile | xargs)
 
 
-# The production-builder image is responsible for installing dependencies and compiling assets
-FROM base as production-builder
+# The env-builder image is responsible for installing dependencies and compiling assets
+FROM base as common-builder
 
 ARG DISTRO_NAME
 ARG PG_MAJOR
-ARG RAILS_MASTER_KEY_PROD
-ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY_PROD
+ARG TARGET_RAILS_ENV
+ARG RAILS_MASTER_KEY
+
+ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+ENV RAILS_ENV=$TARGET_RAILS_ENV
 
 RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgres-archive-keyring.gpg \
   && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/postgres-archive-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/" \
@@ -63,7 +69,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrad
     postgresql-client-$PG_MAJOR
 
 # https://evilmartians.com/chronicles/ruby-on-whales-docker-for-ruby-rails-development
-# Create and configure a dedicated user (use the same name as for the production-builder image)
+# Create and configure a dedicated user (use the same name as for the common-builder image)
 RUN groupadd --gid 1005 relaunchcommunity \
   && useradd --uid 1005 --gid relaunchcommunity --shell /bin/bash --create-home relaunchcommunity
 
@@ -72,8 +78,7 @@ RUN mkdir /home/relaunchcommunity/app
 WORKDIR /home/relaunchcommunity/app
 
 # Then, we re-configure Bundler
-ENV RAILS_ENV=production \
-  LANG=C.UTF-8 \
+ENV LANG=C.UTF-8 \
   BUNDLE_JOBS=4 \
   BUNDLE_RETRY=3 \
   BUNDLE_APP_CONFIG=/home/relaunchcommunity/bundle \
@@ -94,15 +99,17 @@ RUN mkdir $BUNDLE_PATH \
   && rm -rf /home/relaunchcommunity/.bundle/cache/*
 
 
-# Finally, our production image definition
+# Finally, our pre-env image definition has steps to run prior to env-specific details
 # NOTE: It's not extending the base image, it's a new one
-FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME AS production
+FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME AS pre-env
 
 ARG DISTRO_NAME
 ARG PG_MAJOR
-ARG RAILS_MASTER_KEY_PROD
+ARG TARGET_RAILS_ENV
+ARG RAILS_MASTER_KEY
 
-ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY_PROD
+ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+ENV RAILS_ENV=$TARGET_RAILS_ENV
 
 # For dual stack networking, let's prefer ipv4
 RUN echo "precedence ::ffff:0:0/96  100" >> /etc/gai.conf
@@ -131,7 +138,8 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrad
 RUN gem update --system && \
     gem install bundler
 
-# Create and configure a dedicated user (use the same name as for the production-builder image)
+
+# Create and configure a dedicated user (use the same name as for the common-builder image)
 RUN groupadd --gid 1005 relaunchcommunity \
   && useradd --uid 1005 --gid relaunchcommunity --shell /bin/bash --create-home relaunchcommunity
 
@@ -140,8 +148,7 @@ WORKDIR /home/relaunchcommunity/app
 USER relaunchcommunity
 
 # Ruby/Rails env configuration
-ENV RAILS_ENV=production \
-  BUNDLE_APP_CONFIG=/home/relaunchcommunity/bundle \
+ENV BUNDLE_APP_CONFIG=/home/relaunchcommunity/bundle \
   BUNDLE_PATH=/home/relaunchcommunity/bundle \
   GEM_HOME=/home/relaunchcommunity/bundle \
   PATH="/home/relaunchcommunity/app/bin:${PATH}" \
@@ -150,12 +157,61 @@ ENV RAILS_ENV=production \
 
 COPY --chown=relaunchcommunity:relaunchcommunity . .
 
-COPY --from=production-builder $BUNDLE_PATH $BUNDLE_PATH
+COPY --from=common-builder $BUNDLE_PATH $BUNDLE_PATH
 
+SHELL ["/bin/bash", "-c"]
+
+FROM pre-env AS env-production-builder
+
+ARG TARGET_RAILS_ENV
+ARG RAILS_MASTER_KEY
+
+ENV RAILS_ENV=$TARGET_RAILS_ENV
+ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 # Precompile assets
 # NOTE: The command may require adding some environment variables (e.g., SECRET_KEY_BASE) if you're not using
 # credentials.
-RUN bundle exec rails assets:precompile
+
+# TODO: make use of SECRET_KEY_BASE_DUMMY=1
+# Ref: https://rubyonrails.org/2022/12/23/this-week-in-rails-rails-on-docker-local-environment-inquirer-and-more-27aa9ed4
+RUN if [[ -n "${RAILS_ENV}" ]] 2> /dev/null && [ "${RAILS_ENV}" == "production" ]; then echo "in production"; bundle exec rails assets:precompile; fi
+
+FROM pre-env AS env-test-builder
+
+ARG TARGET_RAILS_ENV
+ENV RAILS_ENV=$TARGET_RAILS_ENV
+
+USER root
+
+RUN if [[ -n "${RAILS_ENV}" ]] 2> /dev/null && [ "${RAILS_ENV}" == "test" ]; then  \
+    echo "in test" && \
+    # Install build-essential for dev/test gems if needed
+    apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends build-essential && \
+    bundle config --delete without && \
+    bundle config set --local with 'test' && \
+    bundle config set --local without 'development' && \
+    bundle install; \
+    fi
+
+FROM pre-env AS env-development-builder
+
+ARG TARGET_RAILS_ENV
+ENV RAILS_ENV=$TARGET_RAILS_ENV
+
+USER root
+
+RUN if [[ -n "${RAILS_ENV}" ]] 2> /dev/null && [ "${RAILS_ENV}" == "development" ]; then  \
+    echo "in development" && \
+    apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends build-essential && \
+    bundle config --delete without && \
+    bundle config set --local with 'development' && \
+    bundle config set --local without 'test' && \
+    bundle install; \
+    fi
+
+FROM env-${TARGET_RAILS_ENV}-builder AS env-builder
 
 EXPOSE 3000
 

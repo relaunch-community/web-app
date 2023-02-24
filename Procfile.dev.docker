@@ -1,0 +1,9 @@
+postgres: docker-compose run --rm --use-aliases --service-ports postgres
+redis: bin/wait-for-it.sh -t 3 localhost:5432 -- docker-compose run --rm --use-aliases --service-ports redis
+
+# Ref: https://github.com/vishnubob/wait-for-it/issues/2
+web: bin/wait-for-it.sh -t 3 localhost:6379 -- bin/wait-for-it.sh -t 3 localhost:5432 -- docker-compose run --rm --no-deps --service-ports rails sh -c "bundle install && bundle exec rails server -p 3000"
+
+# Ref: https://github.com/mperham/sidekiq/wiki/Advanced-Options
+sidekiq: bin/wait-for-it.sh -t 3 localhost:6379 -- bin/wait-for-it.sh -t 3 localhost:5432 -- docker-compose run --rm --no-deps rails sidekiq -C config/sidekiq.yml
+css: docker-compose run --rm --no-deps rails rails tailwindcss:watch
