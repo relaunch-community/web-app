@@ -1,0 +1,20 @@
+exclude: '.idea/'
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-yaml
+        # if this becomes unwieldy...
+        # ref: https://pre-commit.com/#regular-expressions
+        exclude: 'config/database.yml'
+        args:
+          - --unsafe
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: local
+    hooks:
+      - id: standard-fix
+        name: standard styleguide must be applied
+        language: ruby
+        files: '.*\.[e]?rb$'
+        entry: 'rake standard:fix'

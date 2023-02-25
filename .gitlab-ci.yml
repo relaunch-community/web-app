@@ -93,11 +93,11 @@ test-rails:
     # Prepare the database; since we can't mount a volume on the service
     # HOST is set via RAILS_ENV, in docker-compose, which is set to test
     # also set explicitly above
-    - docker compose run 
+    - docker compose run
         -e POSTGRES_USER="postgres"
         -e POSTGRES_DB="postgres"
         -e POSTGRES_PASSWORD="postgres"
-        rails-test 
+        rails-test
         ./.dockerdev/postgresql/docker-entrypoint-initdb.d/init-user-db.sh
         postgres
     - docker compose run rails-test bundle
