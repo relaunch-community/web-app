@@ -58,7 +58,7 @@ build-production:
       -t $CONTAINER_PRODUCTION_IMAGE
       --build-arg BUILDKIT_INLINE_CACHE=1
       --build-arg TARGET_RAILS_ENV="production"
-      --build-arg RAILS_MASTER_KEY_PROD=$RAILS_MASTER_KEY_PROD
+      --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY_PROD
       -f Dockerfile.production
       "."
     - docker push $CONTAINER_PRODUCTION_IMAGE
