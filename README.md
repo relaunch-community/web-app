@@ -14,7 +14,7 @@ The process of starting up can be long, winding, and lonely; RMFS’ goal is to 
 
 ## Contributing
 
-We'd love your contributions to the community and the codebase! 
+We'd love your contributions to the community and the codebase!
 
 Check out [CONTRIBUTING.md](./CONTRIBUTING.md) for details!
 
@@ -24,7 +24,7 @@ organizers [ at ] rmfs dot com
 
 ## License
 
-The "Relaunch Community" ("[Re] Launch Community") has been granted 
+The "Relaunch Community" ("[Re] Launch Community") has been granted
 a license by Kwux (uMKR, Inc.) to use this code in a particular fashion,
 primarily for the purposes of quickly setting up and configuring
 the Ruby on Rails project.
@@ -44,14 +44,14 @@ are thus licensed accordingly in this project as well.
 
 This repository uses multiple licenses.
 
-Some files in this repository stem from original works which are licensed by 
-their particular work's license. 
+Some files in this repository stem from original works which are licensed by
+their particular work's license.
 [`vendor/README.md`](https://github.com/relaunch-community/web-app/blob/main/vendor/README.md) lists the repository for such cases, if
 a license is not directly present in the file itself.
 All modifications to these particular works are covered, to what extent applicable,
 by the terms in this repository's [**LICENSE**](https://github.com/relaunch-community/web-app/blob/main/LICENSE.md) file.
 
-All other files and modifications are fair-code distributed under the 
+All other files and modifications are fair-code distributed under the
 [**Sustainable Use License**](https://github.com/relaunch-community/web-app/blob/main/LICENSE.md).
 
 Additional information about the license model can be found at the n8n

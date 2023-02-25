@@ -1,6 +1,6 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails/all'
+require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -18,7 +18,7 @@ module RelaunchCommunity
     config.load_defaults 7.0
 
     # https://stackoverflow.com/questions/36602764/how-to-use-npm-packages-in-rails
-    config.assets.paths << Rails.root.join('node_modules')
+    config.assets.paths << Rails.root.join("node_modules")
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -27,15 +27,15 @@ module RelaunchCommunity
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.fathom = { site_id: ENV.fetch("FATHOM_ANALYTICS_SITE_ID", "") }
+    config.fathom = {site_id: ENV.fetch("FATHOM_ANALYTICS_SITE_ID", "")}
 
     config.active_model.i18n_customize_full_message = true
 
     config.generators do |g|
-      g.test_framework  :rspec, fixture: true
+      g.test_framework :rspec, fixture: true
       # https://guides.rubyonrails.org/generators.html
       # https://stackoverflow.com/questions/11702265/can-factorybot-generate-factories-after-your-models-have-been-created
-      g.fixture_replacement :factory_bot, suffix: 'factory'
+      g.fixture_replacement :factory_bot, suffix: "factory"
     end
 
     # https://edgeguides.rubyonrails.org/active_record_encryption.html

@@ -1,10 +1,49 @@
 # Contributing to the Relaunch Community Web App
 
+## Style guide
+
+This project aims to follow these code style guides, deviating occasionally when
+the Ruby on Rails community has significant discussion (*e.g.* double vs. single
+quotes or string literals).
+
+- [Ruby style guide](https://rubystyle.guide/)
+- [Rails style guide](https://rails.rubystyle.guide/)
+- [Rspec style guide](https://rspec.rubystyle.guide/)
+
+The styleguide is enforced by the [Standard](https://github.com/testdouble/standard)
+gem, and we aim to make few if any overrides to it, to keep things simple.
+
+**tl;dr**: if you follow the below checking/enforcement steps,
+your code will be linted to follow the Standard gem's implementation/interpretation
+of these style guides, so **don't worry!**
+
+### Manually Checking/Enforcing styles with the Standard Gem
+
+1. To **view** all offenses in the codebase, run
+   ```sh
+   rake standard
+   ```
+2. To **fix** all offenses in the codebase, run
+   ```sh
+   rake standard:fix
+   ```
+
+For more details, refer to the [Standard](https://github.com/testdouble/standard) gem's
+GitHub page.
+
+### Automatically check/enforce the style guide
+
+We use [pre-commit](https://pre-commit.com/) to automatically enforce the style-guide
+on each git commit. Installing it is the best way to ensure your contributions
+are in-line with the guide!
+
+Simply install it, and it'll run with each `git commit`!
+
 ## Run the Dev Environment
 
 ### Requirements
 
-The development environment currently requires a number of tools to support 
+The development environment currently requires a number of tools to support
 development:
 
 1. [docker](https://docs.docker.com/engine/install/)
@@ -16,7 +55,7 @@ development:
 
 #### Option 1 (Recommended): Hybrid (docker+local) environment
 
-Due to the inherent slowness of transferring volume data from host through to 
+Due to the inherent slowness of transferring volume data from host through to
 the docker daemon, it's often preferable to develop with a hybrid environment.
 
 This can dramatically decrease the friction of lag between changes made in, *e.g.*
@@ -36,7 +75,7 @@ your text editor/IDE, and them being seen within/across the docker containers/wa
 
 ##### Start the dev environment & dependencies
 
-Assuming you're working with an environment supporting shell scripts, 
+Assuming you're working with an environment supporting shell scripts,
 execute the convenience script located at `./bin/dev` (`./bin/dev-docker` for
 fully dockerized environments).
 
@@ -44,7 +83,7 @@ fully dockerized environments).
   the Rails server, Sidekiq background job processing, and a tailwind css
   watcher.
 
-After the services start, you should be able to move on to the 
+After the services start, you should be able to move on to the
 [First-run preparation](#first-run-preparation) step.
 
 **The web application is running at http://localhost:3000**
@@ -64,7 +103,7 @@ The following steps assume that the *previous* steps worked out just fine.
    ```sh
    bin/dev
    # Or, start JUST the database:
-   # docker-compose up -d postgres 
+   # docker-compose up -d postgres
    ```
 2. Create the development database
    ```sh
@@ -83,7 +122,7 @@ The following steps assume that the *previous* steps worked out just fine.
 
 1. Start the `postgres` service
    ```sh
-   docker-compose up -d postgres 
+   docker-compose up -d postgres
    ```
 2. Create the development database
    ```sh
@@ -106,7 +145,7 @@ The following steps assume that the *previous* steps worked out just fine.
    ```sh
    bin/dev
    # Or, start JUST the database:
-   # docker-compose up -d postgres 
+   # docker-compose up -d postgres
    ```
 2. Create the development database
    ```sh
@@ -121,7 +160,7 @@ The following steps assume that the *previous* steps worked out just fine.
 
 1. Start the `postgres` service
    ```sh
-   docker-compose up -d postgres 
+   docker-compose up -d postgres
    ```
 2. Prepare the test database
    ```sh
@@ -131,7 +170,7 @@ The following steps assume that the *previous* steps worked out just fine.
                       rails-test \
                       rails db:test:prepare
    ```
-3. Run all tests 
+3. Run all tests
    ```sh
       docker-compose run --rm \
                       --no-deps \
@@ -155,7 +194,7 @@ We use https://cla-assistant.io/ to help manage this!
 
 ### Privacy Policy
 
-The Privacy Policy found at https://rmfs.com/privacy-policy applies to data 
+The Privacy Policy found at https://rmfs.com/privacy-policy applies to data
 collection related to the ICLA and by other means or software
-relating to the management of software contributors and/or software itself 
+relating to the management of software contributors and/or software itself
 (*e.g.* GitHub, GitLab, etc.).

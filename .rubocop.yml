@@ -1,0 +1,9 @@
+# Rubocop overrides, double quotes, and more provided by
+# the testdouble/standard gem
+# ref: https://github.com/testdouble/standard
+# ref: https://github.com/rubocop/rubocop/blob/master/config/default.yml
+
+require: standard
+
+inherit_gem:
+  standard: config/base.yml
