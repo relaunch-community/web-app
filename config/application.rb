@@ -27,7 +27,7 @@ module RelaunchCommunity
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.fathom = {site_id: ENV.fetch("FATHOM_ANALYTICS_SITE_ID", "")}
+    config.fathom = { site_id: ENV.fetch("FATHOM_ANALYTICS_SITE_ID", "") }
 
     config.active_model.i18n_customize_full_message = true
 

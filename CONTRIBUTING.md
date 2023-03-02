@@ -13,23 +13,44 @@ quotes or string literals).
 The styleguide is enforced by the [Standard](https://github.com/testdouble/standard)
 gem, and we aim to make few if any overrides to it, to keep things simple.
 
+Also check out [betterspecs](https://betterspecs.org) for ideas on good rspec formatting!
+
 **tl;dr**: if you follow the below checking/enforcement steps,
 your code will be linted to follow the Standard gem's implementation/interpretation
 of these style guides, so **don't worry!**
 
-### Manually Checking/Enforcing styles with the Standard Gem
+### Manually Checking/Enforcing styles
 
-1. To **view** all offenses in the codebase, run
+Note: Although useful, the auto-correct/auto-fix utilities provided by the linters we use,
+discussed below, aren't perfect. It's important to review the changes they apply
+before blindly commiting them!
+
+#### Ruby linting (files matching `/*.rb$/i`)
+
+1. To **view** all ruby offenses in the codebase, run
    ```sh
-   rake standard
+   rubocop
    ```
 2. To **fix** all offenses in the codebase, run
    ```sh
-   rake standard:fix
+   rubocop -A
    ```
 
-For more details, refer to the [Standard](https://github.com/testdouble/standard) gem's
-GitHub page.
+For more details, refer to the [Rubocop](https://docs.rubocop.org/rubocop/1.46/usage/autocorrect.html) gem's
+docs.
+
+#### ERB linting (files matching `/*.erb$/i`)
+
+1. To **view** all ruby offenses in the codebase, run
+   ```sh
+   bundle exec erblint --lint-all
+   ```
+2. To **fix** all offenses in the codebase, run
+   ```sh
+   bundle exec erblint --lint-all --autocorrect
+   ```
+
+For more details, refer to the [shopify/erblint](https://github.com/Shopify/erb-lint) gem docs.
 
 ### Automatically check/enforce the style guide
 
@@ -37,7 +58,14 @@ We use [pre-commit](https://pre-commit.com/) to automatically enforce the style-
 on each git commit. Installing it is the best way to ensure your contributions
 are in-line with the guide!
 
-Simply install it, and it'll run with each `git commit`!
+Simply install it, and it'll run with each `git commit`.
+
+It'll tell you what's out-of-line. To have `rubocop` attempt to fix the issues
+automatically, run,
+
+```sh
+rubucop -A
+```
 
 ## Run the Dev Environment
 

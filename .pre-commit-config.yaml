@@ -22,7 +22,7 @@ repos:
       - id: trailing-whitespace
   - repo: local
     hooks:
-      - id: standard-fix
+      - id: rubocop
         name: standard styleguide must be applied
         exclude: |
           (?x)^(
@@ -30,5 +30,10 @@ repos:
             config/credentials/.*.enc
           )$
         language: ruby
-        files: '.*\.[e]?rb$'
-        entry: 'rake standard:fix'
+        files: '.*\.rb$'
+        entry: 'bundle exec rubocop -c .rubocop.yml -A'
+      - id: erb-lint
+        name: standard styleguide must be applied
+        language: ruby
+        files: '.*\.erb$'
+        entry: 'bundle exec erblint -a'
