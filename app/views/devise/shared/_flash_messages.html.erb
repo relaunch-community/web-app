@@ -1,0 +1,19 @@
+<% if notice.present? %>
+  <div id="notice-explanation"
+       class="flex flex-col bg-yellow-200 text-black font-medium rounded-lg my-3 border-yellow-400 border-4 before:rounded-md before:absolute before:inset-0 before:border-2 before:border-black relative"
+       data-turbo-cache="false">
+    <div class="text-center items-center border-b-2 px-3 py-2 border-b-black">
+      <h2 class="font-bold text-gray-800"><%= notice %></h2>
+    </div>
+  </div>
+<% end %>
+
+<% if alert %>
+  <div id="alert-explanation"
+       class="flex flex-col bg-red-200 text-black font-medium rounded-lg my-3 border-red-400 border-4 before:rounded-md before:absolute before:inset-0 before:border-2 before:border-black relative"
+       data-turbo-cache="false">
+    <div class="text-center items-center border-b-2 px-3 py-2 border-b-black">
+      <h2 class="font-bold text-gray-800"><%= alert %></h2>
+    </div>
+  </div>
+<% end %>

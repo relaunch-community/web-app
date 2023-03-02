@@ -10,7 +10,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+
       boxShadow: {
+        'solid-l-sm': '-3px 3px 0 0 rgb(59, 130, 246)',
+        'solid-l-md': '-6px 6px 0 0 rgb(59, 130, 246)',
+        'solid-l-lg': '-9px 9px 0 0 rgb(59, 130, 246)',
+        'solid-r-sm': '3px 3px 0 0 rgb(59, 130, 246)',
+        'solid-r-md': '6px 6px 0 0 rgb(59, 130, 246)',
+        'solid-r-lg': '9px 9px 0 0 rgb(59, 130, 246)',
+
         'full-sm': '0 0 3px 3px rgb(59, 130, 246)',
         'full-md': '0 0 5px 5px rgb(59, 130, 246)',
         'full-lg': '0 0 7px 7px rgb(59, 130, 246)',
