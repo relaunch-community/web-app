@@ -1,4 +1,9 @@
-exclude: '.idea/'
+exclude: |
+  (?x)^(
+    .idea/|
+    config/database.yml|
+    config/credentials/.*.enc
+  )$
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.3.0
@@ -6,7 +11,11 @@ repos:
       - id: check-yaml
         # if this becomes unwieldy...
         # ref: https://pre-commit.com/#regular-expressions
-        exclude: 'config/database.yml'
+        exclude: |
+          (?x)^(
+            config/database.yml|
+            config/credentials/.*.enc
+          )$
         args:
           - --unsafe
       - id: end-of-file-fixer
@@ -15,6 +24,11 @@ repos:
     hooks:
       - id: standard-fix
         name: standard styleguide must be applied
+        exclude: |
+          (?x)^(
+            config/database.yml|
+            config/credentials/.*.enc
+          )$
         language: ruby
         files: '.*\.[e]?rb$'
         entry: 'rake standard:fix'
