@@ -172,6 +172,8 @@ GEM
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
+    macaddr (1.7.2)
+      systemu (~> 2.6.5)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
@@ -341,6 +343,7 @@ GEM
       rubocop-performance (= 1.15.2)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    systemu (2.6.5)
     tailwindcss-rails (2.0.21-x86_64-linux)
       railties (>= 6.0.0)
     thor (1.2.1)
@@ -353,6 +356,8 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
+    uuid (2.3.9)
+      macaddr (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -408,6 +413,7 @@ DEPENDENCIES
   tailwindcss-rails
   turbo-rails
   tzinfo-data
+  uuid
   web-console
   webdrivers
 

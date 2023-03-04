@@ -123,6 +123,19 @@ there are a few house-cleaning steps you'll need to take care of.
 
 The following steps assume that the *previous* steps worked out just fine.
 
+### Rails credentials
+
+You'll need to create your own development credentials to persist things like
+encrypted records and sessions across, well, your sessions! It'll be easy!
+
+1. Create a new encrypted file and key for the `development` environment:
+   ```sh
+   EDITOR=vim rails credentials:edit --environment=development
+   ```
+
+2. Read the instructions in [config/credentials/development.yml.template](./config/credentials/development.yml.template)
+   and update the file accordingly, such that yours has the required keys.
+
 ### Database Migrations
 
 #### Hybrid environment

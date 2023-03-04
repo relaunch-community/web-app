@@ -67,9 +67,10 @@ group :development, :test do
   gem "rspec-rails", "~> 6.0"
   gem "shoulda-matchers", "~> 5.0"
   gem "standard", "~> 1.24", require: false
-  gem 'erb_lint', require: false
+  gem "erb_lint", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "uuid"
 end
 
 group :development do

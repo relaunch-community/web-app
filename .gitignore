@@ -117,12 +117,13 @@ fabric.properties
 /config/credentials/production.key
 
 /config/credentials/development.key
+/config/credentials/development.yml.enc
 
 node_modules
 
 /config/credentials/staging.key
 
-/config/credentials/test.key
+/config/cred-old/test.key
 /public/assets/*
 !/public/assets/.keep
 
