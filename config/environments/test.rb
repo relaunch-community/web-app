@@ -57,4 +57,15 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+
+  # Totally unnecessary, but fun, dive into rails credentials and encryption:
+  # https://github.com/rails/rails/blob/25d52ab782623e59c0bc920076393d1691999e4e/activerecord/lib/active_record/railtie.rb#L361
+  #
+  # Due to this file's config overwriting any actual credential file config,
+  # we can't set defaults here AND have these persisted for overriding via
+  # a credentials file. Which is OK, because we shouldn't need the same
+  # encryption scheme across runs in the test environment.
+  config.active_record.encryption.primary_key ||= SecureRandom.alphanumeric(32)
+  config.active_record.encryption.deterministic_key ||= SecureRandom.alphanumeric(32)
+  config.active_record.encryption.key_derivation_salt ||= SecureRandom.alphanumeric(32)
 end

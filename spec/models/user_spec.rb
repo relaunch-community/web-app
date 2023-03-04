@@ -2,7 +2,7 @@
 #
 # Table name: users
 #
-#  id                     :bigint           not null, primary key
+#  id                     :uuid             not null, primary key
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
 #  email                  :string           default(""), not null
@@ -27,12 +27,21 @@
 require "rails_helper"
 
 RSpec.describe User do
-  describe "attribute email" do
+  describe "id" do
+    subject { create(:user) }
+
+    it { is_expected.to have_attributes(id: an_object_satisfying("a valid uuid") { |id| UUID.validate(id) }) }
+  end
+
+  describe "email" do
+    subject { create(:user) }
+
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+    it { is_expected.to have_encrypted_attribute(:email) }
 
     context "when creating a user with a duplicate email address" do
-      let(:user1) { create(:user) }
+      let(:user1) { subject }
       let(:user2) { user1.deep_dup }
 
       it { expect(user1).to be_persisted }

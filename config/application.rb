@@ -44,5 +44,7 @@ module RelaunchCommunity
 
     # Use sidekiq as default, allow other envs to override if necessary
     config.active_job.queue_adapter = :sidekiq
+
+    config.active_record.encryption.extend_queries = true
   end
 end

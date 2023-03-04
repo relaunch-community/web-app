@@ -2,7 +2,7 @@
 #
 # Table name: users
 #
-#  id                     :bigint           not null, primary key
+#  id                     :uuid             not null, primary key
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
 #  email                  :string           default(""), not null
@@ -32,4 +32,6 @@ class User < ApplicationRecord
     :lockable, :timeoutable, :trackable
   # TODO: configure omniauth
   # , :omniauthable
+
+  encrypts :email, deterministic: true, ignore_case: true
 end
