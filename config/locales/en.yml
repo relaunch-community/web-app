@@ -30,3 +30,7 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  unauthorized_access: "Sorry! You don't have access to do that!"
+  dashboard:
+    show:
+      header: "Get started by creating a profile."

@@ -1,7 +1,16 @@
 <div
   class="flex flex-col items-center justify-center space-y-3 md:flex-row md:space-y-0 md:space-x-8 md:justify-center">
-  <div class="hidden group md:block">
-    <a href="#">About</a>
-    <div class="mx-1 mt-1 duration-500 border-b-2 opacity-0 border-blue-400 group-hover:opacity-100"></div>
-  </div>
+  <%# User actions %>
+
+  <% if current_user %>
+    <div class="group md:block">
+      <%= button_to "Sign out", destroy_user_session_path, method: :delete,
+                                                           class: "no-underline",
+                                                           form: {
+                                                             # https://github.com/rails/rails/issues/44170#issuecomment-1069644509
+                                                             data: { turbo_method: :delete }
+                                                           } %>
+      <div class="mx-1 mt-1 duration-500 border-b-2 opacity-0 border-blue-400 group-hover:opacity-100"></div>
+    </div>
+  <% end %>
 </div>

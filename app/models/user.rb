@@ -28,10 +28,18 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable,
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :validatable,
-    :lockable, :timeoutable, :trackable
+         :recoverable, :rememberable, :validatable,
+         :lockable, :timeoutable, :trackable
   # TODO: configure omniauth
   # , :omniauthable
 
   encrypts :email, deterministic: true, ignore_case: true
+
+  def has_any_profiles?
+    false # none exist, yet
+  end
+
+  def has_no_profiles?
+    !has_any_profiles?
+  end
 end

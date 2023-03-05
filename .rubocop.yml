@@ -11,6 +11,9 @@ require:
 inherit_gem:
   standard: config/base.yml
 
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_first_argument
+
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: space
 
@@ -20,6 +23,11 @@ Rails/FilePath:
 Rails/UnknownEnv:
   Enabled: false
 
+# Ref: https://github.com/rubocop/rubocop-rspec/issues/210
+RSpec/ExampleLength:
+  CountAsOne:
+    - heredoc
+  Max: 11
 
 AllCops:
   NewCops: enable

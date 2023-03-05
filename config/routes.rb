@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    confirmations: "users/confirmations",
+    # TODO: omniauth_callbacks: "users/omniauth_callbacks",
+    passwords: "users/passwords",
+    registrations: "users/registrations",
+    sessions: "users/sessions",
+    unlocks: "users/unlocks"
+  }
+
   if Rails.env.development?
     mount MaintenanceTasks::Engine => "/maintenance_tasks"
     require "sidekiq/web"
@@ -11,6 +19,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root to: "pages#index", as: :app_index
+
+  get "dashboard", to: "dashboard#show"
 
   # ref https://stackoverflow.com/questions/17743696/rails-routing-resources-with-only-custom-actions
   scope "/", controller: :pages do

@@ -97,3 +97,5 @@ group :test do
 end
 
 gem "maintenance_tasks", "~> 2.0"
+
+gem "pundit", "~> 2.3"
