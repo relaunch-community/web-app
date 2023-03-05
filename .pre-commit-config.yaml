@@ -1,6 +1,6 @@
 exclude: |
   (?x)^(
-    .idea/|
+    .idea/.*|
     config/database.yml|
     config/credentials/.*.enc
   )$

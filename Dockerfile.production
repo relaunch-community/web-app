@@ -159,6 +159,9 @@ COPY --chown=relaunchcommunity:relaunchcommunity . .
 
 COPY --from=common-builder $BUNDLE_PATH $BUNDLE_PATH
 
+# Precompile for all environments
+RUN bundle exec rails assets:precompile
+
 SHELL ["/bin/bash", "-c"]
 
 FROM pre-env AS env-production-builder
@@ -174,7 +177,7 @@ ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 
 # TODO: make use of SECRET_KEY_BASE_DUMMY=1
 # Ref: https://rubyonrails.org/2022/12/23/this-week-in-rails-rails-on-docker-local-environment-inquirer-and-more-27aa9ed4
-RUN if [[ -n "${RAILS_ENV}" ]] 2> /dev/null && [ "${RAILS_ENV}" == "production" ]; then echo "in production"; bundle exec rails assets:precompile; fi
+RUN if [[ -n "${RAILS_ENV}" ]] 2> /dev/null && [ "${RAILS_ENV}" == "production" ]; then echo "in production";  fi
 
 FROM pre-env AS env-test-builder
 
@@ -187,7 +190,7 @@ RUN if [[ -n "${RAILS_ENV}" ]] 2> /dev/null && [ "${RAILS_ENV}" == "test" ]; the
     echo "in test" && \
     # Install build-essential for dev/test gems if needed
     apt-get update -qq && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends build-essential && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends build-essential firefox-esr xvfb && \
     bundle config --delete without && \
     bundle config set --local with 'test' && \
     bundle config set --local without 'development' && \

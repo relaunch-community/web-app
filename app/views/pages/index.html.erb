@@ -17,9 +17,17 @@
     </div>
   </section>
 
-  <section id="sign-up">
-    <%= render partial: "user_signup", locals: { user: current_user } %>
-  </section>
+  <% if current_user %>
+    <div class="flex flex-col md:flex-row justify-center items-center text-center md:space-x-4 space-y-2 md:space-y-0 w-full md:w-auto my-4 md:my-8 md:pt-12">
+      <%= link_to "Go to your Dashboard",
+                  dashboard_path,
+                  class: "rounded-lg py-2 px-5 bg-white text-black inline-block font-medium border-2 border-black cursor-pointer no-underline shadow-full-lg shadow-cyan-800/30 hover:shadow-solid-l-md hover:shadow-cyan-800/70 hover:translate-x-[0.25em] hover:translate-y-[-0.25em] duration-200" %>
+    </div>
+  <% else %>
+    <section id="sign-up">
+      <%= render partial: "user_signup", locals: { user: current_user } %>
+    </section>
+  <% end %>
 
   <section id="community-values" class="flex space-x-12 grow-0 justify-around m-16">
     <div class="flex justify-center items-center w-36 h-36 rounded-full bg-gray-200 text-center p-4 text-cyan-800/50">

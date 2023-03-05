@@ -3,6 +3,9 @@
 # PagesController handles routes/actions for
 # static pages like the #index (home) page.
 class PagesController < ApplicationController
+  # Override ApplicationController's default
+  skip_after_action :verify_authorized
+
   # Action for the index/home route.
   def index
   end
