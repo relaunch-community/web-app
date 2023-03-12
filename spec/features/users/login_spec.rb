@@ -25,14 +25,14 @@ RSpec.describe "User Login Sequence" do
         click_link(I18n.t("pages.user_signup.signup_link"))
       end
 
-      click_link("Log in")
+      first(:link, "Log in").click
     end
 
     it { is_expected.to have_selector("h2", text: /welcome back, friend./i) }
 
     context "with no login details" do
       before do
-        click_button "Log in"
+        first(:button, "Log in").click
       end
 
       it { is_expected.to have_selector("#error-explanation", text: /invalid email or password/i) }
