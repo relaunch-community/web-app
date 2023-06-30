@@ -34,3 +34,14 @@ en:
   dashboard:
     show:
       header: "Get started by creating a profile."
+
+  user_profiles:
+    professionals:
+      create_success: Your professional profile has been successfully created!
+      update_success: Your professional profile has been successfully updated!
+      destroy_success: Your professional profile has been successfully destroyed!
+
+  user_profile:
+    professionals:
+      professional:
+        header: "Get started by creating a profile."

@@ -1,0 +1,46 @@
+<% if @user_profile_professional.has_no_profiles? %>
+  <div class="flex flex-col space-y-24">
+    <div class="flex flex-col space-y-4 items-center">
+
+      <h1 class="font-sans text-3xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight text-center">
+        <%= t(".header") %>
+      </h1>
+
+      <h2 class="text-gray-700 md:text-3xl">
+        I am a[n]...
+      </h2>
+    </div>
+
+    <%= turbo_frame_tag "new-professional-profile", class: "w-full" do %>
+      <section id="new-profile">
+        <div class="flex flex-col md:flex-row md:grow md:justify-around md:space-x-4">
+          <%# Placeholders %>
+          <div class="border-4 md:border-8 border-gray-800 text-left p-6 md:p-8">
+            <h3 class="font-sans text-xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight">
+              Investor
+            </h3>
+          </div>
+
+          <div class="border-4 md:border-8 border-gray-800 text-left p-6 md:p-8">
+            <h3 class="font-sans text-xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight">
+              Founder
+            </h3>
+          </div>
+
+          <div class="border-4 md:border-8 border-gray-800 text-left p-6 md:p-8">
+            <h3 class="font-sans text-xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight">
+              Vendor
+            </h3>
+          </div>
+        </div>
+      </section>
+    <% end %>
+
+    <div class="flex flex-col items-center">
+      <p class="text-normal">
+        Are you multi-faceted? Don't worry! You can create more profiles later!
+      </p>
+    </div>
+  </div>
+<% else %>
+<% end %>

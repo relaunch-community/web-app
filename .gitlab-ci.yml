@@ -13,8 +13,7 @@ image:
   entrypoint: ["/bin/sh", "-c"]
 
 services:
-  - name: docker:20.10.3-dind
-  - name: redis:7.0.7
+  - name: docker:24.0-dind
 
 stages:
   - build
@@ -90,6 +89,9 @@ test-rails:
     - export RAILS_MASTER_KEY="$RAILS_MASTER_KEY_TEST"
     - export RAILS_ENV="test"
     - docker pull $CONTAINER_TEST_IMAGE
+    - docker compose up -d postgres
+    - free -h
+    # - bin/wait-for-it.sh -t 15 localhost:5432 -- docker compose logs postgres
     # Prepare the database; since we can't mount a volume on the service
     # HOST is set via RAILS_ENV, in docker-compose, which is set to test
     # also set explicitly above

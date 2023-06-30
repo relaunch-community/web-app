@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :user_profile do
+    resources :professionals
+  end
+
   devise_for :users, controllers: {
     confirmations: "users/confirmations",
     # TODO: omniauth_callbacks: "users/omniauth_callbacks",

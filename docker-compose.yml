@@ -6,7 +6,7 @@ x-app: &app
       - ${CONTAINER_TEST_IMAGE:-relaunch-community}
     args:
       BUILDKIT_INLINE_CACHE: '1'
-      RUBY_VERSION: '3.2.0'
+      RUBY_VERSION: '3.2.2'
       PG_MAJOR: '14'
       NODE_MAJOR: '16'
   image: ${CONTAINER_TEST_IMAGE:-relaunch-community}

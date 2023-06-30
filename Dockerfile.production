@@ -3,7 +3,7 @@
 # docker build --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY -f Dockerfile.production "."
 # docker run -it -e RAILS_SERVE_STATIC_FILES=true -e RAILS_LOG_TO_STDOUT=true -p 3000:3000 <image from last step>
 
-ARG RUBY_VERSION=3.2.0
+ARG RUBY_VERSION=3.2.2
 ARG PG_MAJOR=14
 ARG DISTRO_NAME=bullseye
 ARG TARGET_RAILS_ENV=development
