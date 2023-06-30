@@ -17,6 +17,6 @@ class ApplicationController < ActionController::Base
 
   def unauthorized_access
     flash[:alert] = I18n.t("unauthorized_access")
-    redirect_back(fallback_location: root_path)
+    redirect_back(fallback_location: app_index_path)
   end
 end

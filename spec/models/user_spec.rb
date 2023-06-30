@@ -27,6 +27,12 @@
 require "rails_helper"
 
 RSpec.describe User do
+  describe "associations" do
+    subject(:user) { described_class.new }
+
+    it { is_expected.to have_one(:professional_profile) }
+  end
+
   describe "id" do
     subject { create(:user) }
 

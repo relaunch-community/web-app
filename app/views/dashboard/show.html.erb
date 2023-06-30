@@ -1,27 +1,2 @@
-<% if current_user.has_no_profiles? %>
-  <div class="flex flex-col grow space-y-24">
-    <div class="flex flex-col space-y-4 items-center">
 
-      <h1 class="font-sans text-3xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight text-center">
-        <%= t(".header") %>
-      </h1>
-
-      <h2 class="text-gray-700 md:text-3xl">
-        I am a[n]...
-      </h2>
-    </div>
-
-    <section id="sign-up">
-      <%= render partial: "profiles/new", locals: { user: current_user } %>
-    </section>
-
-    <div class="flex flex-col items-center">
-      <p class="text-normal">
-        Are you multi-faceted? Don't worry! You can create more profiles later!
-      </p>
-    </div>
-  </div>
-
-<% else %>
-  <%# render the dashboard %>
-<% end %>
+<%# render the dashboard %>

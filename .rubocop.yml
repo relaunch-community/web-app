@@ -29,6 +29,9 @@ RSpec/ExampleLength:
     - heredoc
   Max: 11
 
+RSpec/NestedGroups:
+  Max: 5
+
 AllCops:
   NewCops: enable
   Exclude:

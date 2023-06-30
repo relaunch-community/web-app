@@ -35,11 +35,20 @@ class User < ApplicationRecord
 
   encrypts :email, deterministic: true, ignore_case: true
 
-  def has_any_profiles?
-    false # none exist, yet
+  has_one :professional_profile, class_name: "UserProfile::Professional", dependent: :destroy
+
+  after_create :create_professional_profile!
+
+  def has_professional_profiles?
+    professional_profile.any_profiles?
   end
 
-  def has_no_profiles?
-    !has_any_profiles?
+  def has_no_professional_profiles?
+    !has_professional_profiles?
+  end
+
+  # Placeholder
+  def admin?
+    false
   end
 end

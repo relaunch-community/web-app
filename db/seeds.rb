@@ -15,7 +15,7 @@ if Rails.env.development? || Rails.env.test?
   def seed_users!(destroy_current = false)
     User.delete_all if destroy_current
 
-    user_emails = %w[admin-user@rmfs.com founder@examplestartup.com vendor@exampleagency.com]
+    user_emails = %w[admin@rmfs.com founder@examplestartup.com vendor@exampleagency.com]
 
     user_emails.map do |email|
       create(:user, email: email, encrypted_password: Devise::Encryptor.digest(User, "passwordpassword"))

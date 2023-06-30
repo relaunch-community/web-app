@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# Note - use 'quit' to detach from the remote debugger
+docker exec -it web rdbg -A

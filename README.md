@@ -20,27 +20,9 @@ Check out [CONTRIBUTING.md](./CONTRIBUTING.md) for details!
 
 ## Contact
 
-organizers [ at ] rmfs dot com
+organizers [ at ] relaunchcommunity dot org
 
 ## License
-
-The "Relaunch Community" ("[Re] Launch Community") has been granted
-a license by Kwux (uMKR, Inc.) to use this code in a particular fashion,
-primarily for the purposes of quickly setting up and configuring
-the Ruby on Rails project.
-
-> License is granted, for the purposes of setting up and configuring a Ruby on Rails application with settings and configuration as provided in the https://github.com/kwux/kwux-frontend software to the [Re] Launch Community and whatever form it may take in future (corporation, coop, etc.).
->
-> Not included in this license is any enterprise license, or license on any business-specific or operations specific code, including business logic in models, views, database, etc. Notwithstanding are generic configuration of any models, controllers, or behaviors.
->
-> This license may be revoked at any time, at which point the [Re] Launch Community will have a period of 30 days to either remove all relevant code (in the case of publicly published code) or acquire a Kwux Enterprise License.
-
-All original/modified works in the initial "commit" (initial git commit) of this repository,
-which are sourced from the [kwux/kwux-frontend](https://github.com/kwux/kwux-frontend) project
-are thus licensed by the original work's license, located at [kwux/kwux-frontend](https://github.com/kwux/kwux-frontend/LICENSE.md).
-
-Any third party works which were sourced from the [kwux/kwux-frontend](https://github.com/kwux/kwux-frontend) project
-are thus licensed accordingly in this project as well.
 
 This repository uses multiple licenses.
 
@@ -52,7 +34,8 @@ All modifications to these particular works are covered, to what extent applicab
 by the terms in this repository's [**LICENSE**](https://github.com/relaunch-community/web-app/blob/main/LICENSE.md) file.
 
 All other files and modifications are fair-code distributed under the
-[**Sustainable Use License**](https://github.com/relaunch-community/web-app/blob/main/LICENSE.md).
+[**Sustainable Use License**](https://github.com/relaunch-community/web-app/blob/main/LICENSE.md)
+and the [**[Re] Launch Enterprise License**](https://github.com/relaunch-community/web-app/blob/main/LICENSE_EE.md).
 
 Additional information about the license model can be found at the n8n
 the [documentation website](https://docs.n8n.io/reference/license/).

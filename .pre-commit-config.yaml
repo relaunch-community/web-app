@@ -27,7 +27,8 @@ repos:
         exclude: |
           (?x)^(
             config/database.yml|
-            config/credentials/.*.enc
+            config/credentials/.*.enc|
+            db/schema.rb
           )$
         language: ruby
         files: '.*\.rb$'
