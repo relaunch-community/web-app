@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "User Registration Sequence" do
-  describe "logging in from index page" do
-    subject { page }
+  describe "registering in from index page" do
+    subject(:current_page) { page }
 
     let(:user_password) { "passwordpassword" }
     let(:user) { build(:user, encrypted_password: Devise::Encryptor.digest(User, user_password)) }
@@ -45,7 +45,10 @@ RSpec.describe "User Registration Sequence" do
       end
 
       it { is_expected.not_to have_selector("#error-explanation") }
-      it { is_expected.to have_selector("h1", text: I18n.t("dashboard.show.header").upcase) }
+
+      it "redirects to personal profile creation" do
+        expect(current_page).to have_current_path("/profile/personal/new")
+      end
     end
   end
 end

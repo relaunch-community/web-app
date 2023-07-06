@@ -14,6 +14,9 @@ inherit_gem:
 Layout/ArgumentAlignment:
   EnforcedStyle: with_first_argument
 
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: aligned
+
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: space
 

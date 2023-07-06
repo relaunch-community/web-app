@@ -27,7 +27,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
-gem "tailwindcss-rails"
+gem 'tailwindcss-rails', '~> 2.0', '>= 2.0.29'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
@@ -65,7 +65,7 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri mingw x64_mingw]
   gem "factory_bot_rails", "~> 6.2"
-  gem "faker", "~> 3.1"
+  gem "faker", "~> 3.2"
   gem "rspec-rails", "~> 6.0"
   gem "shoulda-matchers", "~> 5.0"
   gem "standard", "~> 1.24", require: false

@@ -32,6 +32,7 @@ module RelaunchCommunity
     config.active_model.i18n_customize_full_message = true
 
     config.generators do |g|
+      g.helper false
       g.test_framework :rspec, fixture: true
       # https://guides.rubyonrails.org/generators.html
       # https://stackoverflow.com/questions/11702265/can-factorybot-generate-factories-after-your-models-have-been-created

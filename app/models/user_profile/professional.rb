@@ -18,17 +18,9 @@
 #
 class UserProfile::Professional < ApplicationRecord
   include FriendlyId
-
-  # https://norman.github.io/friendly_id/file.Guide.html
-  # use column as-is
-  friendly_id :hash_id
+  include ::HashFriendable
 
   belongs_to :user
-
-  validates :hash_id, presence: true
-  validates :hash_id, uniqueness: { case_sensitive: false }
-
-  before_validation :set_hash_id, on: :create
 
   def any_profiles?
     false # check if any founder, investor, vendor profiles exist
@@ -36,11 +28,5 @@ class UserProfile::Professional < ApplicationRecord
 
   def has_no_profiles?
     !any_profiles?
-  end
-
-  private
-
-  def set_hash_id
-    self.hash_id ||= Digest::UUID.uuid_v4
   end
 end

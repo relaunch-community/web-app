@@ -1,0 +1,7 @@
+<div id="<%= dom_id user_profile_personal %>">
+  <% if action_name != "show" %>
+    <%= link_to "Show this personal", user_profile_personal, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this personal", edit_user_profile_personal_path(user_profile_personal), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>
