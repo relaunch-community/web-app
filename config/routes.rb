@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  namespace :user_profile do
-    resources :professionals
+  namespace :user_profile, path: :profile do
+    resources :personals, path: :personal
+    resources :professionals, path: :professional
   end
 
   devise_for :users, controllers: {

@@ -36,6 +36,7 @@ class User < ApplicationRecord
   encrypts :email, deterministic: true, ignore_case: true
 
   has_one :professional_profile, class_name: "UserProfile::Professional", dependent: :destroy
+  has_one :personal_profile, class_name: "UserProfile::Personal", dependent: :destroy
 
   after_create :create_professional_profile!
 

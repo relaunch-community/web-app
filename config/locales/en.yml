@@ -35,13 +35,33 @@ en:
     show:
       header: "Get started by creating a profile."
 
-  user_profiles:
-    professionals:
-      create_success: Your professional profile has been successfully created!
-      update_success: Your professional profile has been successfully updated!
-      destroy_success: Your professional profile has been successfully destroyed!
-
   user_profile:
+    personals:
+      form:
+        the_connection:
+          header_html: "self &#8594; connection"
+          subheader: where can you be reached?
+        the_profile:
+          header_html: profile &#8594; visibility
+          subheader: will you be seen?
+        the_self:
+          header_html: self &#8594; identity
+          subheader: how shall we know you?
+        the_description:
+          header_html: self &#8594; description
+          subheader: what of your deeds?
+        errors:
+          messages:
+            not_saved_header: Hm, we couldn't save your profile.
+        submit: "Create profile"
+      create:
+        create_success: Your personal profile was successfully created!
+      update:
+        update_success: Your personal profile has been successfully updated!
+
     professionals:
+      update:
+        update_success: Your professional profile has been successfully updated!
+
       professional:
         header: "Get started by creating a profile."

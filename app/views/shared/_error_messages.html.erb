@@ -1,9 +1,10 @@
+<%# locals: (resource:, error_message_header:) -%>
 <% if resource.errors.any? %>
   <div id="error-explanation"
        class="flex flex-col bg-red-200 text-white font-medium rounded-lg my-3 border-red-400 border-4 before:rounded-md before:absolute before:inset-0 before:border-2 before:border-black relative"
        data-turbo-cache="false">
     <div class="text-center items-center border-b-2 px-3 py-2 border-b-black">
-      <h2 class="font-bold text-gray-800"><%= t("errors.messages.not_saved_header") %></h2>
+      <h2 class="font-bold text-gray-800"><%= error_message_header %></h2>
     </div>
 
     <ul class="px-3 py-2 text-black">
