@@ -2,6 +2,7 @@ class UserProfile::PersonalsController < ApplicationController
   include Pundit::Authorization
 
   before_action :authenticate_user!
+  before_action :disallow_overwrite_current_profile, only: [:new, :create]
   before_action :set_user_profile_personal, only: %i[show edit update]
 
   after_action :verify_authorized
@@ -47,6 +48,12 @@ class UserProfile::PersonalsController < ApplicationController
   end
 
   private
+
+  def disallow_overwrite_current_profile
+    if current_user.personal_profile.present?
+      redirect_back_or_to dashboard_url, allow_other_host: false
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user_profile_personal

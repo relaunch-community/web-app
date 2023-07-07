@@ -12,16 +12,14 @@ class DashboardController < ApplicationController
   def ensure_personal_profile_exists
     if current_user.personal_profile.blank?
       redirect_to new_user_profile_personal_url,
-                  format: request.format,
-                  notice: t(".missing_personal_profile_notice")
+                  format: request.format
     end
   end
 
   def ensure_professional_profile_populated
     if current_user.has_no_professional_profiles?
       redirect_to user_profile_professional_url(current_user.professional_profile),
-                  format: request.format,
-                  notice: t(".missing_professional_profiles_notice")
+                  format: request.format
     end
   end
 end
