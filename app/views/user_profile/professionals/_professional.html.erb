@@ -1,19 +1,19 @@
 <% if @user_profile_professional.has_no_profiles? %>
-  <div class="flex flex-col space-y-24">
-    <div class="flex flex-col space-y-4 items-center">
+  <div class="flex flex-col">
+    <div class="flex flex-col items-center">
 
-      <h1 class="font-sans text-3xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight text-center">
+      <h1 class="font-sans text-3xl md:text-5xl font-bold uppercase leading-tight text-center mt-2 md:mt-4">
         <%= t(".header") %>
       </h1>
 
-      <h2 class="text-gray-700 md:text-3xl">
+      <h2 class="text-gray-700 md:text-3xl mt-2 md:mt-8">
         I am a[n]...
       </h2>
     </div>
 
-    <%= turbo_frame_tag "new-professional-profile", class: "w-full" do %>
+    <%= turbo_frame_tag "new-professional-profile", class: "w-full mt-2 md:mt-8" do %>
       <section id="new-profile">
-        <div class="flex flex-col md:flex-row md:grow md:justify-around md:space-x-4">
+        <div class="flex flex-col md:flex-row md:grow md:justify-around space-y-2 md:space-x-4">
           <%# Placeholders %>
           <div class="border-4 md:border-8 border-gray-800 text-left p-6 md:p-8">
             <h3 class="font-sans text-xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight">
@@ -36,8 +36,8 @@
       </section>
     <% end %>
 
-    <div class="flex flex-col items-center">
-      <p class="text-normal">
+    <div class="flex flex-col items-center mt-1 md:mt-4">
+      <p class="text-center text-gray-700 text-sm md:text-base">
         Are you multi-faceted? Don't worry! You can create more profiles later!
       </p>
     </div>
