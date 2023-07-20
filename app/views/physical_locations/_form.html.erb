@@ -1,0 +1,20 @@
+<%= form_with(model: physical_location, class: "contents") do |form| %>
+  <% if physical_location.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(physical_location.errors.count, "error") %> prohibited this physical_location from being
+        saved:</h2>
+
+      <ul>
+        <% physical_location.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= render "physical_location_fields", form: form, physical_location: physical_location %>
+
+  <div class="mt-4 inline-block">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

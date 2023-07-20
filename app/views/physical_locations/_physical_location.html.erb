@@ -1,0 +1,22 @@
+<div id="<%= dom_id physical_location %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">City:</strong>
+    <%= physical_location.city %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">State subdivision:</strong>
+    <%= physical_location.state_subdivision %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Country:</strong>
+    <%= physical_location.country %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this physical location", physical_location, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this physical location", edit_physical_location_path(physical_location), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>
