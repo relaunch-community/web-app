@@ -35,6 +35,12 @@ en:
     show:
       header: "Get started by creating a profile."
 
+  physical_locations:
+    create:
+      create_success: The physical location was successfully created!
+    update:
+      update_success: The physical location has been successfully updated!
+
   user_profile:
     personals:
       form:

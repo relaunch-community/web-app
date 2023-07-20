@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :physical_locations
   namespace :user_profile, path: :profile do
     resources :personals, path: :personal
     resources :professionals, path: :professional
