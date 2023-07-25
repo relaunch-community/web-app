@@ -27,6 +27,8 @@
 #  index_users_on_roles_mask            (roles_mask)
 #
 class User < ApplicationRecord
+  include Flipper::Identifier
+
   # Include default devise modules. Others available are:
   # :confirmable,
   devise :database_authenticatable, :registerable,
@@ -40,7 +42,8 @@ class User < ApplicationRecord
   has_one :professional_profile, class_name: "UserProfile::Professional", dependent: :destroy
   has_one :personal_profile, class_name: "UserProfile::Personal", dependent: :destroy
 
-  scope :with_role, lambda { |role| { conditions: "roles_mask & #{2**ROLES.index(role.to_s)} > 0 " } }
+  scope :with_role, ->(role) { where("roles_mask & #{2**ROLES.index(role.to_s)} > 0 ") }
+  scope :admins, -> { with_role(:admin) }
 
   after_create :create_professional_profile!
 
@@ -56,11 +59,11 @@ class User < ApplicationRecord
 
   # Placeholder
   def admin?
-    roles & %w[admin superadmin]
+    (roles & %w[admin superadmin]).any?
   end
 
   def roles=(roles)
-    self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
+    self.roles_mask = (roles.map(&:to_s) & ROLES).map { |r| 2**ROLES.index(r) }.sum
   end
 
   def roles

@@ -15,10 +15,13 @@ require "rails_helper"
 RSpec.describe "/investor/firms" do
   let(:user) { create(:user, :with_admin) }
 
-  before do
+  around do |ex|
     # https://stackoverflow.com/questions/10121835/how-do-i-simulate-a-login-with-rspec
     # https://stackoverflow.com/questions/27284657/undefined-method-env-for-nilnilclass-in-setup-controller-for-warden-error
+    # https://rubydoc.info/gems/rspec-core/RSpec%2FCore%2FHooks:around
     login_as user
+    ex.run
+    logout
   end
 
   describe "GET /index" do

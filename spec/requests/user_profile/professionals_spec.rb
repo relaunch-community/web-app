@@ -16,10 +16,13 @@ RSpec.describe "/user_profile/professionals" do
   describe "GET /show" do
     let(:user) { create(:user) }
 
-    before do
+    around do |ex|
       # https://stackoverflow.com/questions/10121835/how-do-i-simulate-a-login-with-rspec
       # https://stackoverflow.com/questions/27284657/undefined-method-env-for-nilnilclass-in-setup-controller-for-warden-error
+      # https://rubydoc.info/gems/rspec-core/RSpec%2FCore%2FHooks:around
       login_as user
+      ex.run
+      logout
     end
 
     it "renders a successful response" do
