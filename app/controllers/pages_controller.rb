@@ -10,6 +10,9 @@ class PagesController < ApplicationController
   def index
   end
 
+  def about
+  end
+
   # Action for the privacy policy route.
   def privacy_policy
   end

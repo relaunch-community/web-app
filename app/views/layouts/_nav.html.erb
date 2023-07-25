@@ -1,5 +1,12 @@
 <div
   class="flex flex-col items-center justify-center space-y-3 md:flex-row md:space-y-0 md:space-x-8 md:justify-center">
+
+  <%# Static %>
+  <div class="group md:block">
+    <%= link_to "About", about_url, class: "no-underline px-2 md:border-r md:border-white" %>
+    <div class="mx-1 mt-1 duration-500 border-b-2 opacity-0 border-blue-400 group-hover:opacity-100"></div>
+  </div>
+
   <%# User actions %>
 
   <% if current_user %>
