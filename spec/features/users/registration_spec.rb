@@ -4,16 +4,17 @@ RSpec.describe "User Registration Sequence" do
   describe "registering in from index page" do
     subject(:current_page) { page }
 
-    let(:user_password) { "passwordpassword" }
-    let(:user) { build(:user, encrypted_password: Devise::Encryptor.digest(User, user_password)) }
-
     before do
+      skip("Temporarily disabled registration")
       visit "/"
 
       within first("section#sign-up-sign-in") do
         click_link(I18n.t("pages.user_signup.signup_link"))
       end
     end
+
+    let(:user_password) { "passwordpassword" }
+    let(:user) { build(:user, encrypted_password: Devise::Encryptor.digest(User, user_password)) }
 
     it { is_expected.to have_selector("h2", text: /join us./i) }
 

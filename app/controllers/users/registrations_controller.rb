@@ -2,6 +2,7 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   include Pundit::Authorization
+  before_action :ensure_enabled, only: [:create]
   # Override ApplicationController's default
   skip_after_action :verify_authorized, only: [:new, :create]
 
@@ -16,6 +17,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
+  end
+
+  def ensure_enabled
+    raise ActionController::RoutingError.new("Sorry, we haven't enabled that yet!") unless Flipper.enabled?(:registration, current_user)
   end
 
   # GET /resource/edit
