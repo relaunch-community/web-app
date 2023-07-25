@@ -10,7 +10,8 @@
 #
 # Indexes
 #
-#  index_professionals_user_profiles_on_user_id  (user_id)
+#  index_professionals_user_profiles_on_hash_id  (hash_id) UNIQUE
+#  index_professionals_user_profiles_on_user_id  (user_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -21,6 +22,12 @@ class UserProfile::Professional < ApplicationRecord
   include ::HashFriendable
 
   belongs_to :user
+
+  has_many :investor_firm_roles,
+           class_name: "Investor::FirmRole",
+           inverse_of: :professional_profile,
+           foreign_key: :professional_profile_id,
+           dependent: :destroy
 
   def any_profiles?
     false # check if any founder, investor, vendor profiles exist

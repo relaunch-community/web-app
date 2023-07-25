@@ -14,6 +14,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  roles_mask             :integer
 #  sign_in_count          :integer          default(0), not null
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -23,6 +24,7 @@
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_roles_mask            (roles_mask)
 #
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
@@ -38,7 +40,11 @@ class User < ApplicationRecord
   has_one :professional_profile, class_name: "UserProfile::Professional", dependent: :destroy
   has_one :personal_profile, class_name: "UserProfile::Personal", dependent: :destroy
 
+  scope :with_role, lambda { |role| { conditions: "roles_mask & #{2**ROLES.index(role.to_s)} > 0 " } }
+
   after_create :create_professional_profile!
+
+  ROLES = %w[superadmin admin]
 
   def has_professional_profiles?
     professional_profile.any_profiles?
@@ -50,6 +56,18 @@ class User < ApplicationRecord
 
   # Placeholder
   def admin?
-    false
+    roles & %w[admin superadmin]
+  end
+
+  def roles=(roles)
+    self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.sum
+  end
+
+  def roles
+    ROLES.reject { |r| ((roles_mask || 0) & 2**ROLES.index(r)).zero? }
+  end
+
+  def role_symbols
+    roles.map(&:to_sym)
   end
 end

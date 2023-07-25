@@ -6,20 +6,12 @@ RSpec.describe UserProfile::ProfessionalsController do
       expect(get: "/profile/professional").to route_to("user_profile/professionals#index")
     end
 
-    it "routes to #new" do
-      expect(get: "/profile/professional/new").to route_to("user_profile/professionals#new")
-    end
-
     it "routes to #show" do
       expect(get: "/profile/professional/1").to route_to("user_profile/professionals#show", id: "1")
     end
 
     it "routes to #edit" do
       expect(get: "/profile/professional/1/edit").to route_to("user_profile/professionals#edit", id: "1")
-    end
-
-    it "routes to #create" do
-      expect(post: "/profile/professional").to route_to("user_profile/professionals#create")
     end
 
     it "routes to #update via PUT" do

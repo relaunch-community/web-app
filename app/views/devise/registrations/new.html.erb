@@ -1,67 +1,71 @@
-<div class="max-w-2xl flex flex-col space-y-2 md:space-y-4 mx-auto">
-  <div class="flex flex-col justify-center items-center border-gray-300 border-b-2 pb-6">
-    <h2 class="text-3xl font-semibold">
-      Join us. <span class="italic text-sm">We're totally not a cult.</span>
-    </h2>
+<%= turbo_frame_tag User.new, class: "w-full" do %>
+  <div class="max-w-2xl flex flex-col space-y-2 md:space-y-4 mx-auto md:w-auto my-4 md:my-4 pb-6 md:pt-4">
+    <div class="flex flex-col justify-center items-center border-gray-300 border-b-2 pb-6">
+      <h2 class="text-3xl font-semibold">
+        Join us. <span class="italic text-sm">We're totally not a cult.</span>
+      </h2>
 
-    <%= form_for(resource,
-                 as: resource_name,
-                 url: registration_path(resource_name),
-                 html: {
-                   class: "w-full"
-                 }) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+      <%= form_for(resource,
+                   as: resource_name,
+                   url: registration_path(resource_name),
+                   data: { turbo_frame: :_top },
+                   html: {
+                     class: "w-full"
+                   }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
-      <div class="flex flex-col space-y-1 md:space-y-2 mx-auto">
-        <%# Form fields %>
-        <div class="border-2 border-black outline-2 outline-white w-full p-4 rounded-lg">
-          <div class="group">
-            <%= f.label :email, t(".email"), class: "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" %>
-            <%= f.text_field :email,
-                             placeholder: "great-founder@example.com",
-                             class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black" %>
+        <div class="flex flex-col space-y-1 md:space-y-2 mx-auto">
+          <%# Form fields %>
+          <div class="border-2 border-black outline-2 outline-white w-full p-4 rounded-lg">
+            <div class="group">
+              <%= f.label :email, t(".email"), class: "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" %>
+              <%= f.text_field :email,
+                               placeholder: "great-founder@example.com",
+                               class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black" %>
+            </div>
+
+            <div class="group">
+              <div class="flex">
+                <%= f.label :password,
+                            class: "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" %>
+                <span class="italic text-xs ml-1">(<%= @minimum_password_length %> characters minimum)</span>
+              </div>
+              <%= f.password_field :password,
+                                   autocomplete: "new-password",
+                                   class: "appearance-none block w-full bg-gray-500 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black" %>
+            </div>
+
+            <div class="group">
+              <div class="flex">
+                <%= f.label :password_confirmation,
+                            class: "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" %>
+              </div>
+              <%= f.password_field :password_confirmation,
+                                   autocomplete: "new-password",
+                                   class: "appearance-none block w-full bg-gray-500 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black" %>
+            </div>
           </div>
 
-          <div class="group">
-            <div class="flex">
-              <%= f.label :password,
-                          class: "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" %>
-              <span class="italic text-xs ml-1">(<%= @minimum_password_length %> characters minimum)</span>
-            </div>
-            <%= f.password_field :password,
-                                 autocomplete: "new-password",
-                                 class: "appearance-none block w-full bg-gray-500 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black" %>
-          </div>
-
-          <div class="group">
-            <div class="flex">
-              <%= f.label :password_confirmation,
-                          class: "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" %>
-            </div>
-            <%= f.password_field :password_confirmation,
-                                 autocomplete: "new-password",
-                                 class: "appearance-none block w-full bg-gray-500 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black" %>
+          <div class="flex justify-center items-center text-center w-full md:justify-end mt-4">
+            <%= f.submit t(".submit"),
+                         class: "w-full rounded-lg py-2 px-5 bg-white text-black inline-block font-medium border-2 border-black cursor-pointer no-underline shadow-full-sm shadow-cyan-800/30 hover:shadow-cyan-700/60 duration-200" %>
           </div>
         </div>
 
-        <div class="flex justify-center items-center text-center w-full md:justify-end mt-4">
-          <%= f.submit t(".submit"),
-                       class: "w-full rounded-lg py-2 px-5 bg-white text-black inline-block font-medium border-2 border-black cursor-pointer no-underline shadow-full-sm shadow-cyan-800/30 hover:shadow-cyan-700/60 duration-200" %>
-        </div>
+      <% end %>
+
+    </div>
+
+    <div class="flex flex-col justify-center items-center space-y-1 pb-6">
+      <h6 class="text-light text-center">Already a member?</h6>
+
+      <div class="flex flex-col space-y-2 text-xs text-center">
+        <%= link_to "Log in", new_session_path(resource_name),
+                    class: "no-underline rounded-lg py-1 px-3 bg-white text-black inline-block border-2 border-gray-500" %>
+        <%= link_to "Forgot your password?", new_password_path(resource_name),
+                    class: "no-underline rounded-lg py-1 px-3 bg-white text-black inline-block border-2 border-gray-500" %>
       </div>
-
-    <% end %>
-
-  </div>
-
-  <div class="flex flex-col justify-center items-center space-y-1 pb-6">
-    <h6 class="text-light text-center">Already a member?</h6>
-
-    <div class="flex flex-col space-y-2 text-xs text-center">
-      <%= link_to "Log in", new_session_path(resource_name),
-                  class: "no-underline rounded-lg py-1 px-3 bg-white text-black inline-block border-2 border-gray-500" %>
-      <%= link_to "Forgot your password?", new_password_path(resource_name),
-                  class: "no-underline rounded-lg py-1 px-3 bg-white text-black inline-block border-2 border-gray-500" %>
     </div>
   </div>
-</div>
+
+<% end %>

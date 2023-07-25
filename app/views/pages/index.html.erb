@@ -24,8 +24,8 @@
                   class: "rounded-lg py-2 px-5 bg-white text-black inline-block font-medium border-2 border-black cursor-pointer no-underline shadow-full-lg shadow-cyan-800/30 hover:shadow-solid-l-md hover:shadow-cyan-800/70 hover:translate-x-[0.25em] hover:translate-y-[-0.25em] duration-200" %>
     </div>
   <% else %>
-    <section id="sign-up">
-      <%= render partial: "user_signup", locals: { user: current_user } %>
+    <section id="sign-up-sign-in">
+      <%= render partial: "user_signup", locals: { user: nil } %>
     </section>
   <% end %>
 

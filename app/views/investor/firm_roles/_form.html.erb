@@ -1,0 +1,170 @@
+<%= form_with(model: investor_firm_role,
+              class: "w-full") do |form| %>
+  <div class="flex flex-row justify-end w-full">
+    <div class="md:w-2/3">
+      <%= render partial: "shared/error_messages",
+                 locals: { resource: investor_firm_role,
+                           error_message_header: t(".errors.messages.not_saved_header") } %>
+    </div>
+  </div>
+
+  <div class="flex flex-col space-y-1 md:space-y-2 my-4">
+
+    <%# Who're they with? What company? %>
+    <div class="flex flex-col md:flex-row md:items-center">
+
+      <h3 class="md:w-1/3 text-xl font-semibold text-gray-600 md:text-right md:text-center md:pr-8">
+        Who <span class="block italic text-sm">Tell us which investment firm you work with</span>
+      </h3>
+
+      <div class="flex flex-col space-y-2 md:space-y-4 md:w-2/3 border-l-2 border-gray-300 outline-2 outline-white w-full my-4 pl-2 md:my-8 md:pl-8">
+        <%# Investment firm %>
+        <div class="flex flex-row w-full">
+          <div class="flex flex-col md:flex-row w-full space-x-0 md:space-x-4 items-end">
+            <div class="grow relative z-0 mt-4">
+              <%= form.select(
+                    :investor_firm_id,
+                    options_from_collection_for_select(@investor_firms, "id", "name", form.object.investor_firm_id),
+                    { include_blank: true },
+                    class: "appearance-none block mt-2 w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black"
+                  ) %>
+              <%= label_tag :investor_firm_id,
+                            "Investment Firm",
+                            class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+            </div>
+            <div>
+              <%= link_to "Add new firm",
+                          new_investor_firm_path,
+                          form_class: "inline",
+                          class: "w-full rounded-lg py-2 px-5 bg-white text-black inline-block font-medium border-2 border-black cursor-pointer no-underline shadow-full-sm shadow-cyan-800/30 hover:shadow-cyan-700/60 duration-200" %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <%# About the person/role %>
+    <div class="flex flex-col md:flex-row md:items-center">
+
+      <h3 class="md:w-1/3 text-xl font-semibold text-gray-600 md:text-right md:text-center md:pr-8">
+        About <span class="block italic text-sm">Tell us about your role</span>
+      </h3>
+
+      <div class="flex flex-col space-y-2 md:space-y-4 md:w-2/3 border-l-2 border-gray-300 outline-2 outline-white w-full my-4 pl-2 md:my-8 md:pl-8">
+        <%# Title %>
+        <div class="flex flex-col">
+          <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 ">
+
+            <div class="w-full relative z-0 mt-4">
+              <%= form.text_field :title,
+                                  placeholder: " ",
+                                  class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+              <%= label_tag :name,
+                            "Title/Role",
+                            class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+            </div>
+
+          </div>
+        </div>
+
+        <%# Why here %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600 border-l-2 border-gray-300 pl-2">
+            What brought you to the [Re] Launch community?
+          </p>
+
+          <div class="w-full relative z-0 mt-4">
+            <%= form.text_field :why_here,
+                                placeholder: " ",
+                                class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+            <%= label_tag :why_here,
+                          "Why are you here?",
+                          class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+          </div>
+        </div>
+
+        <%# Location %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600 border-l-2 border-gray-300 pl-2">
+            Where are you?
+          </p>
+
+          <%= form.fields_for :physical_location,
+                              form.object.physical_location || form.object.build_physical_location do |physical_location_fields| %>
+            <%= render "physical_locations/physical_location_fields",
+                       form: physical_location_fields,
+                       dynamic_select_path: new_investor_firm_role_path %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%# About the target startups %>
+    <div class="flex flex-col md:flex-row md:items-center">
+
+      <h3 class="md:w-1/3 text-xl font-semibold text-gray-600 md:text-right md:text-center md:pr-8">
+        Target <span class="block italic text-sm">What sort of startups are you interested in investing in?</span>
+      </h3>
+
+      <div class="flex flex-col space-y-2 md:space-y-4 md:w-2/3 border-l-2 border-gray-300 outline-2 outline-white w-full my-4 pl-2 md:my-8 md:pl-8">
+        <%# Stage %>
+        <div class="flex flex-col">
+          <p class="text-xs text-gray-600 border-l-2 border-gray-300 pl-2">
+            What's your target startup stage (<span class="italic">e.g.</span> idea, early/with customers, pre-seed,
+            series-A, etc.)
+          </p>
+
+          <div class="w-full relative z-0 mt-4">
+            <%= form.text_field :investment_target_stage,
+                                placeholder: " ",
+                                class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+            <%= label_tag :investment_target_stage,
+                          "Target startup stage",
+                          class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+          </div>
+        </div>
+
+        <%# Customer %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600 border-l-2 border-gray-300 pl-2">
+            What type of startups are you interested in? (<span class="italic">e.g.</span>
+            <span class="uppercase">b2b, b2c</span>, etc.)
+          </p>
+
+          <div class="w-full relative z-0 mt-4">
+            <%= form.text_field :investment_target_customer,
+                                placeholder: " ",
+                                class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+            <%= label_tag :investment_target_customer,
+                          "Preferred startup target customers",
+                          class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+          </div>
+        </div>
+
+        <%# Industries %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600 border-l-2 border-gray-300 pl-2">
+            What type of industries interested in? (<span class="italic">e.g.</span>
+            <span class="uppercase">logistics, food, hard-tech, dev-tools, fintech</span>, etc.)
+          </p>
+
+          <div class="w-full relative z-0 mt-4">
+            <%= form.text_field :investment_target_industries,
+                                placeholder: " ",
+                                class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+            <%= label_tag :investment_target_industries,
+                          "Preferred startup target industries",
+                          class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-center items-center text-center w-full md:justify-end mt-4">
+      <%= form.submit t(".submit"),
+                      class: "w-full md:w-1/5 rounded-lg py-2 px-5 bg-white text-black inline-block font-medium border-2 border-black cursor-pointer no-underline shadow-full-sm shadow-cyan-800/30 hover:shadow-cyan-700/60 duration-200" %>
+    </div>
+
+  </div>
+<% end %>

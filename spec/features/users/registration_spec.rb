@@ -10,7 +10,7 @@ RSpec.describe "User Registration Sequence" do
     before do
       visit "/"
 
-      within first("section#sign-up") do
+      within first("section#sign-up-sign-in") do
         click_link(I18n.t("pages.user_signup.signup_link"))
       end
     end

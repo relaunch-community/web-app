@@ -12,7 +12,7 @@
     </div>
 
     <%# TODO: This should be a hamburger menu %>
-    <%= turbo_frame_tag "navigation", class: "flex items-center" do %>
+    <%= content_tag :div, class: "flex items-center" do %>
       <%= render "layouts/nav" %>
     <% end %>
   </div>

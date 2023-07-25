@@ -8,7 +8,7 @@ RSpec.describe "User Login Sequence" do
       visit "/"
     end
 
-    it { is_expected.to have_selector("section", id: "sign-up") }
+    it { is_expected.to have_selector("section", id: "sign-up-sign-in") }
     it { is_expected.to have_link(I18n.t("pages.user_signup.signup_link"), href: new_user_registration_path) }
   end
 
@@ -21,7 +21,7 @@ RSpec.describe "User Login Sequence" do
     before do
       visit "/"
 
-      within first("section#sign-up") do
+      within first("section#sign-up-sign-in") do
         click_link(I18n.t("pages.user_signup.signup_link"))
       end
 
