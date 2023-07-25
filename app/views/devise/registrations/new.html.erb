@@ -59,13 +59,16 @@
         <div
           class="flex flex-col bg-yellow-200 text-gray-800 font-medium rounded-lg my-3 border-yellow-400 border-4 before:rounded-md before:absolute before:inset-0 before:border-2 before:border-black relative">
 
-          <div class="text-center items-center border-b-2 px-3 py-2 border-b-black">
+          <div class="text-center items-center border-b-2 px-3 py-2 border-b-black z-10">
             <p class="font-bold">
               We're opening up new registrations on the website soon.
             </p>
             <p>
-              For now, join us at <%= link_to "Meetup.com", "https://www.meetup.com/rmfs-chicago/",
-                                              class: "no-underline rounded-lg py-1 px-3 bg-white text-black inline-block border-2 border-red-500" %>
+              For now, join us at <%= link_to "Meetup.com",
+                                              "https://www.meetup.com/rmfs-chicago/",
+                                              class: "no-underline rounded-lg py-1 px-3 bg-white text-black inline-block border-2 border-red-500",
+                                              target: "_blank",
+                                              rel: "noopener" %>
             </p>
           </div>
         </div>

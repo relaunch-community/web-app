@@ -59,6 +59,7 @@
     <orderEntry type="library" scope="PROVIDED" name="devise (v4.9.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.5.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="docile (v1.4.0, rbenv: 3.2.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="dockerfile-rails (v1.5.2, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="dotenv (v2.8.1, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erb_lint (v0.4.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.12.0, rbenv: 3.2.2) [gem]" level="application" />
@@ -70,6 +71,8 @@
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.15.5, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="flipper (v0.28.3, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="flipper-active_record (v0.28.3, rbenv: 3.2.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="fly-ruby (v0.5.1, rbenv: 3.2.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="fly.io-rails (v0.3.5, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="friendly_id (v5.4.2, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.1.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hotwire-livereload (v1.2.3, rbenv: 3.2.2) [gem]" level="application" />
@@ -95,6 +98,7 @@
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.2, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.18.1, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="msgpack (v1.7.2, rbenv: 3.2.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="nats-pure (v2.2.1, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-imap (v0.3.6, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-pop (v0.1.2, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-smtp (v0.3.3, rbenv: 3.2.2) [gem]" level="application" />
@@ -105,6 +109,7 @@
     <orderEntry type="library" scope="PROVIDED" name="paper_trail (v14.0.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parallel (v1.23.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parser (v3.2.2.3, rbenv: 3.2.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="parslet (v2.0.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pathname-common_prefix (v0.0.1, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg (v1.5.3, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="public_suffix (v5.0.3, rbenv: 3.2.2) [gem]" level="application" />
@@ -164,6 +169,7 @@
     <orderEntry type="library" scope="PROVIDED" name="tailwindcss-rails (v2.0.30, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v1.2.2, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="timeout (v0.4.0, rbenv: 3.2.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="toml (v0.3.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tomlrb (v2.0.3, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="turbo-rails (v1.4.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tzinfo (v2.0.6, rbenv: 3.2.2) [gem]" level="application" />
@@ -199,11 +205,15 @@
         <option value="devise:controllers" />
         <option value="devise:install" />
         <option value="devise:views" />
+        <option value="dockerfile" />
         <option value="erb:controller" />
         <option value="erb:mailer" />
         <option value="erb:scaffold" />
         <option value="factory_bot:model" />
         <option value="flipper:active_record" />
+        <option value="fly:app" />
+        <option value="fly:config" />
+        <option value="fly:terraform" />
         <option value="friendly_id" />
         <option value="generator" />
         <option value="helper" />
@@ -278,11 +288,15 @@
         <option value="devise:controllers" />
         <option value="devise:install" />
         <option value="devise:views" />
+        <option value="dockerfile" />
         <option value="erb:controller" />
         <option value="erb:mailer" />
         <option value="erb:scaffold" />
         <option value="factory_bot:model" />
         <option value="flipper:active_record" />
+        <option value="fly:app" />
+        <option value="fly:config" />
+        <option value="fly:terraform" />
         <option value="friendly_id" />
         <option value="generator" />
         <option value="helper" />
@@ -523,6 +537,17 @@
               <RakeTaskImpl description="" fullCommand="db:truncate_all" id="truncate_all" />
             </subtasks>
           </RakeTaskImpl>
+          <RakeTaskImpl description="Deploy fly application" fullCommand="deploy" id="deploy" />
+          <RakeTaskImpl id="fly">
+            <subtasks>
+              <RakeTaskImpl description="Zeroconf/avahi/bonjour discovery" fullCommand="fly:avahi_publish[formation]" id="avahi_publish[formation]" />
+              <RakeTaskImpl description="dbus daemon - used for IPC" fullCommand="fly:dbus_deamon" id="dbus_deamon" />
+              <RakeTaskImpl description="Deploy fly application" fullCommand="fly:deploy" id="deploy" />
+              <RakeTaskImpl description="nats based service discovery" fullCommand="fly:nats_publish[formation]" id="nats_publish[formation]" />
+              <RakeTaskImpl description="" fullCommand="fly:avahi_publish" id="avahi_publish" />
+              <RakeTaskImpl description="" fullCommand="fly:nats_publish" id="nats_publish" />
+            </subtasks>
+          </RakeTaskImpl>
           <RakeTaskImpl id="importmap">
             <subtasks>
               <RakeTaskImpl description="Setup Importmap for the app" fullCommand="importmap:install" id="install" />
@@ -550,6 +575,11 @@
             </subtasks>
           </RakeTaskImpl>
           <RakeTaskImpl description="Prints out your Rack middleware stack" fullCommand="middleware" id="middleware" />
+          <RakeTaskImpl id="mock">
+            <subtasks>
+              <RakeTaskImpl description="Mock server - useful for debugging startup issues" fullCommand="mock:server" id="server" />
+            </subtasks>
+          </RakeTaskImpl>
           <RakeTaskImpl description="Remove schema information from model and fixture files" fullCommand="remove_annotation" id="remove_annotation" />
           <RakeTaskImpl description="Removes the route map from routes.rb" fullCommand="remove_routes" id="remove_routes" />
           <RakeTaskImpl description="Restart app by touching tmp/restart.txt" fullCommand="restart" id="restart" />
