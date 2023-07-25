@@ -1,0 +1,31 @@
+# fly.toml app configuration file generated for relaunch on 2023-07-25T13:04:14-05:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "relaunch"
+primary_region = "ord"
+console_command = "/rails/bin/rails console"
+
+[env]
+  RAILS_SERVE_STATIC_FILES="true"
+  RAILS_LOG_TO_STDOUT="true"
+
+[build.args]
+  BUILDKIT_INLINE_CACHE = '1'
+  RUBY_VERSION = '3.2.2'
+  PG_MAJOR ='14'
+  NODE_MAJOR = '16'
+  TARGET_RAILS_ENV = "production"
+
+[processes]
+  app = "bin/rails server -p 3000"
+  worker = "bundle exec sidekiq -C config/sidekiq.yml"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
