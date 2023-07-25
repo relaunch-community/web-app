@@ -12,5 +12,10 @@
                                                            } %>
       <div class="mx-1 mt-1 duration-500 border-b-2 opacity-0 border-blue-400 group-hover:opacity-100"></div>
     </div>
+  <% else %>
+    <div class="group md:block">
+      <%= link_to "Log in", new_user_session_path, class: "no-underline" %>
+      <div class="mx-1 mt-1 duration-500 border-b-2 opacity-0 border-blue-400 group-hover:opacity-100"></div>
+    </div>
   <% end %>
 </div>

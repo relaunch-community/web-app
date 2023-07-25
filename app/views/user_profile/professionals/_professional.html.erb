@@ -11,27 +11,35 @@
       </h2>
     </div>
 
-    <%= turbo_frame_tag "new-professional-profile", class: "w-full mt-2 md:mt-8" do %>
+    <%= content_tag :div, class: "w-full mt-2 md:mt-8" do %>
       <section id="new-profile">
-        <div class="flex flex-col md:flex-row md:grow md:justify-around space-y-2 md:space-x-4">
+        <div class="flex flex-col md:flex-row md:grow md:justify-around space-y-2 md:space-y-0 md:space-x-4">
           <%# Placeholders %>
-          <div class="border-4 md:border-8 border-gray-800 text-left p-6 md:p-8">
-            <h3 class="font-sans text-xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight">
-              Investor
-            </h3>
-          </div>
 
-          <div class="border-4 md:border-8 border-gray-800 text-left p-6 md:p-8">
-            <h3 class="font-sans text-xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight">
-              Founder
-            </h3>
-          </div>
+          <%= link_to new_investor_firm_role_path, class: "no-underline" do %>
+            <div class="border-4 md:border-8 border-gray-800 text-left p-6 md:p-8  shadow-full-md shadow-cyan-900/30 hover:shadow-cyan-700/60 duration-200">
+              <h3 class="font-sans text-xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight">
+                Investor
+              </h3>
+            </div>
+          <% end %>
 
-          <div class="border-4 md:border-8 border-gray-800 text-left p-6 md:p-8">
-            <h3 class="font-sans text-xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight">
-              Vendor
-            </h3>
-          </div>
+          <%= link_to new_investor_firm_role_path, class: "no-underline" do %>
+            <div class="border-4 md:border-8 border-gray-800 text-left p-6 md:p-8  shadow-full-md shadow-cyan-900/50 hover:shadow-cyan-700/60 duration-200">
+              <h3 class="font-sans text-xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight">
+                Founder
+              </h3>
+            </div>
+          <% end %>
+
+          <%= link_to new_investor_firm_role_path, class: "no-underline" do %>
+            <div class="border-4 md:border-8 border-gray-800 text-left p-6 md:p-8  shadow-full-md shadow-cyan-900/30 hover:shadow-cyan-700/60 duration-200">
+              <h3 class="font-sans text-xl md:text-5xl font-bold uppercase my-2 md:my-4 leading-tight">
+                Vendor
+              </h3>
+            </div>
+          <% end %>
+
         </div>
       </section>
     <% end %>

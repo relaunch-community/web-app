@@ -10,7 +10,8 @@
 #
 # Indexes
 #
-#  index_professionals_user_profiles_on_user_id  (user_id)
+#  index_professionals_user_profiles_on_hash_id  (hash_id) UNIQUE
+#  index_professionals_user_profiles_on_user_id  (user_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -20,17 +21,19 @@ require "rails_helper"
 
 RSpec.describe UserProfile::Professional do
   describe "associations" do
-    subject(:professional_profile) { build(:user_profile_professional) }
+    subject(:professional_profile) { user.professional_profile }
+
+    let(:user) { create(:user) }
 
     it { is_expected.to belong_to(:user) }
   end
 
   describe "attributes" do
-    subject(:professional_profile) { create(:user_profile_professional) }
+    subject(:professional_profile) { user.professional_profile }
+
+    let(:user) { create(:user) }
 
     describe "hash_id" do
-      it { is_expected.to validate_presence_of(self.class.description) }
-
       it "is a uuid" do
         expect(professional_profile.hash_id).to be_a(String)
       end

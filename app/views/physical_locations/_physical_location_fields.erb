@@ -1,28 +1,32 @@
+<% dynamic_select_path ||= new_physical_location_path %>
 <div
-  class="my-5"
   data-controller="dynamic-select search-params">
-  <%= form.label :country %>
-  <%= form.select(
-        :country,
-        options_for_select(ISO3166::Country.all_translated, selected: physical_location.country),
-        {},
-        class: "appearance-none block mt-2 w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black",
-        autocomplete: "off",
-        data: { action: "change->search-params#encode change->dynamic-select#selectClick" }
-      ) %>
-  <a href="<%= new_physical_location_path %>"
-     data-search-params-target="anchor"
-     data-dynamic-select-target="selectClick"
-     data-turbo-frame="<%= form.field_id(:state, :turbo_frame) %>"
-     hidden></a>
+  <div class="w-full relative z-0 mt-4">
+    <%= label_tag :country,
+                  "Country",
+                  class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+    <%= form.select(
+          :country,
+          options_for_select(ISO3166::Country.all_translated, selected: form.object.country),
+          {},
+          class: "appearance-none block mt-2 w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black",
+          autocomplete: "off",
+          data: { action: "change->search-params#encode change->dynamic-select#selectClick" }
+        ) %>
+    <a href="<%= dynamic_select_path %>"
+       data-search-params-target="anchor"
+       data-dynamic-select-target="selectClick"
+       data-turbo-frame="<%= form.field_id(:state, :turbo_frame) %>"
+       hidden></a>
+  </div>
 </div>
 
 <%= turbo_frame_tag form.field_id(:state, :turbo_frame) do %>
-  <% if physical_location.iso3166_subdivisions.present? %>
+  <% if form.object.iso3166_subdivisions.present? %>
     <div class="w-full relative z-0 mt-4">
       <%= form.select(
             :state_subdivision,
-            physical_location.iso3166_subdivisions,
+            form.object.iso3166_subdivisions,
             {},
             class: "appearance-none block mt-2 w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black",
             autocomplete: "off",

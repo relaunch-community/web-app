@@ -1,0 +1,56 @@
+<div
+  id="<%= dom_id firm_role %>"
+  class="flex flex-col space-y-1 md:space-y-2">
+
+  <div class="space-y-1 md:space-y-2 border-2 border-black outline-2 outline-white w-full p-4 rounded-lg">
+    <%# Name %>
+    <p class="">
+      <strong class="font-bold">Name:</strong>
+      <%# gross %>
+      <%= firm_role.professional_profile.user.personal_profile.full_name %>
+    </p>
+
+    <%# Title %>
+    <p class="">
+      <strong class="font-bold">Title:</strong>
+      <%= firm_role.title %>
+    </p>
+
+    <%# why here %>
+    <p class="">
+      <strong class="font-bold">Why I'm here:</strong>
+      <%= firm_role.why_here %>
+    </p>
+
+    <div class="flex flex-col">
+      <p class="">
+        <strong class="block font-bold">Target startup criteria</strong>
+      </p>
+
+      <div class="flex flex-col space-y-1 ml-2 md:ml-4">
+        <div>
+          <p class="">
+            <strong class="font-medium">Stage:</strong>
+            <%= firm_role.investment_target_stage %>
+          </p>
+        </div>
+
+        <div>
+          <p class="">
+            <strong class="font-medium">Industries:</strong>
+            <%= firm_role.investment_target_industries %>
+          </p>
+        </div>
+
+        <div>
+          <p class="">
+            <strong class="font-medium">Target customer type:</strong>
+            <%= firm_role.investment_target_customer %>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -12,7 +12,7 @@
 #  overview              :string(1024)
 #  prepopulated_pronouns :text             not null
 #  pronoun_visibility    :boolean
-#  visibility            :integer          not null
+#  visibility            :integer
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  hash_id               :uuid
@@ -20,8 +20,10 @@
 #
 # Indexes
 #
+#  index_personals_user_profiles_on_email_address       (email_address) UNIQUE
+#  index_personals_user_profiles_on_hash_id             (hash_id) UNIQUE
 #  index_personals_user_profiles_on_pronoun_visibility  (pronoun_visibility)
-#  index_personals_user_profiles_on_user_id             (user_id)
+#  index_personals_user_profiles_on_user_id             (user_id) UNIQUE
 #  index_personals_user_profiles_on_visibility          (visibility)
 #
 # Foreign Keys
@@ -76,6 +78,10 @@ class UserProfile::Personal < ApplicationRecord
             uniqueness: true,
             unless: ->(profile) { profile.linkedin_url.blank? }
 
+  validates :linkedin_url,
+            url: { public_suffix: true },
+            unless: ->(profile) { profile.linkedin_url.blank? }
+
   validates :headline, length: { maximum: 128 }
   validates :overview, length: { maximum: 1024 }
 
@@ -92,4 +98,8 @@ class UserProfile::Personal < ApplicationRecord
 
   encrypts :email_address, deterministic: true, ignore_case: true
   encrypts :linkedin_url, deterministic: true, ignore_case: true
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end

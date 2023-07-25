@@ -14,6 +14,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  roles_mask             :integer
 #  sign_in_count          :integer          default(0), not null
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -23,6 +24,7 @@
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_roles_mask            (roles_mask)
 #
 require "rails_helper"
 
@@ -47,11 +49,11 @@ RSpec.describe User do
     it { is_expected.to have_encrypted_attribute(:email) }
 
     context "when creating a user with a duplicate email address" do
-      let(:user1) { subject }
-      let(:user2) { user1.deep_dup }
+      let(:user_original) { subject }
+      let(:user_dup) { user_original.deep_dup }
 
-      it { expect(user1).to be_persisted }
-      it { expect { user2.save! }.to raise_error(ActiveRecord::RecordInvalid, /Email has already been taken/) }
+      it { expect(user_original).to be_persisted }
+      it { expect { user_dup.save! }.to raise_error(ActiveRecord::RecordInvalid, /Email has already been taken/) }
     end
   end
 

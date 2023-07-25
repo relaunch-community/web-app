@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_19_150249) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_24_232942) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -26,6 +26,37 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_150249) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "investor_firm_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "professional_profile_id", null: false
+    t.uuid "investor_firm_id", null: false
+    t.bigint "physical_location_id"
+    t.text "title"
+    t.text "why_here"
+    t.text "investment_target_stage"
+    t.text "investment_target_customer"
+    t.text "investment_target_industries"
+    t.text "investment_target_locations"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["investor_firm_id"], name: "index_investor_firm_roles_on_investor_firm_id"
+    t.index ["physical_location_id"], name: "index_investor_firm_roles_on_physical_location_id"
+    t.index ["professional_profile_id"], name: "index_investor_firm_roles_on_professional_profile_id"
+  end
+
+  create_table "investor_firms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "name"
+    t.text "slug"
+    t.text "thesis"
+    t.text "overview"
+    t.text "site_url"
+    t.bigint "physical_location_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_investor_firms_on_name", unique: true
+    t.index ["physical_location_id"], name: "index_investor_firms_on_physical_location_id"
+    t.index ["slug"], name: "index_investor_firms_on_slug", unique: true
+  end
+
   create_table "personals_user_profiles", force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "hash_id"
@@ -39,10 +70,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_150249) do
     t.string "email_address", limit: 319, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "visibility", null: false
+    t.integer "visibility"
     t.boolean "pronoun_visibility"
+    t.index ["email_address"], name: "index_personals_user_profiles_on_email_address", unique: true
+    t.index ["hash_id"], name: "index_personals_user_profiles_on_hash_id", unique: true
     t.index ["pronoun_visibility"], name: "index_personals_user_profiles_on_pronoun_visibility"
-    t.index ["user_id"], name: "index_personals_user_profiles_on_user_id"
+    t.index ["user_id"], name: "index_personals_user_profiles_on_user_id", unique: true
     t.index ["visibility"], name: "index_personals_user_profiles_on_visibility"
   end
 
@@ -53,6 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_150249) do
     t.text "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["hash_id"], name: "index_physical_locations_on_hash_id", unique: true
   end
 
   create_table "professionals_user_profiles", force: :cascade do |t|
@@ -60,7 +94,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_150249) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "hash_id"
-    t.index ["user_id"], name: "index_professionals_user_profiles_on_user_id"
+    t.index ["hash_id"], name: "index_professionals_user_profiles_on_hash_id", unique: true
+    t.index ["user_id"], name: "index_professionals_user_profiles_on_user_id", unique: true
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -79,8 +114,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_150249) do
     t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "roles_mask"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["roles_mask"], name: "index_users_on_roles_mask"
   end
 
   create_table "versions", force: :cascade do |t|
@@ -94,6 +131,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_150249) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "investor_firm_roles", "investor_firms"
+  add_foreign_key "investor_firm_roles", "professionals_user_profiles", column: "professional_profile_id"
   add_foreign_key "personals_user_profiles", "users"
   add_foreign_key "professionals_user_profiles", "users"
 end

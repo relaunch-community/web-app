@@ -18,7 +18,9 @@ if Rails.env.development? || Rails.env.test?
     user_emails = %w[admin@rmfs.com founder@examplestartup.com vendor@exampleagency.com]
 
     user_emails.map do |email|
-      create(:user, email: email, encrypted_password: Devise::Encryptor.digest(User, "passwordpassword"))
+      user = create(:user, email: email, encrypted_password: Devise::Encryptor.digest(User, "passwordpassword"))
+      create(:user_profile_personal, user: user)
+      # Professional profile created in callback via User model
     end
   end
 

@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
+  namespace :investor do
+    resources :firm_roles
+    resources :firms do
+      resources :firm_roles
+    end
+  end
+
   resources :physical_locations
   namespace :user_profile, path: :profile do
     resources :personals, path: :personal
-    resources :professionals, path: :professional
+    resources :professionals, path: :professional, except: [:new, :create]
   end
 
   devise_for :users, controllers: {

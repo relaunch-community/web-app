@@ -1,0 +1,27 @@
+<div id="<%= dom_id firm %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Name:</strong>
+    <%= firm.name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Thesis:</strong>
+    <%= firm.thesis %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Overview:</strong>
+    <%= firm.overview %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Site url:</strong>
+    <%= firm.site_url %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this firm", firm, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this firm", edit_investor_firm_path(firm), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

@@ -2,12 +2,17 @@
 #
 # Table name: physical_locations
 #
-#  id                :uuid             not null, primary key
+#  id                :bigint           not null, primary key
 #  city              :text
 #  country           :text
 #  state_subdivision :text
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  hash_id           :uuid
+#
+# Indexes
+#
+#  index_physical_locations_on_hash_id  (hash_id) UNIQUE
 #
 class PhysicalLocation < ApplicationRecord
   include FriendlyId

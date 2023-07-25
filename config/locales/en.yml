@@ -35,7 +35,34 @@ en:
     show:
       header: "Get started by creating a profile."
 
-  physical_locations:
+  investor:
+    firms:
+      create:
+        create_success: The investment firm was successfully created!
+      update:
+        update_success: The investment firm has been successfully updated!
+      destroy:
+        destroy_success: The investment firm has been successfully destroyed!
+      form:
+        errors:
+          messages:
+            not_saved_header: Hm, we couldn't save your firm.
+        submit: "Create firm"
+
+    firm_roles:
+      create:
+        create_success: Your investment firm role was successfully created!
+      update:
+        update_success: Your investment firm role has been successfully updated!
+      destroy:
+        destroy_success: The investment firm role has been successfully destroyed!
+      form:
+        errors:
+          messages:
+            not_saved_header: Hm, we couldn't save your firm role.
+        submit: "Create role"
+
+    physical_locations:
     create:
       create_success: The physical location was successfully created!
     update:

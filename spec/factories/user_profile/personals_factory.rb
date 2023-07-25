@@ -3,9 +3,13 @@ FactoryBot.define do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
 
-    email_address { Faker::Internet.email }
+    transient do
+      url_safe_name { full_name.gsub(" ", "-") }
+    end
+
+    email_address { Faker::Internet.email(name: url_safe_name, domain: "relaunchcommunity.org") }
     freeform_pronouns { Faker::Lorem.words(number: 3).join("/").truncate(32) }
-    linkedin_url { Faker::Lorem.characters(number: 45, min_alpha: 45) }
+    linkedin_url { Faker::Internet.url(host: "relaunchcommunity.org", path: "/#{url_safe_name.downcase}", scheme: "https") }
     overview { Faker::Lorem.words(number: 30).join(" ").truncate(1024) }
 
     prepopulated_pronouns { UserProfile::Personal.prepopulated_pronouns.keys.sample }
