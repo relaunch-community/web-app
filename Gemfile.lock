@@ -111,6 +111,8 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.5.0)
     docile (1.4.0)
+    dockerfile-rails (1.5.2)
+      rails
     dotenv (2.8.1)
     erb_lint (0.4.0)
       activesupport
@@ -137,6 +139,12 @@ GEM
     flipper-active_record (0.28.3)
       activerecord (>= 4.2, < 8)
       flipper (~> 0.28.3)
+    fly-ruby (0.5.1)
+      rack (~> 2.0)
+    fly.io-rails (0.3.5)
+      fly-ruby
+      nats-pure
+      toml
     friendly_id (5.4.2)
       activerecord (>= 4.0.0)
     globalid (1.1.0)
@@ -201,6 +209,7 @@ GEM
     mini_mime (1.1.2)
     minitest (5.18.1)
     msgpack (1.7.2)
+    nats-pure (2.2.1)
     net-imap (0.3.6)
       date
       net-protocol
@@ -224,6 +233,7 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
+    parslet (2.0.0)
     pathname-common_prefix (0.0.1)
     pg (1.5.3)
     public_suffix (5.0.3)
@@ -379,6 +389,8 @@ GEM
       railties (>= 6.0.0)
     thor (1.2.2)
     timeout (0.4.0)
+    toml (0.3.0)
+      parslet (>= 1.8.0, < 3.0.0)
     tomlrb (2.0.3)
     turbo-rails (1.4.0)
       actionpack (>= 6.0.0)
@@ -423,11 +435,13 @@ DEPENDENCIES
   countries (~> 5.5.0)
   debug
   devise (~> 4.9)
+  dockerfile-rails (>= 1.5)
   erb_lint
   factory_bot_rails (~> 6.2)
   faker (~> 3.2)
   flipper (~> 0.28.3)
   flipper-active_record (~> 0.28.3)
+  fly.io-rails (~> 0.3.5)
   friendly_id (~> 5.4.0)
   hotwire-livereload
   importmap-rails

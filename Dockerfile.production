@@ -1,13 +1,14 @@
 # syntax=docker/dockerfile:1
 
 # docker build --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY -f Dockerfile.production "."
+# docker build --build-arg TARGET_RAILS_ENV="production" --build-arg RAILS_MASTER_KEY="$RAILS_MASTER_KEY" -f Dockerfile.production .
 # docker run -it -e RAILS_SERVE_STATIC_FILES=true -e RAILS_LOG_TO_STDOUT=true -p 3000:3000 <image from last step>
 
 ARG RUBY_VERSION=3.2.2
 ARG PG_MAJOR=14
 ARG DISTRO_NAME=bullseye
 ARG TARGET_RAILS_ENV=development
-ARG RAILS_MASTER_KEY
+ARG RAILS_MASTER_KEY=DUMMY
 
 FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME as base
 
@@ -129,8 +130,9 @@ RUN apt-get update -qq \
 RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgres-archive-keyring.gpg \
   && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/postgres-archive-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/" \
     $DISTRO_NAME-pgdg main $PG_MAJOR | tee /etc/apt/sources.list.d/postgres.list > /dev/null
-RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     libpq-dev \
     postgresql-client-$PG_MAJOR
 
@@ -144,6 +146,12 @@ RUN groupadd --gid 1005 relaunchcommunity \
   && useradd --uid 1005 --gid relaunchcommunity --shell /bin/bash --create-home relaunchcommunity
 
 RUN mkdir /home/relaunchcommunity/app
+
+RUN --mount=type=secret,id=RAILS_MASTER_KEY_SECRET \
+    RAILS_MASTER_KEY_SECRET="$(cat /run/secrets/RAILS_MASTER_KEY_SECRET)" \
+    echo "$RAILS_MASTER_KEY_SECRET" > /home/relaunchcommunity/secret && \
+    chown relaunchcommunity:relaunchcommunity /home/relaunchcommunity/secret
+
 WORKDIR /home/relaunchcommunity/app
 USER relaunchcommunity
 
@@ -159,8 +167,9 @@ COPY --chown=relaunchcommunity:relaunchcommunity . .
 
 COPY --from=common-builder $BUNDLE_PATH $BUNDLE_PATH
 
-# Precompile for all environments
-RUN bundle exec rails assets:precompile
+# Precompile for all envs for
+RUN RAILS_MASTER_KEY="$(cat /home/relaunchcommunity/secret)" \
+    ./bin/rails assets:precompile
 
 SHELL ["/bin/bash", "-c"]
 
@@ -177,7 +186,9 @@ ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 
 # TODO: make use of SECRET_KEY_BASE_DUMMY=1
 # Ref: https://rubyonrails.org/2022/12/23/this-week-in-rails-rails-on-docker-local-environment-inquirer-and-more-27aa9ed4
-RUN if [[ -n "${RAILS_ENV}" ]] 2> /dev/null && [ "${RAILS_ENV}" == "production" ]; then echo "in production";  fi
+RUN if [[ -n "${RAILS_ENV}" ]] 2> /dev/null && [ "${RAILS_ENV}" == "production" ]; then  \
+    echo "in production"; \
+    fi
 
 FROM pre-env AS env-test-builder
 

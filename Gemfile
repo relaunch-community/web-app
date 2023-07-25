@@ -110,3 +110,7 @@ gem "maintenance_tasks", "~> 2.0"
 
 gem "paper_trail", "~> 14.0"
 gem "pundit", "~> 2.3"
+
+gem "dockerfile-rails", ">= 1.5", :group => :development
+
+gem "fly.io-rails", "~> 0.3.5"
