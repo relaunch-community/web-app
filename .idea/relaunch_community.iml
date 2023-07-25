@@ -68,6 +68,8 @@
     <orderEntry type="library" scope="PROVIDED" name="faraday (v2.7.10, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday-net_http (v3.0.2, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.15.5, rbenv: 3.2.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="flipper (v0.28.3, rbenv: 3.2.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="flipper-active_record (v0.28.3, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="friendly_id (v5.4.2, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.1.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hotwire-livereload (v1.2.3, rbenv: 3.2.2) [gem]" level="application" />
@@ -201,6 +203,7 @@
         <option value="erb:mailer" />
         <option value="erb:scaffold" />
         <option value="factory_bot:model" />
+        <option value="flipper:active_record" />
         <option value="friendly_id" />
         <option value="generator" />
         <option value="helper" />
@@ -279,6 +282,7 @@
         <option value="erb:mailer" />
         <option value="erb:scaffold" />
         <option value="factory_bot:model" />
+        <option value="flipper:active_record" />
         <option value="friendly_id" />
         <option value="generator" />
         <option value="helper" />

@@ -4,10 +4,13 @@ RSpec.describe "Dashboards" do
   describe "GET /show without a personal profile" do
     let(:user) { create(:user) }
 
-    before do
+    around do |ex|
       # https://stackoverflow.com/questions/10121835/how-do-i-simulate-a-login-with-rspec
       # https://stackoverflow.com/questions/27284657/undefined-method-env-for-nilnilclass-in-setup-controller-for-warden-error
+      # https://rubydoc.info/gems/rspec-core/RSpec%2FCore%2FHooks:around
       login_as user
+      ex.run
+      logout
     end
 
     it "redirects to the new personal profile form" do
@@ -19,10 +22,13 @@ RSpec.describe "Dashboards" do
   describe "GET /show with a personal profile, without a professional profile" do
     let(:user) { create(:user_with_personal_profile) }
 
-    before do
+    around do |ex|
       # https://stackoverflow.com/questions/10121835/how-do-i-simulate-a-login-with-rspec
       # https://stackoverflow.com/questions/27284657/undefined-method-env-for-nilnilclass-in-setup-controller-for-warden-error
+      # https://rubydoc.info/gems/rspec-core/RSpec%2FCore%2FHooks:around
       login_as user
+      ex.run
+      logout
     end
 
     it "redirects to the new professional profile form" do
