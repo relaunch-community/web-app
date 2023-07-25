@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   # ref https://stackoverflow.com/questions/17743696/rails-routing-resources-with-only-custom-actions
   scope "/", controller: :pages do
     get :index
+    get "about", to: "pages#about"
     get "privacy-policy", to: "pages#privacy_policy"
     get "code-of-conduct", to: "pages#code_of_conduct"
     get "anti-harassment", to: "pages#anti_harassment"
