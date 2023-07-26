@@ -1,6 +1,6 @@
-# Relaunch Community - Web App
+# [Re] Launch Community - Web App
 
-Web app for the Relaunch Community @ https://rmfs.com
+Web app for the [Re] Launch Community @ https://relaunchcommunity.org
 
 ## Community
 
@@ -10,7 +10,7 @@ Startups are companies which are, “designed to grow fast.” If you’re looki
 
 If you’re starting a small-business aimed at steady growth, that’s fantastic and commendable, but this isn’t the group for you.
 
-The process of starting up can be long, winding, and lonely; RMFS’ goal is to provide a community for founders. In service of this goal, I ask that you be respectful of and to each-other and the group.
+The process of starting up can be long, winding, and lonely; [Re] Launch's goal is to provide a community for founders. In service of this goal, I ask that you be respectful of and to each-other and the group.
 
 ## Contributing
 
