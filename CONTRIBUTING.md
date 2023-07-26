@@ -1,4 +1,4 @@
-# Contributing to the Relaunch Community Web App
+# Contributing to the [Re] Launch Community Web App
 
 ## Style guide
 
@@ -227,7 +227,7 @@ encrypted records and sessions across, well, your sessions! It'll be easy!
 ### Individual Contributor License Agreement
 
 This project requires an Individual Contributor License Agreement (ICLA) to be signed
-by all contributors, to protect contributors and the Relaunch Community's rights.
+by all contributors, to protect contributors and the [Re] Launch Community's rights.
 
 Details are available at https://gist.github.com/momer/c6685b0ca4d2573b43c10a265d65bfa3
 
@@ -235,7 +235,7 @@ We use https://cla-assistant.io/ to help manage this!
 
 ### Privacy Policy
 
-The Privacy Policy found at https://rmfs.com/privacy-policy applies to data
+The Privacy Policy found at https://relaunchcommunity.org/privacy-policy applies to data
 collection related to the ICLA and by other means or software
 relating to the management of software contributors and/or software itself
 (*e.g.* GitHub, GitLab, etc.).
