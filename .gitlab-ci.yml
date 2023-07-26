@@ -39,6 +39,7 @@ build-test:
         --cache-from $CONTAINER_TEST_IMAGE
         --pull
         -t $CONTAINER_TEST_IMAGE
+        --secret id=RAILS_MASTER_KEY_SECRET,env=RAILS_MASTER_KEY_TEST
         --build-arg BUILDKIT_INLINE_CACHE=1
         --build-arg TARGET_RAILS_ENV="test"
         --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY_TEST
