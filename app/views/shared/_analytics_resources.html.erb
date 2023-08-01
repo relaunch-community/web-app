@@ -1,3 +1,12 @@
-<% if Rails.application.config.fathom[:site_id].present? %>
-  <script src="https://cdn.usefathom.com/script.js" data-site="<%= Rails.application.config.fathom[:site_id] %>" defer></script>
+<% if Rails.application.config.site_analytics.dig(:google_analytics, :site_id).present? %>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= Rails.application.config.site_analytics[:google_analytics][:site_id] %>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '<%= Rails.application.config.site_analytics[:google_analytics][:site_id].to_json %>');
+  </script>
+
 <% end %>
