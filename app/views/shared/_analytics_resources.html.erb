@@ -6,7 +6,7 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', '<%= Rails.application.config.site_analytics[:google_analytics][:site_id].to_json %>');
+    gtag('config', <%== Rails.application.config.site_analytics[:google_analytics][:site_id].to_json %>);
   </script>
 
 <% end %>
