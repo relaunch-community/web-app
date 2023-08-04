@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  namespace :founder do
+    resources :firm_roles
+    resources :firms do
+      resources :firm_roles
+    end
+  end
+
   namespace :investor do
     resources :firm_roles
     resources :firms do

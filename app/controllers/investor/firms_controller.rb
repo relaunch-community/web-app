@@ -23,7 +23,10 @@ class Investor::FirmsController < ApplicationController
 
   # GET /investor/firms/new
   def new
-    @investor_firm = Investor::Firm.new(investor_firm_params)
+    @investor_firm = current_user
+                     .professional_profile
+                     .managed_investor_firms
+                     .build(investor_firm_params)
     authorize @investor_firm
   end
 
@@ -33,7 +36,10 @@ class Investor::FirmsController < ApplicationController
 
   # POST /investor/firms or /investor/firms.json
   def create
-    @investor_firm = Investor::Firm.new(investor_firm_params)
+    @investor_firm = current_user
+                     .professional_profile
+                     .managed_investor_firms
+                     .build(investor_firm_params)
     authorize @investor_firm
 
     respond_to do |format|

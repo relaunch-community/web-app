@@ -32,6 +32,12 @@ class PhysicalLocation < ApplicationRecord
               if: ->(location) { location.iso3166_country.present? }
             }
 
+  before_save :capitalize_city!
+
+  def self.default_country
+    ISO3166::Country.find_country_by_alpha2("us").common_name
+  end
+
   def iso3166_country
     ISO3166::Country.find_country_by_any_name(country)
   end
@@ -41,6 +47,10 @@ class PhysicalLocation < ApplicationRecord
   end
 
   private
+
+  def capitalize_city!
+    city.capitalize!
+  end
 
   def set_default_country
     self.country ||= ISO3166::Country.find_country_by_alpha2("us").common_name

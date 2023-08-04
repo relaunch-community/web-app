@@ -1,0 +1,123 @@
+<div class="flex flex-col md:space-y-4 md:space-x-0 w-full md:mx-0 mx-auto">
+  <h2 class="text-3xl font-semibold mx-auto">
+    Founder Firm Profile - <span class="md:text-center"><%= @founder_firm.name %></span>
+  </h2>
+
+  <div class="flex flex-col space-y-1 md:space-y-2 my-4">
+
+    <%# About %>
+    <div class="flex flex-col md:flex-row md:items-center">
+
+      <h3 class="md:w-1/3 text-xl font-semibold text-gray-600 md:self-start md:text-right md:text-center md:pr-8">
+        About
+      </h3>
+
+      <div class="flex flex-col md:w-2/3 border-l-2 border-gray-300 outline-2 outline-white w-full my-2 p-2 md:p-4 md:pl-8">
+        <%# Kind %>
+        <div class="w-full mt-4 w-full">
+          <span class="text-gray-600 font-semibold">
+            We're a
+          </span>
+
+          <span class=""><%= @founder_firm.firm_kind %></span> headquartered in
+          <%= "#{@founder_firm.headquarters_location.city}, " if @founder_firm.headquarters_location.city %>
+@founder_firm.headquarters_location.state_subdivision.to_s if @founder_firm.headquarters_location.state_subdivision
+", " + @founder_firm.headquarters_location.country unless @founder_firm.headquarters_location.country == PhysicalLocation.default_country
+            %>.
+        </div>
+
+        <%# Target problem %>
+        <div class="flex flex-col mt-4">
+          <p class="text-gray-600 font-semibold">
+            We're focused on solving a specific problem.
+          </p>
+
+          <div class="w-full relative z-0 mt-4 pl-4">
+            <%= @founder_firm.target_problem %>
+          </div>
+        </div>
+
+        <%# Short description %>
+        <div class="flex flex-col mt-4">
+          <p class="text-gray-600 font-semibold">
+            A brief overview of what we do:
+          </p>
+
+          <div class="w-full relative z-0 mt-4 pl-4">
+            <%= @founder_firm.short_description %>
+          </div>
+        </div>
+
+        <% if @founder_firm.long_description.present? %>
+          <%# Long description %>
+          <div class="flex flex-col mt-4">
+            <p class="text-gray-600 font-semibold">
+              That's the high-level. Here's the deep-dive.
+            </p>
+
+            <div class="w-full relative z-0 mt-4 pl-4">
+              <%= @founder_firm.long_description %>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @founder_firm.target_customer.present? %>
+          <%# Target customer %>
+          <div class="flex flex-col mt-4">
+            <p class="text-gray-600 font-semibold">
+              You understand, then, our target customer:
+            </p>
+
+            <div class="w-full relative z-0 mt-4 pl-4">
+              <%= @founder_firm.target_customer %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Contact %>
+    <div class="flex flex-col md:flex-row md:items-center">
+
+      <h3 class="md:w-1/3 text-xl font-semibold text-gray-600 md:self-start md:text-right md:text-center md:pr-8">
+        Contact
+      </h3>
+
+      <div class="flex flex-col md:w-2/3 border-l-2 border-gray-300 outline-2 outline-white w-full my-2 p-2 md:p-4 md:pl-8">
+        <%# Company URL %>
+        <div class="w-full mt-4 w-full">
+          <span class="text-gray-600 font-semibold">
+            Our Website
+          </span>
+
+          is
+          <% if @founder_firm.site_url.present? %>
+            <%= link_to @founder_firm.site_url,
+                        @founder_firm.site_url,
+                        target: "_blank", rel: "noopener" %>
+          <% else %>
+            isn't live yet, but stay tuned: we're launching soon!
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% if @founder_firm_roles&.any? %>
+      <%# People %>
+      <div class="flex flex-col md:flex-row md:items-center">
+
+        <h3 class="md:w-1/3 text-xl font-semibold text-gray-600 md:self-start md:text-right md:text-center md:pr-8">
+          People
+        </h3>
+
+        <div
+          id="<%= nested_dom_id(@founder_firm, "founder_firm_roles") %>"
+          class="flex flex-col md:w-2/3 space-y-4 border-l-2 border-gray-300 outline-2 outline-white w-full my-2 p-2 md:p-4 md:pl-8">
+
+          <%= render @founder_firm_roles %>
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+</div>

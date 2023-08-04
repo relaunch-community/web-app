@@ -1,0 +1,217 @@
+<%= form_with(model: founder_firm,
+              class: "w-full") do |form| %>
+  <%= hidden_field_tag :previous_referer, request.referer %>
+  <div class="flex flex-row justify-end w-full">
+    <div class="md:w-2/3">
+      <%= render partial: "shared/error_messages",
+                 locals: { resource: founder_firm,
+                           error_message_header: t(".errors.messages.not_saved_header") } %>
+    </div>
+  </div>
+
+  <div class="flex flex-col space-y-1 md:space-y-2 my-4">
+
+    <%# About %>
+    <div class="flex flex-col md:flex-row md:items-center">
+
+      <h3 class="md:w-1/3 text-xl font-semibold text-gray-600 md:text-right md:text-center md:pr-8">
+        About <span class="block italic text-sm">What <span class="underline">is</span> the company?</span>
+      </h3>
+
+      <div class="flex flex-col space-y-2 md:space-y-4 md:w-2/3 border-l-2 border-gray-300 outline-2 outline-white w-full my-4 pl-2 md:my-8 md:pl-8">
+        <%# Name %>
+        <div class="flex flex-col">
+          <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 ">
+
+            <div class="w-full relative z-0 mt-4">
+              <%= form.text_field :name,
+                                  placeholder: " ",
+                                  class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+              <%= label_tag :name,
+                            "Company name (required)",
+                            class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+            </div>
+
+          </div>
+        </div>
+
+        <%# Firm kind %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600">
+            What sort of company are you, anyway?! <span class="font-bold uppercase">(required)</span>
+          </p>
+
+          <%= form.select(
+                :firm_kind,
+                Founder::Firm.firm_kinds.key(0),
+                { include_blank: true },
+                class: "appearance-none block mt-2 w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black"
+              ) do %>
+            <% Founder::Firm.firm_kinds.each_pair do |k, _| %>
+              <%= tag.option(k, value: k, selected: k == form.object.firm_kind, html: { class: "" }) %>
+            <% end %>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+
+    <%# Strategy & Ops %>
+    <div class="flex flex-col md:flex-row md:items-center">
+
+      <h3 class="md:w-1/3 text-xl font-semibold text-gray-600 md:text-right md:text-center md:pr-8">
+        Strategy & Operations <span class="block italic text-sm">What are you doing, and how are you doing it?</span>
+      </h3>
+
+      <div class="flex flex-col space-y-2 md:space-y-4 md:w-2/3 border-l-2 border-gray-300 outline-2 outline-white w-full my-4 pl-2 md:my-8 md:pl-8">
+
+        <%# Target problem %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600">
+            What's your problem? Rather, what's the <span class="italic underline">customer-centric</span> problem that you're solving?
+          </p>
+
+          <div class="w-full relative z-0 mt-4">
+            <%= form.text_field :target_problem,
+                                placeholder: " ",
+                                class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+            <%= label_tag :target_problem,
+                          "Target problem (required)",
+                          class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+          </div>
+        </div>
+
+        <%# Short description %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600">
+            So, how <span class="font-bold italic">do</span> you do it? We want to hear alllll about it. Well, uh, as long as you can tell us in 128 characters or fewer (in this field).
+          </p>
+
+          <div class="w-full relative z-0 mt-4">
+            <%= form.text_field :short_description,
+                                placeholder: " ",
+                                class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+            <%= label_tag :short_description,
+                          "Brief description (required)",
+                          class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+          </div>
+        </div>
+
+        <%# Target customer %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600">
+            Who's your target customer?
+          </p>
+
+          <div class="w-full relative z-0 mt-4">
+            <%= form.text_field :target_customer,
+                                placeholder: " ",
+                                class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+            <%= label_tag :target_customer,
+                          "Target Customer",
+                          class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+          </div>
+        </div>
+
+        <%# Long description %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600">
+            Ah! We found some more character storage, if you'd like to tell us a bit more about your company.
+            You've got a whopping 1024 characters - go wild!
+          </p>
+
+          <div class="w-full relative z-0 mt-4">
+            <%= form.text_area :long_description,
+                               placeholder: " ",
+                               rows: 5,
+                               class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+            <%= label_tag :long_description,
+                          "Long description",
+                          class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# The connection, etc. %>
+    <div class="flex flex-col md:flex-row md:items-center">
+
+      <h3 class="md:w-1/3 text-xl font-semibold text-gray-600 md:text-right md:text-center md:pr-8">
+        Contact
+      </h3>
+
+      <div class="flex flex-col md:w-2/3 border-l-2 border-gray-300 outline-2 outline-white w-full my-2 p-2 md:p-4 md:pl-8">
+        <%# Company URL %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600">
+            Provide your Company's website URL for reference!
+            (<span class="italic">e.g.
+            <%= link_to "https://a16z.com/",
+                        "https://a16z.com/",
+                        target: "_blank", rel: "noopener" %></span>)
+          </p>
+
+          <div class="w-full relative z-0 mt-4">
+            <%= form.text_field :site_url,
+                                placeholder: " ",
+                                class: "appearance-none block w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black peer" %>
+            <%= label_tag :site_url,
+                          "Company URL",
+                          class: "absolute uppercase tracking-wide text-black text-xs font-bold duration-200 transform -translate-y-6 scale-75 top-2 -z-10 peer-placeholder-shown:px-2 origin-[0] peer-focus:left-0 peer-focus:px-0 peer-focus:text-gray-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
+          </div>
+        </div>
+
+        <%# HQ Location %>
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600">
+            Where is your headquarters? <span class="font-bold uppercase">(required)</span>
+          </p>
+
+          <%= form.fields_for :headquarters_location,
+                              form.object.headquarters_location || form.object.build_headquarters_location do |physical_location_fields| %>
+            <%= render "physical_locations/physical_location_fields",
+                       form: physical_location_fields,
+                       dynamic_select_path: new_founder_firm_path %>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+
+    <%# Firm Visibility %>
+    <div class="flex flex-col md:flex-row md:items-center">
+
+      <h3 class="md:w-1/3 text-xl font-semibold text-gray-600 md:text-right md:text-center md:pr-8">
+        Visibility
+      </h3>
+
+      <div class="flex flex-col space-y-2 md:space-y-4 md:w-2/3 border-l-2 border-gray-300 outline-2 outline-white w-full my-4 pl-2 md:my-8 md:pl-8">
+        <div class="flex flex-col mt-4">
+          <p class="text-xs text-gray-600">
+            Do you want to be seen, or, are you super stealthy?
+            <span class="italic">Hint: if you've launched, visible is probably<sup>&dagger;</sup> a good thing.</span>
+          </p>
+
+          <%= form.select(
+                :visibility,
+                Founder::Firm.visibilities.key(0),
+                {},
+                class: "appearance-none block mt-2 w-full bg-cyan-800/60 text-white placeholder:text-white border-2 border-black rounded py-3 px-4 leading-tight focus:outline-none focus:border-cyan-800/60 focus:bg-white focus:text-black"
+              ) do %>
+            <% Founder::Firm.visibilities.each_pair do |k, _| %>
+              <%= tag.option(k, value: k, html: { class: "" }) %>
+            <% end %>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="flex justify-center items-center text-center w-full md:justify-end mt-4">
+      <%= form.submit t(".submit"),
+                      class: "w-full md:w-1/5 rounded-lg py-2 px-5 bg-white text-black inline-block font-medium border-2 border-black cursor-pointer no-underline shadow-full-sm shadow-cyan-800/30 hover:shadow-cyan-700/60 duration-200" %>
+    </div>
+
+  </div>
+<% end %>

@@ -1,4 +1,4 @@
-class Investor::FirmPolicy < ApplicationPolicy
+class Founder::FirmPolicy < ApplicationPolicy
   class Scope < Scope
     def initialize(user, record)
       @user = user
@@ -6,7 +6,20 @@ class Investor::FirmPolicy < ApplicationPolicy
     end
 
     def resolve
-      record.all
+      if user.admin?
+        record.all
+      elsif user.present?
+        record
+          .founded_by(user.professional_profile.id)
+          .or(
+            Founder::Firm.publicly_or_internally_visible
+          )
+          .or(
+            Founder::Firm.managed_by(user.professional_profile.id)
+          )
+      else
+        record.publicly_visible
+      end
     end
 
     private
@@ -27,11 +40,11 @@ class Investor::FirmPolicy < ApplicationPolicy
   end
 
   def edit?
-    user.admin? or record.managed_by(user.professional_profile.id)
+    user.admin?
   end
 
   def update?
-    user.admin? or record.managed_by(user.professional_profile.id)
+    user.admin?
   end
 
   def destroy?

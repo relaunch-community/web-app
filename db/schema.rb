@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_25_142117) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_04_161523) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -29,6 +29,74 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_142117) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
+  end
+
+  create_table "founder_firm_reviews", force: :cascade do |t|
+    t.json "proposed_changes"
+    t.text "proposed_changes_comments"
+    t.uuid "user_id", null: false
+    t.uuid "founder_firm_id", null: false
+    t.string "delivery_state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["founder_firm_id"], name: "index_founder_firm_reviews_on_founder_firm_id"
+    t.index ["user_id"], name: "index_founder_firm_reviews_on_user_id"
+  end
+
+  create_table "founder_firm_roles", force: :cascade do |t|
+    t.string "title", null: false
+    t.decimal "ownership_percentage", null: false
+    t.boolean "ownership_confirmation_checkbox", default: false, null: false
+    t.integer "visibility", null: false
+    t.datetime "joined_at"
+    t.datetime "departed_on"
+    t.uuid "founder_firm_id", null: false
+    t.bigint "professional_profile_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["founder_firm_id"], name: "index_founder_firm_roles_on_founder_firm_id"
+    t.index ["professional_profile_id"], name: "index_founder_firm_roles_on_professional_profile_id"
+  end
+
+  create_table "founder_firm_versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.uuid "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_founder_firm_versions_on_item_type_and_item_id"
+  end
+
+  create_table "founder_firms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.text "target_problem", null: false
+    t.text "short_description", null: false
+    t.text "long_description"
+    t.text "site_url"
+    t.text "slug"
+    t.string "target_customer"
+    t.string "target_industries"
+    t.string "target_locations"
+    t.datetime "founded_at"
+    t.datetime "ended_on"
+    t.integer "visibility", null: false
+    t.json "field_visibility"
+    t.string "review_state"
+    t.integer "firm_kind", null: false
+    t.text "firm_kind_justification"
+    t.bigint "headquarters_location_id"
+    t.bigint "incorporation_location_id"
+    t.bigint "professional_profile_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["headquarters_location_id"], name: "index_founder_firms_on_headquarters_location_id"
+    t.index ["incorporation_location_id"], name: "index_founder_firms_on_incorporation_location_id"
+    t.index ["name"], name: "index_founder_firms_on_name", unique: true
+    t.index ["professional_profile_id"], name: "index_founder_firms_on_professional_profile_id"
+    t.index ["review_state"], name: "index_founder_firms_on_review_state"
+    t.index ["slug"], name: "index_founder_firms_on_slug", unique: true
+    t.index ["visibility"], name: "index_founder_firms_on_visibility"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -68,8 +136,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_142117) do
     t.bigint "physical_location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "professional_profile_id"
     t.index ["name"], name: "index_investor_firms_on_name", unique: true
     t.index ["physical_location_id"], name: "index_investor_firms_on_physical_location_id"
+    t.index ["professional_profile_id"], name: "index_investor_firms_on_professional_profile_id"
     t.index ["slug"], name: "index_investor_firms_on_slug", unique: true
   end
 
@@ -147,8 +217,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_142117) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "founder_firm_reviews", "founder_firms"
+  add_foreign_key "founder_firm_reviews", "users"
+  add_foreign_key "founder_firm_roles", "founder_firms"
+  add_foreign_key "founder_firm_roles", "professionals_user_profiles", column: "professional_profile_id"
+  add_foreign_key "founder_firms", "physical_locations", column: "headquarters_location_id"
+  add_foreign_key "founder_firms", "physical_locations", column: "incorporation_location_id"
+  add_foreign_key "founder_firms", "professionals_user_profiles", column: "professional_profile_id"
   add_foreign_key "investor_firm_roles", "investor_firms"
   add_foreign_key "investor_firm_roles", "professionals_user_profiles", column: "professional_profile_id"
+  add_foreign_key "investor_firms", "professionals_user_profiles", column: "professional_profile_id"
   add_foreign_key "personals_user_profiles", "users"
   add_foreign_key "professionals_user_profiles", "users"
 end

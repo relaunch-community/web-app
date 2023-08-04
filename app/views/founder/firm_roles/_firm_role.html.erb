@@ -1,0 +1,19 @@
+<div
+  id="<%= dom_id firm_role %>"
+  class="flex flex-col space-y-1 md:space-y-2">
+
+  <div class="space-y-1 md:space-y-2 border-2 border-black outline-2 outline-white w-full p-4 rounded-lg">
+    <%# Name %>
+    <p class="">
+      <strong class="font-bold">Name:</strong>
+      <%# gross %>
+      <%= firm_role.professional_profile.user.personal_profile.full_name %>
+    </p>
+
+    <%# Title %>
+    <p class="">
+      <strong class="font-bold">Title:</strong>
+      <%= firm_role.title %>
+    </p>
+  </div>
+</div>
