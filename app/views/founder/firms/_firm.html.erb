@@ -1,0 +1,47 @@
+<div id="<%= dom_id firm %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Id:</strong>
+    <%= firm.id %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Name:</strong>
+    <%= firm.name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Short description:</strong>
+    <%= firm.short_description %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Site url:</strong>
+    <%= firm.site_url %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Slug:</strong>
+    <%= firm.slug %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Founded date:</strong>
+    <%= firm.founded_date %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Ended date:</strong>
+    <%= firm.ended_date %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Physical location:</strong>
+    <%= firm.physical_location_id %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this firm", firm, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this firm", edit_firm_path(firm), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

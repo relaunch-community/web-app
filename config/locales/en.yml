@@ -30,10 +30,47 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    models:
+      founder:
+        firm_role:
+          must_confirm_ownership: "You must confirm that your stated ownership stake is accurate."
   unauthorized_access: "Sorry! You don't have access to do that!"
   dashboard:
     show:
       header: "Get started by creating a profile."
+
+  founder:
+    firms:
+      create:
+        create_success: Your company was successfully created!
+        create_success_with_redirect: Your company was successfully created! Tell us what you do there!
+      update:
+        update_success: Your company has been successfully updated!
+      destroy:
+        destroy_success: Your company has been successfully destroyed!
+      form:
+        errors:
+          messages:
+            not_saved_header: Hm, we couldn't save your firm.
+        submit: "Create firm"
+
+    firm_roles:
+      create:
+        create_success: Your firm role was successfully created!
+      update:
+        update_success: Your firm role has been successfully updated!
+      destroy:
+        destroy_success: The firm role has been successfully destroyed!
+      form:
+        errors:
+          messages:
+            not_saved_header: Hm, we couldn't save your firm role.
+        submit: "Create role"
+        ownership_confirmation_label: |
+          I confirm that the ownership stake input on this form is accurate.
+        ownership_confirmation_sublabel: |
+          I further agree to notify [Re] Launch, within a reasonable time-frame, if this should change.
 
   investor:
     firms:
