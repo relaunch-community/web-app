@@ -108,7 +108,7 @@ end
 
 gem "maintenance_tasks", "~> 2.0"
 
-gem "paper_trail", "~> 14.0"
+gem "paper_trail", "~> 15.0"
 gem "pundit", "~> 2.3"
 
 gem "dockerfile-rails", ">= 1.5", :group => :development

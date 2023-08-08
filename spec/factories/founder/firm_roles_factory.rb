@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :founder_firm_role, class: "Founder::FirmRole" do
     sequence(:title) { |n| "#{Faker::Job.title} #{n}" }
     ownership_percentage { rand(1.0..100.0) }
-    ownership_confirmation_checkbox { false }
+    ownership_confirmation_checkbox { true }
 
     joined_at { 1.year.ago }
 

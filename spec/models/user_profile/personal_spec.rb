@@ -2,21 +2,23 @@
 #
 # Table name: personals_user_profiles
 #
-#  id                    :bigint           not null, primary key
-#  email_address         :string(319)      not null
-#  first_name            :text
-#  freeform_pronouns     :text
-#  headline              :string(128)
-#  last_name             :text
-#  linkedin_url          :text
-#  overview              :string(1024)
-#  prepopulated_pronouns :text             not null
-#  pronoun_visibility    :boolean
-#  visibility            :integer
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  hash_id               :uuid
-#  user_id               :uuid             not null
+#  id                     :bigint           not null, primary key
+#  email_address          :string(319)      not null
+#  first_name             :text
+#  freeform_pronouns      :text
+#  headline               :string(128)
+#  last_name              :text
+#  linkedin_url           :text
+#  original_email_address :string           not null
+#  original_linkedin_url  :text
+#  overview               :string(1024)
+#  prepopulated_pronouns  :text             not null
+#  pronoun_visibility     :boolean
+#  visibility             :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  hash_id                :uuid
+#  user_id                :uuid             not null
 #
 # Indexes
 #
@@ -33,6 +35,15 @@
 require "rails_helper"
 
 RSpec.describe UserProfile::Personal do
+  describe "associations" do
+    subject!(:personal_profile) { user.build_personal_profile }
+
+    let(:user) { create(:user) }
+
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_many(:versions).class_name("UserProfile::PersonalVersion") }
+  end
+
   describe "attributes" do
     # Required for validations; otherwise, rspec will fill-in the gaps
     subject!(:personal_profile) { build(:user_profile_personal) }
@@ -226,6 +237,16 @@ RSpec.describe UserProfile::Personal do
               .to(true)
           )
       end
+    end
+  end
+
+  describe "versioning" do
+    subject!(:personal_profile) { create(:user_profile_personal) }
+
+    it "saves a new version" do
+      # rubocop:disable Rails/SkipsModelValidations
+      expect { personal_profile.touch }.to change(personal_profile.versions, :count).by(1)
+      # rubocop:enable Rails/SkipsModelValidations
     end
   end
 end

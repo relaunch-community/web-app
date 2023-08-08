@@ -37,6 +37,7 @@ RSpec.describe Investor::FirmRole do
     it { is_expected.to belong_to(:investor_firm) }
     it { is_expected.to belong_to(:physical_location) }
     it { is_expected.to belong_to(:professional_profile) }
+    it { is_expected.to have_many(:versions).class_name("Investor::FirmRoleVersion") }
   end
 
   describe "attributes" do
@@ -68,6 +69,18 @@ RSpec.describe Investor::FirmRole do
       it "is a string" do
         expect(investor_firm_role.why_here).to be_a(String)
       end
+    end
+  end
+
+  describe "versioning" do
+    subject(:investor_firm_role) { create(:investor_firm_role, professional_profile: user.professional_profile) }
+
+    let(:user) { create(:user) }
+
+    it "saves a new version" do
+      # rubocop:disable Rails/SkipsModelValidations
+      expect { investor_firm_role.touch }.to change(investor_firm_role.versions, :count).by(1)
+      # rubocop:enable Rails/SkipsModelValidations
     end
   end
 end

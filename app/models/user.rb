@@ -11,6 +11,7 @@
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  locked_at              :datetime
+#  original_email         :string           default(""), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -27,6 +28,8 @@
 #  index_users_on_roles_mask            (roles_mask)
 #
 class User < ApplicationRecord
+  ROLES = %w[superadmin admin]
+
   include Flipper::Identifier
 
   # Include default devise modules. Others available are:
@@ -37,7 +40,7 @@ class User < ApplicationRecord
   # TODO: configure omniauth
   # , :omniauthable
 
-  encrypts :email, deterministic: true, ignore_case: true
+  has_paper_trail versions: { class_name: "UserVersion" }
 
   has_one :professional_profile, class_name: "UserProfile::Professional", dependent: :destroy
   has_one :personal_profile, class_name: "UserProfile::Personal", dependent: :destroy
@@ -47,7 +50,7 @@ class User < ApplicationRecord
 
   after_create :create_professional_profile!
 
-  ROLES = %w[superadmin admin]
+  encrypts :email, deterministic: true, ignore_case: true
 
   def has_professional_profiles?
     professional_profile.any_profiles?

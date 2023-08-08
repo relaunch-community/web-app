@@ -2,21 +2,23 @@
 #
 # Table name: personals_user_profiles
 #
-#  id                    :bigint           not null, primary key
-#  email_address         :string(319)      not null
-#  first_name            :text
-#  freeform_pronouns     :text
-#  headline              :string(128)
-#  last_name             :text
-#  linkedin_url          :text
-#  overview              :string(1024)
-#  prepopulated_pronouns :text             not null
-#  pronoun_visibility    :boolean
-#  visibility            :integer
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  hash_id               :uuid
-#  user_id               :uuid             not null
+#  id                     :bigint           not null, primary key
+#  email_address          :string(319)      not null
+#  first_name             :text
+#  freeform_pronouns      :text
+#  headline               :string(128)
+#  last_name              :text
+#  linkedin_url           :text
+#  original_email_address :string           not null
+#  original_linkedin_url  :text
+#  overview               :string(1024)
+#  prepopulated_pronouns  :text             not null
+#  pronoun_visibility     :boolean
+#  visibility             :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  hash_id                :uuid
+#  user_id                :uuid             not null
 #
 # Indexes
 #
@@ -33,6 +35,8 @@
 class UserProfile::Personal < ApplicationRecord
   include FriendlyId
   include ::HashFriendable
+
+  has_paper_trail versions: { class_name: "UserProfile::PersonalVersion" }
 
   belongs_to :user
 

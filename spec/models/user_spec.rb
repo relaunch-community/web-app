@@ -11,6 +11,7 @@
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  locked_at              :datetime
+#  original_email         :string           default(""), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -30,13 +31,13 @@ require "rails_helper"
 
 RSpec.describe User do
   describe "associations" do
-    subject(:user) { described_class.new }
+    subject(:user) { build(:user) }
 
     it { is_expected.to have_one(:professional_profile) }
   end
 
   describe "id" do
-    subject { create(:user) }
+    subject(:user) { create(:user) }
 
     it { is_expected.to have_attributes(id: an_object_satisfying("a valid uuid") { |id| UUID.validate(id) }) }
   end
@@ -59,5 +60,15 @@ RSpec.describe User do
 
   describe "attribute password" do
     it { is_expected.to validate_presence_of(:password) }
+  end
+
+  describe "versioning" do
+    subject(:user) { create(:user) }
+
+    it "saves a new version" do
+      # rubocop:disable Rails/SkipsModelValidations
+      expect { user.touch }.to change(user.versions, :count).by(1)
+      # rubocop:enable Rails/SkipsModelValidations
+    end
   end
 end

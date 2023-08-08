@@ -6,6 +6,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
     create_table :users, id: :uuid, default: "gen_random_uuid()" do |t|
       ## Database authenticatable
       t.string :email, null: false, default: ""
+      t.string :original_email, null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable

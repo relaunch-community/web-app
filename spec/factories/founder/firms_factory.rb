@@ -17,6 +17,7 @@ FactoryBot.define do
     field_visibility { nil }
 
     target_customer { Faker::Lorem.words(number: 10).join(", ") }
+    target_problem { Faker::Lorem.words(number: 10).join(", ") }
     target_industries { Array.new(3) { Faker::Company.industry }.join(", ") }
     target_locations { Array.new(5) { Faker::Address.state }.join(", ") }
 

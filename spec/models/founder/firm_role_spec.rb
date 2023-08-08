@@ -2,7 +2,7 @@
 #
 # Table name: founder_firm_roles
 #
-#  id                              :bigint           not null, primary key
+#  id                              :uuid             not null, primary key
 #  departed_on                     :datetime
 #  joined_at                       :datetime
 #  ownership_confirmation_checkbox :boolean          default(FALSE), not null
@@ -34,6 +34,7 @@ RSpec.describe Founder::FirmRole do
 
     it { is_expected.to belong_to(:founder_firm) }
     it { is_expected.to belong_to(:professional_profile) }
+    it { is_expected.to have_many(:versions).class_name("Founder::FirmRoleVersion") }
   end
 
   describe "attributes" do
@@ -84,6 +85,20 @@ RSpec.describe Founder::FirmRole do
               .with_values(["Public", "Internal (members-only)", "Private (admins-only)"])
           )
       end
+    end
+  end
+
+  describe "versioning" do
+    subject(:founder_firm_role) { create(:founder_firm_role, professional_profile: user.professional_profile) }
+
+    let(:user) { create(:user) }
+
+    before do
+      founder_firm_role.title = "#{Faker::Job.title} #{SecureRandom.hex(32)}"
+    end
+
+    it "saves a new version" do
+      expect { founder_firm_role.save }.to change(founder_firm_role.versions, :count).by(1)
     end
   end
 end

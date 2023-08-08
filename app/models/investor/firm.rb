@@ -28,6 +28,8 @@ class Investor::Firm < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  has_paper_trail versions: { class_name: "Investor::FirmVersion" }
+
   belongs_to :physical_location,
              dependent: :destroy
 
