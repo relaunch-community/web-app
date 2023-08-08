@@ -27,6 +27,8 @@
 #  fk_rails_...  (professional_profile_id => professionals_user_profiles.id)
 #
 class Investor::FirmRole < ApplicationRecord
+  has_paper_trail versions: { class_name: "Investor::FirmRoleVersion" }
+
   belongs_to :physical_location, dependent: :destroy
 
   belongs_to :investor_firm,

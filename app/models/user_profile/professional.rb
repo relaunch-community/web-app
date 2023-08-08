@@ -21,6 +21,8 @@ class UserProfile::Professional < ApplicationRecord
   include FriendlyId
   include ::HashFriendable
 
+  has_paper_trail versions: { class_name: "UserProfile::ProfessionalVersion" }
+
   belongs_to :user
 
   has_many :investor_firm_roles,

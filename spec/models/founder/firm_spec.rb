@@ -53,6 +53,7 @@ RSpec.describe Founder::Firm do
     it { is_expected.to belong_to(:incorporation_location).optional(true) }
     it { is_expected.to have_many(:founder_firm_roles) }
     it { is_expected.to belong_to(:professional_profile) }
+    it { is_expected.to have_many(:versions).class_name("Founder::FirmVersion") }
   end
 
   describe "attributes" do
@@ -165,6 +166,18 @@ RSpec.describe Founder::Firm do
 
     describe "target_locations" do
       it { expect(founder_firm).to have_db_column(:target_locations).of_type(:string) }
+    end
+  end
+
+  describe "versioning" do
+    subject(:founder_firm) { create(:founder_firm, professional_profile: user.professional_profile) }
+
+    let(:user) { create(:user) }
+
+    it "saves a new version" do
+      # rubocop:disable Rails/SkipsModelValidations
+      expect { founder_firm.touch }.to change(founder_firm.versions, :count).by(1)
+      # rubocop:enable Rails/SkipsModelValidations
     end
   end
 end

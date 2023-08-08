@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_04_161523) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_08_163156) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -43,7 +43,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_161523) do
     t.index ["user_id"], name: "index_founder_firm_reviews_on_user_id"
   end
 
-  create_table "founder_firm_roles", force: :cascade do |t|
+  create_table "founder_firm_role_versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.uuid "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_founder_firm_role_versions_on_item_type_and_item_id"
+  end
+
+  create_table "founder_firm_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.decimal "ownership_percentage", null: false
     t.boolean "ownership_confirmation_checkbox", default: false, null: false
@@ -110,6 +120,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_161523) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "investor_firm_role_versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.uuid "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_investor_firm_role_versions_on_item_type_and_item_id"
+  end
+
   create_table "investor_firm_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "professional_profile_id", null: false
     t.uuid "investor_firm_id", null: false
@@ -125,6 +145,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_161523) do
     t.index ["investor_firm_id"], name: "index_investor_firm_roles_on_investor_firm_id"
     t.index ["physical_location_id"], name: "index_investor_firm_roles_on_physical_location_id"
     t.index ["professional_profile_id"], name: "index_investor_firm_roles_on_professional_profile_id"
+  end
+
+  create_table "investor_firm_versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.uuid "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_investor_firm_versions_on_item_type_and_item_id"
   end
 
   create_table "investor_firms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -152,7 +182,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_161523) do
     t.text "prepopulated_pronouns", null: false
     t.string "headline", limit: 128
     t.string "overview", limit: 1024
+    t.text "original_linkedin_url"
     t.text "linkedin_url"
+    t.string "original_email_address", null: false
     t.string "email_address", limit: 319, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -184,8 +216,39 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_161523) do
     t.index ["user_id"], name: "index_professionals_user_profiles_on_user_id", unique: true
   end
 
+  create_table "user_profile_personal_versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_user_profile_personal_versions_on_item_type_and_item_id"
+  end
+
+  create_table "user_profile_professional_versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_up_professional_versions_on_item_type_and_item_id"
+  end
+
+  create_table "user_versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.uuid "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_user_versions_on_item_type_and_item_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
+    t.string "original_email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"

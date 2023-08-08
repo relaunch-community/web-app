@@ -2,7 +2,7 @@
 #
 # Table name: founder_firm_roles
 #
-#  id                              :bigint           not null, primary key
+#  id                              :uuid             not null, primary key
 #  departed_on                     :datetime
 #  joined_at                       :datetime
 #  ownership_confirmation_checkbox :boolean          default(FALSE), not null
@@ -26,6 +26,8 @@
 #
 class Founder::FirmRole < ApplicationRecord
   include ::VisibilityAdjustable
+
+  has_paper_trail versions: { class_name: "Founder::FirmRoleVersion" }
 
   belongs_to :founder_firm,
              class_name: "Founder::Firm",

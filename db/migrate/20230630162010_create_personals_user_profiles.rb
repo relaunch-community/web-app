@@ -17,8 +17,10 @@ class CreatePersonalsUserProfiles < ActiveRecord::Migration[7.0]
       t.string :headline, limit: 128
       t.string :overview, limit: 1024
 
+      t.text :original_linkedin_url
       t.text :linkedin_url
 
+      t.string :original_email_address, null: false
       t.string :email_address, null: false, limit: 319
 
       t.timestamps

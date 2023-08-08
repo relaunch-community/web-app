@@ -26,6 +26,7 @@ RSpec.describe UserProfile::Professional do
     let(:user) { create(:user) }
 
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_many(:versions).class_name("UserProfile::ProfessionalVersion") }
   end
 
   describe "attributes" do
@@ -39,6 +40,18 @@ RSpec.describe UserProfile::Professional do
       end
 
       it { is_expected.to validate_uniqueness_of(:hash_id).case_insensitive }
+    end
+  end
+
+  describe "versioning" do
+    subject(:professional_profile) { user.professional_profile }
+
+    let(:user) { create(:user) }
+
+    it "saves a new version" do
+      # rubocop:disable Rails/SkipsModelValidations
+      expect { professional_profile.touch }.to change(professional_profile.versions, :count).by(1)
+      # rubocop:enable Rails/SkipsModelValidations
     end
   end
 end

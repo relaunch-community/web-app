@@ -130,3 +130,5 @@ node_modules
 coverage/
 
 /config/credentials/test.key.bak
+
+/config/credentials/test.key

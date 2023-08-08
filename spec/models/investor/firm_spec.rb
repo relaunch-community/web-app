@@ -35,6 +35,7 @@ RSpec.describe Investor::Firm do
     it { is_expected.to have_many(:investor_firm_roles).with_foreign_key("investor_firm_id") }
     it { is_expected.to belong_to(:physical_location) }
     it { is_expected.to belong_to(:professional_profile) }
+    it { is_expected.to have_many(:versions).class_name("Investor::FirmVersion") }
   end
 
   describe "attributes" do
@@ -74,6 +75,18 @@ RSpec.describe Investor::Firm do
       it "is a string" do
         expect(investor_firm.thesis).to be_a(String)
       end
+    end
+  end
+
+  describe "versioning" do
+    subject(:investor_firm) { create(:investor_firm, professional_profile: user.professional_profile) }
+
+    let(:user) { create(:user) }
+
+    it "saves a new version" do
+      # rubocop:disable Rails/SkipsModelValidations
+      expect { investor_firm.touch }.to change(investor_firm.versions, :count).by(1)
+      # rubocop:enable Rails/SkipsModelValidations
     end
   end
 end
