@@ -7,7 +7,7 @@ class CreateInvestorFirms < ActiveRecord::Migration[7.0]
       t.text :overview
       t.text :site_url
 
-      t.belongs_to :physical_location
+      t.belongs_to :physical_location, type: :uuid, foreign_key: { to_table: :physical_locations }
 
       t.timestamps
     end

@@ -10,7 +10,7 @@ class CreateFounderFirmRoles < ActiveRecord::Migration[7.0]
       t.datetime :departed_on
 
       t.belongs_to :founder_firm, type: :uuid, null: false, foreign_key: true
-      t.belongs_to :professional_profile, null: false, foreign_key: { to_table: :professionals_user_profiles }
+      t.belongs_to :professional_profile, null: false, type: :uuid, foreign_key: { to_table: :professionals_user_profiles }
 
       t.timestamps
     end

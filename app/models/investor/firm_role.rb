@@ -12,8 +12,8 @@
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
 #  investor_firm_id             :uuid             not null
-#  physical_location_id         :bigint
-#  professional_profile_id      :bigint           not null
+#  physical_location_id         :uuid
+#  professional_profile_id      :uuid             not null
 #
 # Indexes
 #
@@ -24,6 +24,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (investor_firm_id => investor_firms.id)
+#  fk_rails_...  (physical_location_id => physical_locations.id)
 #  fk_rails_...  (professional_profile_id => professionals_user_profiles.id)
 #
 class Investor::FirmRole < ApplicationRecord

@@ -10,8 +10,8 @@
 #  thesis                  :text
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  physical_location_id    :bigint
-#  professional_profile_id :bigint
+#  physical_location_id    :uuid
+#  professional_profile_id :uuid
 #
 # Indexes
 #
@@ -22,6 +22,7 @@
 #
 # Foreign Keys
 #
+#  fk_rails_...  (physical_location_id => physical_locations.id)
 #  fk_rails_...  (professional_profile_id => professionals_user_profiles.id)
 #
 require "rails_helper"

@@ -1,10 +1,8 @@
 class CreatePersonalsUserProfiles < ActiveRecord::Migration[7.0]
   def change
-    create_table :personals_user_profiles do |t|
+    create_table :personals_user_profiles, id: :uuid do |t|
       # options via https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-add_reference
       t.belongs_to :user, type: :uuid, null: false, foreign_key: true, index: { unique: true }
-
-      t.column :hash_id, :uuid
 
       # Names
       t.text :first_name
@@ -26,7 +24,6 @@ class CreatePersonalsUserProfiles < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :personals_user_profiles, :hash_id, unique: true
     add_index :personals_user_profiles, :email_address, unique: true
   end
 end

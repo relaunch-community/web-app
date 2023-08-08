@@ -24,9 +24,9 @@ class CreateFounderFirms < ActiveRecord::Migration[7.0]
       t.integer :firm_kind, null: false # for enum
       t.text :firm_kind_justification # for enum
 
-      t.references :headquarters_location, index: true, foreign_key: { to_table: :physical_locations }
-      t.references :incorporation_location, index: true, foreign_key: { to_table: :physical_locations }
-      t.belongs_to :professional_profile, null: true, foreign_key: { to_table: :professionals_user_profiles }
+      t.references :headquarters_location, index: true, type: :uuid, foreign_key: { to_table: :physical_locations }
+      t.references :incorporation_location, index: true, type: :uuid, foreign_key: { to_table: :physical_locations }
+      t.belongs_to :professional_profile, null: true, type: :uuid, foreign_key: { to_table: :professionals_user_profiles }
 
       t.timestamps
     end

@@ -2,15 +2,13 @@
 #
 # Table name: professionals_user_profiles
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  hash_id    :uuid
 #  user_id    :uuid             not null
 #
 # Indexes
 #
-#  index_professionals_user_profiles_on_hash_id  (hash_id) UNIQUE
 #  index_professionals_user_profiles_on_user_id  (user_id) UNIQUE
 #
 # Foreign Keys
@@ -18,9 +16,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class UserProfile::Professional < ApplicationRecord
-  include FriendlyId
-  include ::HashFriendable
-
   has_paper_trail versions: { class_name: "UserProfile::ProfessionalVersion" }
 
   belongs_to :user

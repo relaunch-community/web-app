@@ -38,7 +38,7 @@ class UserProfile::ProfessionalsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user_profile_professional
-    @user_profile_professional = policy_scope(UserProfile::Professional).friendly.find(params[:id])
+    @user_profile_professional = policy_scope(UserProfile::Professional).find(params[:id])
     authorize @user_profile_professional
   end
 
