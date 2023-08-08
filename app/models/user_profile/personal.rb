@@ -2,7 +2,7 @@
 #
 # Table name: personals_user_profiles
 #
-#  id                     :bigint           not null, primary key
+#  id                     :uuid             not null, primary key
 #  email_address          :string(319)      not null
 #  first_name             :text
 #  freeform_pronouns      :text
@@ -17,13 +17,11 @@
 #  visibility             :integer
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  hash_id                :uuid
 #  user_id                :uuid             not null
 #
 # Indexes
 #
 #  index_personals_user_profiles_on_email_address       (email_address) UNIQUE
-#  index_personals_user_profiles_on_hash_id             (hash_id) UNIQUE
 #  index_personals_user_profiles_on_pronoun_visibility  (pronoun_visibility)
 #  index_personals_user_profiles_on_user_id             (user_id) UNIQUE
 #  index_personals_user_profiles_on_visibility          (visibility)
@@ -33,9 +31,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class UserProfile::Personal < ApplicationRecord
-  include FriendlyId
-  include ::HashFriendable
-
   has_paper_trail versions: { class_name: "UserProfile::PersonalVersion" }
 
   belongs_to :user

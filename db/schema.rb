@@ -61,7 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_163156) do
     t.datetime "joined_at"
     t.datetime "departed_on"
     t.uuid "founder_firm_id", null: false
-    t.bigint "professional_profile_id", null: false
+    t.uuid "professional_profile_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["founder_firm_id"], name: "index_founder_firm_roles_on_founder_firm_id"
@@ -95,9 +95,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_163156) do
     t.string "review_state"
     t.integer "firm_kind", null: false
     t.text "firm_kind_justification"
-    t.bigint "headquarters_location_id"
-    t.bigint "incorporation_location_id"
-    t.bigint "professional_profile_id"
+    t.uuid "headquarters_location_id"
+    t.uuid "incorporation_location_id"
+    t.uuid "professional_profile_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["headquarters_location_id"], name: "index_founder_firms_on_headquarters_location_id"
@@ -131,9 +131,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_163156) do
   end
 
   create_table "investor_firm_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "professional_profile_id", null: false
+    t.uuid "professional_profile_id", null: false
     t.uuid "investor_firm_id", null: false
-    t.bigint "physical_location_id"
+    t.uuid "physical_location_id"
     t.text "title"
     t.text "why_here"
     t.text "investment_target_stage"
@@ -163,19 +163,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_163156) do
     t.text "thesis"
     t.text "overview"
     t.text "site_url"
-    t.bigint "physical_location_id"
+    t.uuid "physical_location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "professional_profile_id"
+    t.uuid "professional_profile_id"
     t.index ["name"], name: "index_investor_firms_on_name", unique: true
     t.index ["physical_location_id"], name: "index_investor_firms_on_physical_location_id"
     t.index ["professional_profile_id"], name: "index_investor_firms_on_professional_profile_id"
     t.index ["slug"], name: "index_investor_firms_on_slug", unique: true
   end
 
-  create_table "personals_user_profiles", force: :cascade do |t|
+  create_table "personals_user_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.uuid "hash_id"
     t.text "first_name"
     t.text "last_name"
     t.text "freeform_pronouns"
@@ -191,34 +190,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_163156) do
     t.integer "visibility"
     t.boolean "pronoun_visibility"
     t.index ["email_address"], name: "index_personals_user_profiles_on_email_address", unique: true
-    t.index ["hash_id"], name: "index_personals_user_profiles_on_hash_id", unique: true
     t.index ["pronoun_visibility"], name: "index_personals_user_profiles_on_pronoun_visibility"
     t.index ["user_id"], name: "index_personals_user_profiles_on_user_id", unique: true
     t.index ["visibility"], name: "index_personals_user_profiles_on_visibility"
   end
 
-  create_table "physical_locations", force: :cascade do |t|
-    t.uuid "hash_id"
+  create_table "physical_locations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "city"
     t.text "state_subdivision"
     t.text "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["hash_id"], name: "index_physical_locations_on_hash_id", unique: true
   end
 
-  create_table "professionals_user_profiles", force: :cascade do |t|
+  create_table "professionals_user_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "hash_id"
-    t.index ["hash_id"], name: "index_professionals_user_profiles_on_hash_id", unique: true
     t.index ["user_id"], name: "index_professionals_user_profiles_on_user_id", unique: true
   end
 
   create_table "user_profile_personal_versions", force: :cascade do |t|
     t.string "item_type", null: false
-    t.bigint "item_id", null: false
+    t.uuid "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
     t.json "object"
@@ -228,7 +222,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_163156) do
 
   create_table "user_profile_professional_versions", force: :cascade do |t|
     t.string "item_type", null: false
-    t.bigint "item_id", null: false
+    t.uuid "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
     t.json "object"
@@ -288,7 +282,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_08_163156) do
   add_foreign_key "founder_firms", "physical_locations", column: "incorporation_location_id"
   add_foreign_key "founder_firms", "professionals_user_profiles", column: "professional_profile_id"
   add_foreign_key "investor_firm_roles", "investor_firms"
+  add_foreign_key "investor_firm_roles", "physical_locations"
   add_foreign_key "investor_firm_roles", "professionals_user_profiles", column: "professional_profile_id"
+  add_foreign_key "investor_firms", "physical_locations"
   add_foreign_key "investor_firms", "professionals_user_profiles", column: "professional_profile_id"
   add_foreign_key "personals_user_profiles", "users"
   add_foreign_key "professionals_user_profiles", "users"

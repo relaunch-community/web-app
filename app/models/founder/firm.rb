@@ -21,9 +21,9 @@
 #  visibility                :integer          not null
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
-#  headquarters_location_id  :bigint
-#  incorporation_location_id :bigint
-#  professional_profile_id   :bigint
+#  headquarters_location_id  :uuid
+#  incorporation_location_id :uuid
+#  professional_profile_id   :uuid
 #
 # Indexes
 #
@@ -44,6 +44,7 @@
 class Founder::Firm < ApplicationRecord
   extend FriendlyId
   include ::VisibilityAdjustable
+
   friendly_id :name, use: :slugged
   has_paper_trail versions: { class_name: "Founder::FirmVersion" }
 

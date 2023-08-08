@@ -53,7 +53,7 @@ class PhysicalLocationsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_physical_location
-    @physical_location = policy_scope(PhysicalLocation).friendly.find(params[:id])
+    @physical_location = policy_scope(PhysicalLocation).find(params[:id])
     authorize @physical_location
   end
 

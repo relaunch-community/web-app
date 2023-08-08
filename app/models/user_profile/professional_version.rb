@@ -8,7 +8,7 @@
 #  object     :json
 #  whodunnit  :string
 #  created_at :datetime
-#  item_id    :bigint           not null
+#  item_id    :uuid             not null
 #
 # Indexes
 #

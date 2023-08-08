@@ -12,7 +12,7 @@
 #  created_at                      :datetime         not null
 #  updated_at                      :datetime         not null
 #  founder_firm_id                 :uuid             not null
-#  professional_profile_id         :bigint           not null
+#  professional_profile_id         :uuid             not null
 #
 # Indexes
 #
