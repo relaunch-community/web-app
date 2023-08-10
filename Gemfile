@@ -106,6 +106,8 @@ group :test do
   gem "webdrivers"
 end
 
+gem "aasm", "~> 5.5"
+gem "after_commit_everywhere", "~> 1.3"
 gem "maintenance_tasks", "~> 2.0"
 
 gem "paper_trail", "~> 15.0"

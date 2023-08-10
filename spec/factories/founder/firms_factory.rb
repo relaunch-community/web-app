@@ -11,8 +11,6 @@ FactoryBot.define do
     firm_kind { 0 }
     firm_kind_justification { Faker::Lorem.words(number: 10).join(", ") }
 
-    review_state { :unapproved }
-
     visibility { Founder::Firm.visibilities.keys.sample }
     field_visibility { nil }
 

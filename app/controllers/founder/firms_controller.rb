@@ -41,6 +41,8 @@ class Founder::FirmsController < ApplicationController
                     .professional_profile
                     .managed_founder_firms
                     .build(founder_firm_params)
+    @founder_firm.review_state_progression = true
+
     authorize @founder_firm
 
     respond_to do |format|

@@ -44,6 +44,7 @@
 class Founder::Firm < ApplicationRecord
   extend FriendlyId
   include ::VisibilityAdjustable
+  include AASM
 
   friendly_id :name, use: :slugged
   has_paper_trail versions: { class_name: "Founder::FirmVersion" }
@@ -110,4 +111,75 @@ class Founder::Firm < ApplicationRecord
 
   accepts_nested_attributes_for :headquarters_location
   accepts_nested_attributes_for :incorporation_location
+
+  # Review state attributes & callbacks
+  #
+  # On create, this attribute will be set to `true`, ensuring that any newly
+  # created firm enters the admin review process.
+  #
+  # For subsequent update operations, however, the user may elect *not*
+  # to submit the Firm for review, and just want to save progress.
+  #
+  # This allows some flexibility compared to triggering purely based on update vs. create actions
+  attribute :review_state_progression, :boolean, default: false
+  after_save_commit ->(firm) { firm.aasm(:review).fire!(:user_submit) },
+                    if: ->(firm) { firm.may_user_submit? && firm.review_state_progression }
+
+  aasm(:review, column: "review_state") do
+    before_all_events proc { paper_trail_current_event(:review) }
+
+    state :pending_user_submission, initial: true
+    state :pending_admin_review
+    state :rejected
+    state :rejected_for_resubmission
+    state :approved
+
+    event :user_submit, after_commit: :handle_user_submission do
+      transitions from: [:pending_user_submission], to: :pending_admin_review
+    end
+
+    event :reject, after_commit: :handle_rejection do
+      transitions from: [:pending_admin_review], to: :rejected
+    end
+
+    event :reject_for_resubmission, after_commit: :handle_rejection_for_resubmission do
+      transitions from: [:pending_admin_review], to: :rejected_for_resubmission
+    end
+
+    event :approve, after_commit: :handle_approval do
+      transitions from: [:pending_admin_review], to: :rejected_for_resubmission
+    end
+
+    event :unapprove, after_commit: :handle_unapproval do
+      transitions from: [:approved], to: :pending_admin_review
+    end
+  end
+
+  private
+
+  # TODO
+  def submit_for_review
+  end
+
+  def handle_user_submission = nil
+
+  def handle_rejection = nil
+
+  def handle_rejection_for_resubmission = nil
+
+  def handle_approval = nil
+
+  def handle_unapproval = nil
+
+  def notify_user
+    # TODO, should handle via aasm(:review).current_event or from/to_state
+  end
+
+  def notify_admins
+    # TODO, should handle via aasm(:review).current_event or from/to_state
+  end
+
+  def paper_trail_current_event(state_machine)
+    self.paper_trail_event = aasm(state_machine).current_event
+  end
 end
