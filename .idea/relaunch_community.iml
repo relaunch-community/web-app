@@ -29,6 +29,7 @@
     </content>
     <orderEntry type="jdk" jdkName="rbenv: 3.2.2" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="aasm (v5.5.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actioncable (v7.0.6, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionmailbox (v7.0.6, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionmailer (v7.0.6, rbenv: 3.2.2) [gem]" level="application" />
@@ -41,6 +42,7 @@
     <orderEntry type="library" scope="PROVIDED" name="activestorage (v7.0.6, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activesupport (v7.0.6, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="addressable (v2.8.4, rbenv: 3.2.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="after_commit_everywhere (v1.3.1, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="annotate (v3.2.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ast (v2.4.2, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bcrypt (v3.1.19, rbenv: 3.2.2) [gem]" level="application" />
@@ -106,7 +108,7 @@
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.15.3, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="octokit (v6.1.1, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.5.0, rbenv: 3.2.2) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="paper_trail (v14.0.0, rbenv: 3.2.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="paper_trail (v15.0.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parallel (v1.23.0, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parser (v3.2.2.3, rbenv: 3.2.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="parslet (v2.0.0, rbenv: 3.2.2) [gem]" level="application" />
@@ -193,6 +195,8 @@
   <component name="RailsGeneratorsCache">
     <option name="generators">
       <list>
+        <option value="aasm" />
+        <option value="active_record:aasm" />
         <option value="active_record:application_record" />
         <option value="active_record:devise" />
         <option value="active_record:multi_db" />
@@ -226,7 +230,9 @@
         <option value="maintenance_tasks:task" />
         <option value="migration" />
         <option value="model" />
+        <option value="mongoid:aasm" />
         <option value="mongoid:devise" />
+        <option value="nobrainer:aasm" />
         <option value="paper_trail:install" />
         <option value="paper_trail:migration" />
         <option value="paper_trail:update_item_subtype" />
@@ -276,6 +282,8 @@
     </option>
     <option name="myGenerators">
       <list>
+        <option value="aasm" />
+        <option value="active_record:aasm" />
         <option value="active_record:application_record" />
         <option value="active_record:devise" />
         <option value="active_record:multi_db" />
@@ -309,7 +317,9 @@
         <option value="maintenance_tasks:task" />
         <option value="migration" />
         <option value="model" />
+        <option value="mongoid:aasm" />
         <option value="mongoid:devise" />
+        <option value="nobrainer:aasm" />
         <option value="paper_trail:install" />
         <option value="paper_trail:migration" />
         <option value="paper_trail:update_item_subtype" />
