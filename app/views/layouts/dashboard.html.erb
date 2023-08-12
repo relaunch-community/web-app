@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= content_for?(:page_title) ? yield(:page_title) : t(".title") %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+  <%= javascript_importmap_tags %>
+  <%= hotwire_livereload_tags if Rails.env.development? %>
+  <script src="https://kit.fontawesome.com/b1ed12b0ad.js" crossorigin="anonymous"></script>
+  <%= render "shared/analytics_resources" %>
+</head>
+
+<body class="bg-white">
+<div
+  class="flex flex-col min-h-screen"
+  data-controller="menu-nav">
+  <%= render "layouts/header" %>
+
+  <div class="container max-w-6xl mx-auto px-3 grow">
+    <div class="flex">
+
+      <div>
+
+        <nav
+          data-menu-nav-target="menu"
+          class="hidden absolute top-0 bottom-0 left-0 z-[80] w-full flex-col min-h-screen py-1 pl-12 text-lg text-white bg-cyan-800 md:bg-inherit md:static md:flex md:w-48 md:min-h-0 md:p-6 md:text-base md:text-gray-600 md:bg-inherit md:min-h-0 md:items-center md:justify-start md:border-r-2 md:border-gray-100">
+
+          <div class="flex flex-col md:flex-row pt-28 md:pt-0 md:space-x-8">
+            <ul class="leading-8 space-y-4">
+
+              <li><span class="text-2xl"><a class="no-underline" href="/dashboard">Dashboard</a></span></li>
+              <li>
+                <span class="text-2xl">Profiles</span>
+                <ul class="list-none ml-5">
+                  <li>
+                    <%= link_to "Personal",
+                                edit_user_profile_personal_path(current_user.personal_profile),
+                                class: "font-normal no-underline hover:underline" %>
+                  </li>
+                  <li>
+                    <%= link_to "Founder",
+                                coming_soon_path,
+                                class: "font-normal no-underline hover:underline" %>
+                  </li>
+                  <li>
+                    <%= link_to "Investor",
+                                coming_soon_path,
+                                class: "font-normal no-underline hover:underline" %>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <span class="text-2xl">Resources</span>
+                <ul class="list-none ml-5">
+                  <li>
+                    <%= link_to "Events",
+                                coming_soon_path,
+                                class: "font-normal no-underline hover:underline" %>
+                  </li>
+                  <li>
+                    <%= link_to "Stand-up",
+                                coming_soon_path,
+                                class: "font-normal no-underline hover:underline" %>
+                  </li>
+                  <li>
+                    <%= link_to "Learn",
+                                coming_soon_path,
+                                class: "font-normal no-underline hover:underline" %>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <div class="group md:block">
+                  <%= button_to "Sign out", destroy_user_session_path, method: :delete,
+                                                                       class: "no-underline hover:underline text-2xl",
+                                                                       form: {
+                                                                         # https://github.com/rails/rails/issues/44170#issuecomment-1069644509
+                                                                         data: { turbo_method: :delete }
+                                                                       } %>
+                  <div class="mx-1 mt-1 duration-500 border-b-2 opacity-0 md:border-blue-400 md:group-hover:opacity-100"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <main class="grow">
+        <%= yield %>
+      </main>
+    </div>
+  </div>
+
+  <%= render "layouts/footer" %>
+</div>
+
+</body>
+</html>

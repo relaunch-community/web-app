@@ -124,6 +124,7 @@ en:
           messages:
             not_saved_header: Hm, we couldn't save your profile.
         submit: "Create profile"
+        update: "Update profile"
       create:
         create_success: Your personal profile was successfully created!
       update:

@@ -1,6 +1,8 @@
 class UserProfile::PersonalsController < ApplicationController
   include Pundit::Authorization
 
+  layout "dashboard", except: [:new]
+
   before_action :authenticate_user!
   before_action :disallow_overwrite_current_profile, only: [:new, :create]
   before_action :set_user_profile_personal, only: %i[show edit update]

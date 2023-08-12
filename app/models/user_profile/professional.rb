@@ -44,8 +44,16 @@ class UserProfile::Professional < ApplicationRecord
            foreign_key: :professional_profile_id,
            dependent: :destroy
 
+  def any_founder_profiles?
+    managed_founder_firms.any? || founder_firm_roles.any?
+  end
+
+  def any_investor_profiles?
+    managed_investor_firms.any? || investor_firm_roles.any?
+  end
+
   def any_profiles?
-    false # check if any founder, investor, vendor profiles exist
+    any_founder_profiles? || any_investor_profiles? # check if any founder, investor, vendor profiles exist
   end
 
   def has_no_profiles?
