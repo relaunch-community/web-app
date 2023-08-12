@@ -7,6 +7,10 @@ class DashboardController < ApplicationController
     authorize :dashboard, :show?
   end
 
+  def coming_soon
+    authorize :dashboard, :coming_soon?
+  end
+
   private
 
   def ensure_personal_profile_exists

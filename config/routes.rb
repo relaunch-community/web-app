@@ -40,7 +40,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root to: "pages#index", as: :app_index
 
-  get "dashboard", to: "dashboard#show"
+  scope "dashboard", controller: :dashboard do
+    get "/", to: "dashboard#show", as: "dashboard"
+    get "coming-soon", to: "dashboard#coming_soon"
+  end
 
   # ref https://stackoverflow.com/questions/17743696/rails-routing-resources-with-only-custom-actions
   scope "/", controller: :pages do

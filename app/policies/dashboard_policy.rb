@@ -8,4 +8,8 @@ class DashboardPolicy
   def show?
     user&.persisted?
   end
+
+  def coming_soon?
+    user&.persisted?
+  end
 end
