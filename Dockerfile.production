@@ -153,6 +153,13 @@ RUN --mount=type=secret,id=RAILS_MASTER_KEY_SECRET,required \
 WORKDIR /home/relaunchcommunity/app
 USER relaunchcommunity
 
+# Let rails know that we're building the image, so that
+# particular initializers can skip loading if necessary!
+#
+# In particular, this is a lazy solution to Flipper's
+# initialization on boot.
+ENV APP_BUILD_ENVIRONMENT=1
+
 # Ruby/Rails env configuration
 ENV BUNDLE_APP_CONFIG=/home/relaunchcommunity/bundle \
   BUNDLE_PATH=/home/relaunchcommunity/bundle \

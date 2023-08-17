@@ -69,6 +69,7 @@ build-ci:
   stage: build
   <<: *gitlab-registry-before_script
   script:
+    - docker compose up -d postgres
     - docker build
       --cache-from $CONTAINER_CI_IMAGE
       --pull

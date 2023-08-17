@@ -123,6 +123,20 @@ there are a few house-cleaning steps you'll need to take care of.
 
 The following steps assume that the *previous* steps worked out just fine.
 
+### Environment Credentials
+
+You'll need to configure environment variables for some features outlined
+below.
+
+Most of these features are configured to be disabled with
+[Flipper](https://github.com/flippercloud/flipper) (feature flags),
+though, and can be temporarily disabled for your environment in
+[config/initializers/flipper_features.rb](./config/initializers/flipper_features.rb)
+
+- [reCAPTCHA](https://github.com/ambethia/recaptcha)
+  - [x] Can be disabled via Flipper at [config/initializers/flipper_features.rb](./config/initializers/flipper_features.rb)
+  - See [.envrc.example](./.envrc.example)
+
 ### Rails credentials
 
 You'll need to create your own development credentials to persist things like

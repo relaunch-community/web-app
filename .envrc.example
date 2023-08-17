@@ -3,3 +3,14 @@ export EDITOR=vim
 
 # Google Analytics
 export GOOGLE_ANALYTICS_SITE_ID=""
+
+# reCAPTCHA
+# For dev/test, these still need to be defined.
+# - In RAILS_ENV=test, the recaptcha gem will complain about a missing `site_key`, but won't hit the recaptcha API.
+# - in RAILS_ENV=development, you will need to generate recaptcha API keys for both v2 and v3, OR, disable locally.
+#
+# To generate random string suitable (40chars): SecureRandom.alphanumeric(40)
+export RECAPTCHA_SITE_KEY=""
+export RECAPTCHA_SECRET_KEY=""
+export RECAPTCHA_SITE_KEY_v3=""
+export RECAPTCHA_SECRET_KEY_V3=""

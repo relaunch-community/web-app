@@ -136,3 +136,5 @@ en:
 
       professional:
         header: "Create a professional profile!"
+  recaptcha:
+    verification_request: "Verify that you're a human with reCAPTCHA."
