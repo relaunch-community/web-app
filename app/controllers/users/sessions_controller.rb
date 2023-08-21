@@ -16,22 +16,26 @@ class Users::SessionsController < Devise::SessionsController
   #   super
   # end
   def create
-    success = verify_recaptcha(action: "registration",
-                               minimum_score: 0.5,
-                               secret_key: ENV["RECAPTCHA_SECRET_KEY_V3"])
-    checkbox_success = success ? nil : verify_recaptcha # don't allow it to be undefined with the `unless` example
+    if Flipper.enabled?(:recaptcha_verification)
+      success = verify_recaptcha(action: "login",
+                                 minimum_score: 0.5,
+                                 secret_key: ENV["RECAPTCHA_SECRET_KEY_V3"])
+      checkbox_success = success ? nil : verify_recaptcha # don't allow it to be undefined with the `unless` example
 
-    if success || checkbox_success
-      super
+      if success || checkbox_success
+        super
+      else
+        self.resource = resource_class.new(sign_in_params)
+
+        (@show_checkbox_recaptcha = true) unless success
+        flash.now[:notice] = I18n.t("recaptcha.verification_request")
+
+        clean_up_passwords resource
+        set_minimum_password_length
+        render "new"
+      end
     else
-      self.resource = resource_class.new(sign_in_params)
-
-      (@show_checkbox_recaptcha = true) unless success
-      flash.now[:notice] = I18n.t("recaptcha.verification_request")
-
-      clean_up_passwords resource
-      set_minimum_password_length
-      render "new"
+      super
     end
   end
 
