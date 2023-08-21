@@ -18,20 +18,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     build_resource(sign_up_params)
 
-    success = verify_recaptcha(action: "registration",
-                               minimum_score: 0.5,
-                               secret_key: ENV["RECAPTCHA_SECRET_KEY_V3"])
-    checkbox_success = success ? nil : verify_recaptcha(model: resource) # don't allow it to be undefined with the `unless` example
+    if Flipper.enabled?(:recaptcha_verification)
+      success = verify_recaptcha(action: "registration",
+                                 minimum_score: 0.5,
+                                 secret_key: ENV["RECAPTCHA_SECRET_KEY_V3"])
+      checkbox_success = success ? nil : verify_recaptcha(model: resource) # don't allow it to be undefined with the `unless` example
 
-    if success || checkbox_success
-      super
+      if success || checkbox_success
+        super
+      else
+        (@show_checkbox_recaptcha = true) unless success
+        flash.now[:notice] = I18n.t("recaptcha.verification_request")
+
+        clean_up_passwords resource
+        set_minimum_password_length
+        render "new"
+      end
     else
-      (@show_checkbox_recaptcha = true) unless success
-      flash.now[:notice] = I18n.t("recaptcha.verification_request")
-
-      clean_up_passwords resource
-      set_minimum_password_length
-      render "new"
+      # Rather than moving the conditional out, just nesting for now
+      super
     end
   end
 
